@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qonnect GeoAI | Shimeles Tadesse Zelelew</title>
+    <!-- Netlify Identity Widget for Login -->
+    <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f9f4; color: #333; }
+        
+        nav { background-color: #081c15; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-brand { color: white; font-weight: bold; font-size: 1.2rem; text-decoration: none; letter-spacing: 1px; }
+        .nav-links a { color: #d8f3dc; text-decoration: none; margin-left: 20px; font-size: 0.9rem; transition: color 0.2s; }
+        .nav-links a:hover { color: #74c69d; }
+        .login-btn { background-color: #2d6a4f; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        
+        header.hero { background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%); color: white; padding: 5rem 2rem; text-align: center; }
+        .hero h1 { font-size: 3rem; margin-bottom: 10px; }
+        .hero p { font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9; }
+        
+        .protected-content { display: none; }
+        
+        .btn { padding: 12px 24px; margin: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block; transition: transform 0.2s; }
+        .btn:hover { transform: translateY(-3px); }
+        .btn-green { background-color: #74c69d; color: #081c15; }
+        .btn-outline { border: 2px solid #74c69d; color: #74c69d; }
+        
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .developer-section { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 40px; }
+        .developer-info h2 { color: #1b4332; margin-top: 0; }
+        .developer-info p { line-height: 1.6; color: #555; }
+
+        .workflow { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .workflow h3 { color: #1b4332; text-align: center; border-bottom: 2px solid #74c69d; padding-bottom: 15px; }
+        .workflow ul { list-style-type: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .workflow li { padding: 15px; background: #f4f9f4; border-left: 4px solid #2d6a4f; border-radius: 4px; }
+        
+        footer { background-color: #081c15; color: #d8f3dc; text-align: center; padding: 30px; margin-top: 50px; }
+        footer a { color: #74c69d; text-decoration: none; margin: 0 10px; font-weight: bold; }
+        
+        .guest-message { background: #e9c46a; color: #333; padding: 15px; text-align: center; font-weight: bold; border-radius: 8px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="nav-brand">QONNECT GeoAI</a>
+        <div class="nav-links">
+            <a href="#about">About the Developer</a>
+            <a href="#pipeline">The Pipeline</a>
+            <a href="https://github.com/shimtad200g" target="_blank">GitHub</a>
+            <a href="https://www.linkedin.com/in/shimeles-tadesse-zelelew" target="_blank">LinkedIn</a>
+            <!-- Login Button -->
+            <a href="signup.html" style="background-color: #74c69d; color: #081c15; padding: 6px 12px; border-radius: 4px; font-weight: bold; margin-right: 15px; text-decoration: none;">Register</a>
+    </nav>
+
+    <header class="hero">
+        <h1>Qonnect GeoAI Platform</h1>
+        <p>Fully Automated End-to-End Geospatial Workflow: From Scratch to Policy Impact</p>
+        
+        <div class="guest-message" id="guest-msg">
+            &#128274; Please log in or register to access the Marketplace, Map, and PDF Downloads.
+        </div>
+
+        <div class="protected-content" id="protected-buttons">
+            <a href="farm_map.html" class="btn btn-green">&#128506; View Live Farm Map</a>
+            <a href="Qonnect_Policy_Brief.pdf" download class="btn btn-outline">&#128196; Download Policy Brief</a>
+            <br><br>
+            <a href="https://qonnect-ethiopian-agricultural-marketplace-tracea.ai.studio/" class="btn btn-green">&#128722; Explore Marketplace</a>
+            <a href="https://sprout-qonnect-clnhwfubq2y6y9bafzg.streamlit.app/" class="btn btn-outline">&#128269; Launch Traceability Prototype</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <section id="about" class="developer-section">
+            <div class="developer-info">
+                <h2>About the Developer</h2>
+                <p><strong>Shimeles Tadesse Zelelew</strong></p>
+                <p>Geospatial & AI Specialist. This platform was designed and built from scratch to bridge the gap between highland smallholder producers and global markets using satellite imagery, machine learning, and automated cartography.</p>
+                <p>
+                    <strong>Connect with me:</strong> 
+                    <a href="https://www.linkedin.com/in/shimeles-tadesse-zelelew" style="color: #2d6a4f; font-weight: bold;">LinkedIn</a> | 
+                    <a href="https://github.com/shimtad200g" style="color: #2d6a4f; font-weight: bold;">GitHub</a> | 
+                    <a href="mailto:shimtad2001g@gmail.com" style="color: #2d6a4f; font-weight: bold;">Email Me</a>
+                </p>
+            </div>
+        </section>
+
+        <section id="pipeline" class="workflow">
+            <h3>The Fully Automated Pipeline</h3>
+            <ul>
+                <li><strong>Phase 1: Setup</strong> PostGIS & Cloud Infrastructure</li>
+                <li><strong>Phase 2: Data</strong> Sentinel-2 Satellite & Farmer GPS</li>
+                <li><strong>Phase 3: GeoAI</strong> Yield & Health Prediction (98% Accuracy)</li>
+                <li><strong>Phase 4: Cartography</strong> Interactive Farm Heatmaps</li>
+                <li><strong>Phase 5: Impact</strong> SMS/USSD Alerts & Policy Briefs</li>
+                <li><strong>Phase 6: Deployment</strong> 100% Owned & Free Hosted</li>
+            </ul>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Shimeles Tadesse Zelelew. All Rights Reserved.</p>
+        <p>
+            <a href="https://github.com/shimtad200g" target="_blank">GitHub</a> | 
+            <a href="https://www.linkedin.com/in/shimeles-tadesse-zelelew" target="_blank">LinkedIn</a> | 
+            <a href="mailto:shimtad2001g@gmail.com">Contact Me</a>
+        </p>
+    </footer>
+
+    <script>
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.href = "/";
+                    });
+                }
+            });
+        }
+
+        window.netlifyIdentity.on("init", user => {
+            if (user) {
+                document.getElementById('guest-msg').style.display = 'none';
+                document.getElementById('protected-buttons').style.display = 'block';
+            } else {
+                document.getElementById('guest-msg').style.display = 'block';
+                document.getElementById('protected-buttons').style.display = 'none';
+            }
+        });
+
+        window.netlifyIdentity.on("login", user => {
+            document.getElementById('guest-msg').style.display = 'none';
+            document.getElementById('protected-buttons').style.display = 'block';
+            window.netlifyIdentity.close();
+        });
+
+        window.netlifyIdentity.on("logout", () => {
+            document.getElementById('guest-msg').style.display = 'block';
+            document.getElementById('protected-buttons').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
