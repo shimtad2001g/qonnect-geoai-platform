@@ -73,9 +73,24 @@
     <div class="search-hero">
         <h1>Qonnect Insurance & Traceability Portal</h1>
         <p>Enter a Batch ID to verify origin, view GeoAI crop health, and track the supply chain.</p>
-        <div class="search-box">
+                <div class="search-box">
             <input type="text" id="batchId" placeholder="Enter Batch ID" value="ETH-COFFEE-2026-001">
             <button onclick="trackBatch()">Track Batch</button>
+        </div>
+        
+        <!-- Professional Dropdown -->
+        <div style="margin-top: 25px; display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
+            <label for="demoSelect" style="color: #b7e4c7; font-weight: 600; font-size: 0.95rem;">Select a Demo Crop:</label>
+            <select id="demoSelect" onchange="document.getElementById('batchId').value = this.value;" style="padding: 12px 20px; border-radius: 50px; border: 2px solid var(--accent-green); background: var(--primary-dark); color: white; font-family: 'Inter', sans-serif; font-size: 0.95rem; outline: none; cursor: pointer; transition: all 0.3s;">
+                <option value="ETH-COFFEE-2026-001">☕ Coffee (Ethiopia)</option>
+                <option value="ETH-TOMATO-2026-042">🍅 Tomato (Ethiopia)</option>
+                <option value="KEN-AVOCADO-2026-089">🥑 Avocado (Kenya)</option>
+                <option value="ETH-WHEAT-2026-112">🌾 Wheat (Ethiopia)</option>
+                <option value="ZAM-MAIZE-2026-055">🌽 Maize (Zambia)</option>
+                <option value="GHA-COCOA-2026-201">🍫 Cocoa (Ghana)</option>
+                <option value="KEN-TEA-2026-077">🍵 Tea (Kenya)</option>
+                <option value="UGA-BANANA-2026-144">🍌 Banana (Uganda)</option>
+            </select>
         </div>
         
         <!-- Professional Dropdown -->
@@ -257,4 +272,5 @@
     </script>
 </body>
 </html>
+
 
