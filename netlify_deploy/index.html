@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Qonnect GeoAI | Shimeles Tadesse Zelelew</title>
-    <!-- Netlify Identity Widget for Login -->
     <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f9f4; color: #333; }
@@ -13,7 +12,6 @@
         .nav-brand { color: white; font-weight: bold; font-size: 1.2rem; text-decoration: none; letter-spacing: 1px; }
         .nav-links a { color: #d8f3dc; text-decoration: none; margin-left: 20px; font-size: 0.9rem; transition: color 0.2s; }
         .nav-links a:hover { color: #74c69d; }
-        .login-btn { background-color: #2d6a4f; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         
         header.hero { background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%); color: white; padding: 5rem 2rem; text-align: center; }
         .hero h1 { font-size: 3rem; margin-bottom: 10px; }
@@ -40,6 +38,13 @@
         footer a { color: #74c69d; text-decoration: none; margin: 0 10px; font-weight: bold; }
         
         .guest-message { background: #e9c46a; color: #333; padding: 15px; text-align: center; font-weight: bold; border-radius: 8px; margin-bottom: 20px; }
+        
+        /* Form Styles */
+        .form-container { background: white; padding: 20px; border-radius: 8px; max-width: 500px; margin: 0 auto; text-align: left; color: #333; display: none; }
+        .form-container label { display: block; margin-top: 10px; font-weight: bold; font-size: 0.9rem; }
+        .form-container textarea, .form-container input[type="text"] { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .form-container button { margin-top: 15px; background: #2d6a4f; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; }
+        .form-container button:hover { background: #1b4332; }
     </style>
 </head>
 <body>
@@ -51,8 +56,7 @@
             <a href="#pipeline">The Pipeline</a>
             <a href="https://github.com/shimtad2001g" target="_blank">GitHub</a>
             <a href="https://www.linkedin.com/in/shimeles-tadesse-zelelew-77b07535/" target="_blank">LinkedIn</a>
-            <!-- Login Button -->
-            <a href="signup.html" style="background-color: #74c69d; color: #081c15; padding: 6px 12px; border-radius: 4px; font-weight: bold; margin-right: 15px; text-decoration: none;">Register</a>
+            <a href="signup.html" style="background-color: #74c69d; color: #081c15; padding: 6px 12px; border-radius: 4px; font-weight: bold; margin-right: 15px; text-decoration: none;">Register / Log In</a>
         </div>
     </nav>
 
@@ -60,10 +64,29 @@
         <h1>Qonnect GeoAI Platform</h1>
         <p>Fully Automated End-to-End Geospatial Workflow: From Scratch to Policy Impact</p>
         
+        <!-- State 1: Not Logged In -->
         <div class="guest-message" id="guest-msg">
             &#128274; Please log in or register to access the Marketplace, Map, and PDF Downloads.
         </div>
 
+        <!-- State 2: Logged in, needs to fill form -->
+        <div class="form-container" id="form-container">
+            <h3 style="margin-top:0; color:#1b4332;">Access Request</h3>
+            <p style="font-size: 0.9rem;">Please tell us how you plan to use these resources.</p>
+            <form id="use-case-form" name="use-case-form" method="POST" data-netlify="true">
+                <input type="hidden" name="form-name" value="use-case-form" />
+                <label>Why do you want to access this content?</label>
+                <textarea name="reason" required rows="2"></textarea>
+                <label>How will you use the downloaded assets/maps?</label>
+                <textarea name="usage" required rows="2"></textarea>
+                <label style="margin-top: 15px;">
+                    <input type="checkbox" name="policy" required> I accept the <a href="#" target="_blank">Terms of Use</a>.
+                </label>
+                <button type="submit">Submit & Unlock Content</button>
+            </form>
+        </div>
+
+        <!-- State 3: Form submitted, content unlocked -->
         <div class="protected-content" id="protected-buttons">
             <a href="farm_map.html" class="btn btn-green">&#128506; View Live Farm Map</a>
             <a href="Qonnect_Policy_Brief.pdf" download class="btn btn-outline">&#128196; Download Policy Brief</a>
@@ -111,35 +134,58 @@
     </footer>
 
     <script>
-        if (window.netlifyIdentity) {
-            window.netlifyIdentity.on("init", user => {
-                if (!user) {
-                    window.netlifyIdentity.on("login", () => {
-                        document.location.href = "/";
-                    });
+        // Check if they already filled out the form in this browser session
+        let hasSubmittedForm = localStorage.getItem('qonnect_form_submitted');
+
+        function updateUI(user) {
+            const guestMsg = document.getElementById('guest-msg');
+            const formContainer = document.getElementById('form-container');
+            const protectedButtons = document.getElementById('protected-buttons');
+
+            if (!user) {
+                guestMsg.style.display = 'block';
+                formContainer.style.display = 'none';
+                protectedButtons.style.display = 'none';
+            } else {
+                guestMsg.style.display = 'none';
+                if (hasSubmittedForm) {
+                    formContainer.style.display = 'none';
+                    protectedButtons.style.display = 'block';
+                } else {
+                    formContainer.style.display = 'block';
+                    protectedButtons.style.display = 'none';
                 }
-            });
+            }
         }
 
-        window.netlifyIdentity.on("init", user => {
-            if (user) {
-                document.getElementById('guest-msg').style.display = 'none';
-                document.getElementById('protected-buttons').style.display = 'block';
-            } else {
-                document.getElementById('guest-msg').style.display = 'block';
-                document.getElementById('protected-buttons').style.display = 'none';
-            }
-        });
-
+        // Netlify Identity Init
+        window.netlifyIdentity.on("init", user => updateUI(user));
         window.netlifyIdentity.on("login", user => {
-            document.getElementById('guest-msg').style.display = 'none';
-            document.getElementById('protected-buttons').style.display = 'block';
             window.netlifyIdentity.close();
+            updateUI(user);
+        });
+        window.netlifyIdentity.on("logout", () => {
+            localStorage.removeItem('qonnect_form_submitted'); // Clear form status on logout
+            updateUI(null);
         });
 
-        window.netlifyIdentity.on("logout", () => {
-            document.getElementById('guest-msg').style.display = 'block';
-            document.getElementById('protected-buttons').style.display = 'none';
+        // Handle Form Submit (AJAX so the page doesn't reload)
+        document.getElementById('use-case-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+
+            fetch("/", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams(formData).toString()
+            })
+            .then(() => {
+                // Mark as submitted and unlock buttons
+                localStorage.setItem('qonnect_form_submitted', 'true');
+                updateUI(window.netlifyIdentity.currentUser());
+            })
+            .catch(error => alert("Form submission failed. Please try again."));
         });
     </script>
 </body>
