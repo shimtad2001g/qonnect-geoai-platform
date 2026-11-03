@@ -149,28 +149,22 @@
             <p style="color: var(--text-light); margin-bottom: 30px;">Architecting data-driven solutions across the full spectrum of Earth Observation and Environmental Management.</p>
             
             <div class="expertise-grid">
-                <div class="expertise-card">
-                    <h4>&#128752; GeoAI & Earth Observation</h4>
+                <div class="expertise-card" onclick="openModal('exp-modal1')" style="cursor: pointer;">`n                    <h4>&#128752; GeoAI & Earth Observation</h4>
                     <p>Automated geospatial solutions, satellite imagery analysis, and self-supervised Earth Observation frameworks.</p>
                 </div>
-                <div class="expertise-card">
-                    <h4>&#127757; Climate Resilience & Adaptation</h4>
+                <div class="expertise-card" onclick="openModal('exp-modal2')" style="cursor: pointer;">`n                    <h4>&#127757; Climate Resilience & Adaptation</h4>
                     <p>Climate change adaptation strategies, disaster risk reduction, and environmental safeguards (EIA & ESMP).</p>
                 </div>
-                <div class="expertise-card">
-                    <h4>&#127806; Agriculture & Crop Insurance</h4>
+                <div class="expertise-card" onclick="openModal('exp-modal3')" style="cursor: pointer;">`n                    <h4>&#127806; Agriculture & Crop Insurance</h4>
                     <p>Yield prediction, agricultural intelligence, and multi-peril resilience workflows for smallholder producers.</p>
                 </div>
-                <div class="expertise-card">
-                    <h4>&#128013; Python & Spatial Programming</h4>
+                <div class="expertise-card" onclick="openModal('exp-modal4')" style="cursor: pointer;">`n                    <h4>&#128013; Python & Spatial Programming</h4>
                     <p>Data science, machine learning pipelines, and custom Python-based spatial coding for complex datasets.</p>
                 </div>
-                <div class="expertise-card">
-                    <h4>&#128506; GIS & Remote Sensing</h4>
+                <div class="expertise-card" onclick="openModal('exp-modal5')" style="cursor: pointer;">`n                    <h4>&#128506; GIS & Remote Sensing</h4>
                     <p>Advanced spatial analysis, PostGIS cloud infrastructure, and interactive automated cartography.</p>
                 </div>
-                <div class="expertise-card">
-                    <h4>&#127793; Soil Science & Land Management</h4>
+                <div class="expertise-card" onclick="openModal('exp-modal6')" style="cursor: pointer;">`n                    <h4>&#127793; Soil Science & Land Management</h4>
                     <p>Soil analysis, land resources management, and geography for sustainable environmental management.</p>
                 </div>
             </div>
@@ -255,5 +249,80 @@
             }).catch(error => alert("Form submission failed."));
         });
     </script>
+    <!-- Expertise Modals -->
+    <div id="exp-modal1" class="modal"><div class="modal-content">
+        <span class="close-btn" onclick="closeModal('exp-modal1')">&times;</span>
+        <h3>GeoAI & Earth Observation</h3>
+        <p><strong>Scientific Approach:</strong> We leverage self-supervised learning architectures (like masked autoencoders) on multi-spectral Sentinel-1/2 time-series data. By fusing optical and SAR (Synthetic Aperture Radar) data, we overcome cloud cover limitations to achieve automated feature extraction, land cover classification, and change detection with high temporal resolution.</p>
+        <div style="margin-top: 20px; padding: 15px; background: #f8fbf9; border-left: 4px solid #74c69d; border-radius: 8px;">
+            <h4 style="margin-top: 0; color: #081c15;">Featured LinkedIn Insights:</h4>
+            <ul style="list-style-type: none; padding-left: 0;">
+                <li style="margin-bottom: 10px;"><a href="YOUR_LINKEDIN_POST_URL_HERE" target="_blank" style="color: #2d6a4f; font-weight: bold; text-decoration: underline;">Scaling GeoAI for African Climate Adaptation ↗</a></li>
+                <li><a href="YOUR_LINKEDIN_POST_URL_HERE" target="_blank" style="color: #2d6a4f; font-weight: bold; text-decoration: underline;">The Future of Open-Source Earth Observation ↗</a></li>
+            </ul>
+            <p style="font-size: 0.8rem; color: #888; margin-bottom: 0;">*Replace the link URLs in the HTML code with your actual LinkedIn post URLs.</p>
+        </div>
+    </div></div>
+
+    <div id="exp-modal2" class="modal"><div class="modal-content">
+        <span class="close-btn" onclick="closeModal('exp-modal2')">&times;</span>
+        <h3>Climate Resilience & Adaptation</h3>
+        <p><strong>Scientific Approach:</strong> Using spatial risk cascading models, we map vulnerability indices across hydrological basins. By integrating Environmental Impact Assessments (EIA) and Environmental and Social Management Plans (ESMP) into GIS workflows, we quantify exposure to climate hazards (floods, droughts) and design data-driven early warning systems for vulnerable infrastructure.</p>
+        <div style="margin-top: 20px; padding: 15px; background: #f8fbf9; border-left: 4px solid #74c69d; border-radius: 8px;">
+            <h4 style="margin-top: 0; color: #081c15;">Featured LinkedIn Insights:</h4>
+            <ul style="list-style-type: none; padding-left: 0;">
+                <li style="margin-bottom: 10px;"><a href="YOUR_LINKEDIN_POST_URL_HERE" target="_blank" style="color: #2d6a4f; font-weight: bold; text-decoration: underline;">Building Climate-Resilient Infrastructure ↗</a></li>
+            </ul>
+        </div>
+    </div></div>
+
+    <div id="exp-modal3" class="modal"><div class="modal-content">
+        <span class="close-btn" onclick="closeModal('exp-modal3')">&times;</span>
+        <h3>Agriculture & Crop Insurance</h3>
+        <p><strong>Scientific Approach:</strong> We develop parametric insurance models driven by satellite-derived indices (NDVI, Soil Moisture). By utilizing Random Forest and XGBoost algorithms, we predict crop yield gaps and identify multi-peril risks (pests, drought) at the smallholder level. This enables automated, index-based payouts, reducing moral hazard and administrative costs for agricultural insurers.</p>
+        <div style="margin-top: 20px; padding: 15px; background: #f8fbf9; border-left: 4px solid #74c69d; border-radius: 8px;">
+            <h4 style="margin-top: 0; color: #081c15;">Featured LinkedIn Insights:</h4>
+            <ul style="list-style-type: none; padding-left: 0;">
+                <li style="margin-bottom: 10px;"><a href="YOUR_LINKEDIN_POST_URL_HERE" target="_blank" style="color: #2d6a4f; font-weight: bold; text-decoration: underline;">Parametric Insurance for Smallholder Farmers ↗</a></li>
+            </ul>
+        </div>
+    </div></div>
+
+    <div id="exp-modal4" class="modal"><div class="modal-content">
+        <span class="close-btn" onclick="closeModal('exp-modal4')">&times;</span>
+        <h3>Python & Spatial Programming</h3>
+        <p><strong>Scientific Approach:</strong> We architect scalable geospatial data pipelines using GeoPandas, Rasterio, and Dask for out-of-core computation. By automating the ETL (Extract, Transform, Load) process, we transition from manual GIS workflows to fully reproducible, containerized Python pipelines capable of processing terabytes of spatial data efficiently.</p>
+        <div style="margin-top: 20px; padding: 15px; background: #f8fbf9; border-left: 4px solid #74c69d; border-radius: 8px;">
+            <h4 style="margin-top: 0; color: #081c15;">Featured LinkedIn Insights:</h4>
+            <ul style="list-style-type: none; padding-left: 0;">
+                <li style="margin-bottom: 10px;"><a href="YOUR_LINKEDIN_POST_URL_HERE" target="_blank" style="color: #2d6a4f; font-weight: bold; text-decoration: underline;">Automating Spatial Workflows with Python ↗</a></li>
+            </ul>
+        </div>
+    </div></div>
+
+    <div id="exp-modal5" class="modal"><div class="modal-content">
+        <span class="close-btn" onclick="closeModal('exp-modal5')">&times;</span>
+        <h3>GIS & Remote Sensing</h3>
+        <p><strong>Scientific Approach:</strong> By leveraging Cloud-Optimized GeoTIFFs (COGs) and SpatioTemporal Asset Catalogs (STAC), we optimize spatial data retrieval. We utilize PostGIS for advanced spatial querying and build interactive, web-based cartography (Leaflet.js/Mapbox) that dynamically visualizes complex spatial relationships and heatmaps for real-time decision support.</p>
+        <div style="margin-top: 20px; padding: 15px; background: #f8fbf9; border-left: 4px solid #74c69d; border-radius: 8px;">
+            <h4 style="margin-top: 0; color: #081c15;">Featured LinkedIn Insights:</h4>
+            <ul style="list-style-type: none; padding-left: 0;">
+                <li style="margin-bottom: 10px;"><a href="YOUR_LINKEDIN_POST_URL_HERE" target="_blank" style="color: #2d6a4f; font-weight: bold; text-decoration: underline;">Cloud-Native Geospatial Architectures ↗</a></li>
+            </ul>
+        </div>
+    </div></div>
+
+    <div id="exp-modal6" class="modal"><div class="modal-content">
+        <span class="close-btn" onclick="closeModal('exp-modal6')">&times;</span>
+        <h3>Soil Science & Land Management</h3>
+        <p><strong>Scientific Approach:</strong> Using Digital Soil Mapping (DSM) techniques combined with remote sensing proxies, we estimate soil organic carbon and moisture content over large areas. This data informs Land Degradation Neutrality (LDN) frameworks and supports sustainable land resource management policies by identifying areas prone to erosion and nutrient depletion.</p>
+        <div style="margin-top: 20px; padding: 15px; background: #f8fbf9; border-left: 4px solid #74c69d; border-radius: 8px;">
+            <h4 style="margin-top: 0; color: #081c15;">Featured LinkedIn Insights:</h4>
+            <ul style="list-style-type: none; padding-left: 0;">
+                <li style="margin-bottom: 10px;"><a href="YOUR_LINKEDIN_POST_URL_HERE" target="_blank" style="color: #2d6a4f; font-weight: bold; text-decoration: underline;">Digital Soil Mapping for Sustainable Agriculture ↗</a></li>
+            </ul>
+        </div>
+    </div></div>
 </body>
 </html>
+
