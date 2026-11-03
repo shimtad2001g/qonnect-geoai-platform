@@ -49,15 +49,25 @@
         .metric-box p { margin: 0; font-size: 1.5rem; font-weight: bold; color: var(--primary-dark); font-family: 'Space Grotesk', sans-serif;}
         .metric-box span { font-size: 0.8rem; color: #888; font-weight: normal; }
 
-        /* Timeline */
+        /* Interactive Timeline */
         .timeline { position: relative; margin-top: 20px; padding-left: 30px; }
         .timeline::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 3px; background: var(--accent-green); border-radius: 2px; }
-        .timeline-item { position: relative; margin-bottom: 25px; }
-        .timeline-item::before { content: ''; position: absolute; left: -36px; top: 5px; width: 15px; height: 15px; border-radius: 50%; background: var(--primary-dark); border: 3px solid var(--accent-green); }
+        .timeline-item { position: relative; margin-bottom: 25px; padding: 15px; background: transparent; border-radius: 12px; transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; }
+        .timeline-item:hover { background: #f4f9f4; border: 1px solid var(--accent-green); transform: translateX(5px); }
+        .timeline-item::before { content: ''; position: absolute; left: -36px; top: 20px; width: 15px; height: 15px; border-radius: 50%; background: var(--primary-dark); border: 3px solid var(--accent-green); transition: background 0.3s; }
+        .timeline-item:hover::before { background: var(--accent-green); }
         .timeline-item h4 { margin: 0 0 5px 0; color: var(--primary-dark); }
         .timeline-item p { margin: 0; color: var(--text-light); font-size: 0.9rem; }
 
         .loading-spinner { display: none; text-align: center; color: white; margin-top: 20px; font-weight: bold; }
+
+        /* Modal Styles */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(8, 28, 21, 0.7); backdrop-filter: blur(5px); }
+        .modal-content { background-color: white; margin: 10% auto; padding: 40px; border-radius: 20px; width: 90%; max-width: 700px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+        .close-btn { color: #aaa; position: absolute; top: 20px; right: 30px; font-size: 30px; font-weight: bold; cursor: pointer; transition: color 0.3s; }
+        .close-btn:hover { color: var(--primary-dark); }
+        .modal-content h3 { color: var(--primary-dark); font-size: 1.8rem; margin-top: 0; border-bottom: 2px solid var(--accent-green); padding-bottom: 10px; display: inline-block; }
+        .modal-content p { color: var(--text-light); font-size: 1.05rem; line-height: 1.7; }
     </style>
 </head>
 <body>
@@ -113,29 +123,59 @@
             </div>
         </div>
 
-        <!-- Supply Chain Timeline -->
+        <!-- Interactive Supply Chain Timeline -->
         <div class="card" style="margin-top: 25px;">
             <h3>End-to-End Supply Chain Verification</h3>
+            <p style="font-size: 0.9rem; color: #666; margin-bottom: 20px;">Click any phase to view the verified data chain and technical specifications.</p>
             <div class="timeline">
-                <div class="timeline-item">
+                <div class="timeline-item" onclick="openModal('trace-modal1')">
                     <h4>Phase 1: Harvest & Farm Ingestion</h4>
                     <p>Harvested at Highland Farm, Ethiopia. GPS verified. Satellite NDVI confirmed peak maturity.</p>
                 </div>
-                <div class="timeline-item">
+                <div class="timeline-item" onclick="openModal('trace-modal2')">
                     <h4>Phase 2: Quality Processing</h4>
                     <p>Processed at local cooperative. Moisture levels verified at 12%. Zero defect detected.</p>
                 </div>
-                <div class="timeline-item">
+                <div class="timeline-item" onclick="openModal('trace-modal3')">
                     <h4>Phase 3: Export & Logistics</h4>
                     <p>Shipped via Djibouti Port. Temperature and humidity tracked continuously via IoT sensors.</p>
                 </div>
-                <div class="timeline-item">
+                <div class="timeline-item" onclick="openModal('trace-modal4')">
                     <h4>Phase 4: Global Marketplace</h4>
                     <p>Arrived at international distributor. Verified by Qonnect GeoAI smart contract.</p>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Traceability Modals -->
+    <div id="trace-modal1" class="modal"><div class="modal-content">
+        <span class="close-btn" onclick="closeModal('trace-modal1')">&times;</span>
+        <h3>Phase 1: Harvest & Farm Ingestion</h3>
+        <p><strong>Data Ingestion & GeoAI Verification:</strong> Upon harvest, the farm boundary is digitized via GPS mobile mapping. The Qonnect pipeline automatically queries Sentinel-2 Level-2A imagery to calculate the NDVI (Normalized Difference Vegetation Index) at the exact time of harvest. This ensures that the crop was harvested at peak physiological maturity (NDVI > 0.75).</p>
+        <p><strong>Immutable Ledger Entry:</strong> A unique Batch ID is generated, and the spatial coordinates, timestamp, and satellite metadata are cryptographically hashed and written to the distributed ledger, ensuring the data cannot be altered retroactively.</p>
+    </div></div>
+
+    <div id="trace-modal2" class="modal"><div class="modal-content">
+        <span class="close-btn" onclick="closeModal('trace-modal2')">&times;</span>
+        <h3>Phase 2: Quality Processing</h3>
+        <p><strong>IoT Sensor Integration:</strong> At the cooperative processing center, IoT moisture sensors directly interface with the Qonnect platform. Moisture content is rigorously verified at 12.0%, which is scientifically optimal for preventing mold and ensuring long-term crop stability.</p>
+        <p><strong>Defect Detection:</strong> Quality control metrics are logged into the cloud database. The system automatically triggers a verification hash for this processing phase, ensuring that the product moving to export perfectly matches the raw materials harvested in Phase 1.</p>
+    </div></div>
+
+    <div id="trace-modal3" class="modal"><div class="modal-content">
+        <span class="close-btn" onclick="closeModal('trace-modal3')">&times;</span>
+        <h3>Phase 3: Export & Logistics</h3>
+        <p><strong>Continuous Telemetry:</strong> The shipment is equipped with IoT sensors utilizing LoRaWAN/GSM networks. Temperature and humidity are tracked continuously across the route to Djibouti Port. Any anomalies (e.g., temperature spikes) trigger real-time SMS alerts to the logistics manager.</p>
+        <p><strong>Geofencing & Chain of Custody:</strong> As the shipment crosses predefined geographic zones (geofences), the status is updated dynamically. Each checkpoint creates a new block in the chain of custody, securely linking the physical location to the digital record.</p>
+    </div></div>
+
+    <div id="trace-modal4" class="modal"><div class="modal-content">
+        <span class="close-btn" onclick="closeModal('trace-modal4')">&times;</span>
+        <h3>Phase 4: Global Marketplace</h3>
+        <p><strong>Smart Contract Execution:</strong> Upon arrival at the international distributor, the buyer scans a QR code linked to the Batch ID. The Qonnect smart contract verifies the entire chain of data—from the satellite NDVI at harvest to the final IoT temperature log.</p>
+        <p><strong>End-to-End Transparency:</strong> Once all conditions are met (quality, logistics, and sustainability metrics), the smart contract executes, authorizing final payment or transfer of ownership. This eliminates fraud, ensures fair compensation for the farmer, and provides the buyer with 100% auditable provenance.</p>
+    </div></div>
 
     <script>
         let map;
@@ -146,36 +186,40 @@
             const loading = document.getElementById('loading');
             const dashboard = document.getElementById('dashboard');
             
-            // Show loading state
             btn.innerText = "Verifying...";
             btn.style.opacity = "0.7";
             loading.style.display = 'block';
             dashboard.style.display = 'none';
 
-            // Simulate API / Database fetch delay
             setTimeout(() => {
                 loading.style.display = 'none';
                 dashboard.style.display = 'block';
                 btn.innerText = "Track Batch";
                 btn.style.opacity = "1";
 
-                // Initialize Map if not already initialized
                 if (!map) {
-                    map = L.map('map').setView([9.145, 40.489], 7); // Center on Ethiopia
+                    map = L.map('map').setView([9.145, 40.489], 7);
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '&copy; OpenStreetMap'
                     }).addTo(map);
                 }
 
-                // Add marker for farm location
                 if (marker) { map.removeLayer(marker); }
                 marker = L.marker([9.145, 40.489]).addTo(map)
                     .bindPopup('<b>Verified Farm Origin</b><br>Highland Region, Ethiopia')
                     .openPopup();
                 
-                // Scroll to dashboard
                 dashboard.scrollIntoView({ behavior: 'smooth' });
             }, 1500);
+        }
+
+        // Modal Logic
+        function openModal(id) { document.getElementById(id).style.display = "block"; }
+        function closeModal(id) { document.getElementById(id).style.display = "none"; }
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
         }
     </script>
 </body>
