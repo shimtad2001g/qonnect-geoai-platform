@@ -2,39 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | Qonnect GeoAI</title>
     <!-- Netlify Identity Widget -->
     <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f9f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f9f4; color: #333; display: flex; justify-content: center; align-items: center; height: 100vh; }
         .signup-container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); text-align: center; max-width: 400px; width: 100%; }
-        h1 { color: #1b4332; }
-        p { color: #555; margin-bottom: 20px; }
-        .btn { background-color: #2d6a4f; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: bold; width: 100%; transition: background 0.2s; }
+        h2 { color: #1b4332; margin-top: 0; }
+        p { color: #555; line-height: 1.5; margin-bottom: 25px; }
+        
+        /* Cleaned up button style */
+        .btn { background-color: #2d6a4f; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; width: 100%; transition: background 0.2s; }
         .btn:hover { background-color: #1b4332; }
-        .back-link { display: block; margin-top: 20px; color: #2d6a4f; text-decoration: none; font-size: 0.9rem; }
+        
+        .back-link { display: block; margin-top: 20px; color: #74c69d; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
         .back-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
+
     <div class="signup-container">
-        <h1>Join Qonnect GeoAI</h1>
+        <h2>Join Qonnect GeoAI</h2>
         <p>Create an account to access the live geospatial map, policy briefs, and marketplace links.</p>
         
-        <!-- Netlify Identity Widget Button -->
-        <button class="btn" data-netlify-identity-button>Create Account / Sign Up</button>
+        <!-- Clean button without the data-netlify attribute -->
+        <button class="btn" onclick="openSignup()">Create Account / Sign Up</button>
         
         <a href="index.html" class="back-link">&larr; Back to Home</a>
     </div>
 
     <script>
-        // Automatically open the signup modal when the page loads
-        window.netlifyIdentity = window.netlifyIdentity || {};
-        window.addEventListener('load', function() {
+        // Function to trigger the Netlify popup
+        function openSignup() {
             if (window.netlifyIdentity) {
                 window.netlifyIdentity.open('signup');
+            } else {
+                alert("Authentication system is still loading. Please try again in a second.");
             }
-        });
+        }
+
+        // If the user is already logged in, redirect them to the homepage immediately
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (user) {
+                    window.location.href = "/index.html";
+                }
+            });
+        }
     </script>
 </body>
 </html>
