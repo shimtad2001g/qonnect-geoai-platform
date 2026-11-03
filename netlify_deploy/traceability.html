@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traceability Prototype | Qonnect GeoAI</title>
+    <title>Traceability & Insurance Portal | Qonnect GeoAI</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <!-- Leaflet Map CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
@@ -17,39 +16,33 @@
         body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-main); }
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
         
-        /* Navbar */
         nav { background-color: var(--primary-dark); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
         .nav-brand { color: white; font-size: 1.4rem; text-decoration: none; letter-spacing: 1px; font-family: 'Space Grotesk', sans-serif; font-weight: 700;}
         .nav-brand span { color: var(--accent-green); }
         .nav-links a { color: #d8f3dc; text-decoration: none; margin-left: 25px; font-weight: 600; transition: color 0.3s; }
         .nav-links a:hover { color: var(--accent-green); }
 
-        /* Search Section */
         .search-hero { background: radial-gradient(circle at 50% 50%, rgba(116, 198, 157, 0.1), transparent 50%), var(--primary-dark); padding: 60px 20px; text-align: center; color: white; }
         .search-hero h1 { font-size: 2.5rem; margin-bottom: 10px; color: var(--accent-green); }
         .search-box { display: flex; justify-content: center; gap: 10px; max-width: 600px; margin: 30px auto 0; }
         .search-box input { flex: 1; padding: 15px 20px; border-radius: 50px; border: none; font-size: 1rem; outline: none; }
         .search-box button { background: var(--accent-green); color: var(--primary-dark); border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; transition: all 0.3s; font-family: 'Space Grotesk', sans-serif; }
         .search-box button:hover { background: white; transform: scale(1.05); }
+        .hint-text { font-size: 0.85rem; color: #b7e4c7; margin-top: 15px; }
 
-        /* Dashboard Container */
         .dashboard { max-width: 1200px; margin: -30px auto 50px; padding: 0 20px; display: none; }
-        
         .grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
         .card { background: var(--card-bg); padding: 30px; border-radius: 20px; box-shadow: var(--glass-shadow); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5); }
         .card h3 { color: var(--primary-dark); margin-top: 0; border-bottom: 2px solid var(--accent-green); padding-bottom: 10px; display: inline-block; }
         
-        /* Map */
         #map { height: 350px; width: 100%; border-radius: 12px; z-index: 1; border: 2px solid var(--primary-light); }
         
-        /* Metrics */
         .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
         .metric-box { background: #f4f9f4; padding: 15px; border-radius: 12px; border-left: 4px solid var(--primary-mid); }
         .metric-box h4 { margin: 0 0 5px 0; color: var(--text-light); font-size: 0.9rem; font-family: 'Inter', sans-serif; font-weight: 600; text-transform: uppercase;}
         .metric-box p { margin: 0; font-size: 1.5rem; font-weight: bold; color: var(--primary-dark); font-family: 'Space Grotesk', sans-serif;}
         .metric-box span { font-size: 0.8rem; color: #888; font-weight: normal; }
 
-        /* Interactive Timeline */
         .timeline { position: relative; margin-top: 20px; padding-left: 30px; }
         .timeline::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 3px; background: var(--accent-green); border-radius: 2px; }
         .timeline-item { position: relative; margin-bottom: 25px; padding: 15px; background: transparent; border-radius: 12px; transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; }
@@ -61,7 +54,6 @@
 
         .loading-spinner { display: none; text-align: center; color: white; margin-top: 20px; font-weight: bold; }
 
-        /* Modal Styles */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(8, 28, 21, 0.7); backdrop-filter: blur(5px); }
         .modal-content { background-color: white; margin: 10% auto; padding: 40px; border-radius: 20px; width: 90%; max-width: 700px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
         .close-btn { color: #aaa; position: absolute; top: 20px; right: 30px; font-size: 30px; font-weight: bold; cursor: pointer; transition: color 0.3s; }
@@ -80,69 +72,69 @@
     </nav>
 
     <div class="search-hero">
-        <h1>Qonnect Traceability Portal</h1>
+        <h1>Qonnect Insurance & Traceability Portal</h1>
         <p>Enter a Batch ID to verify origin, view GeoAI crop health, and track the supply chain.</p>
         <div class="search-box">
-            <input type="text" id="batchId" placeholder="Enter Batch ID (e.g., ETH-COFFEE-2026-001)" value="ETH-COFFEE-2026-001">
+            <input type="text" id="batchId" placeholder="Enter Batch ID (e.g., ETH-TOMATO-2026-042)" value="ETH-COFFEE-2026-001">
             <button onclick="trackBatch()">Track Batch</button>
+        </div>
+        <div class="hint-text">
+            <strong>Try these test IDs:</strong> ETH-COFFEE-2026-001 | ETH-TOMATO-2026-042 | KEN-AVOCADO-2026-089
         </div>
         <div id="loading" class="loading-spinner">Scanning Satellite Data & Verifying Ledger...</div>
     </div>
 
     <div class="dashboard" id="dashboard">
         <div class="grid-layout">
-            <!-- Left Column: Map -->
             <div class="card">
                 <h3>Farm Origin & Geolocation</h3>
-                <p style="font-size: 0.9rem; color: #666;">Verified coordinates via GPS and Sentinel-2 Satellite imagery.</p>
+                <p style="font-size: 0.9rem; color: #666;" id="map-desc">Verified coordinates via GPS and Sentinel-2 Satellite imagery.</p>
                 <div id="map"></div>
             </div>
 
-            <!-- Right Column: GeoAI Metrics -->
             <div class="card">
-                <h3>GeoAI Crop Vitality</h3>
+                <h3>GeoAI Crop Vitality & Risk</h3>
                 <p style="font-size: 0.9rem; color: #666;">Automated analysis of crop health and environmental stress factors.</p>
                 <div class="metrics-grid">
                     <div class="metric-box">
                         <h4>NDVI Health Index</h4>
-                        <p>0.78 <span>(Excellent)</span></p>
+                        <p id="ndvi-val">0.78 <span id="ndvi-desc">(Excellent)</span></p>
                     </div>
                     <div class="metric-box">
                         <h4>Soil Moisture</h4>
-                        <p>42% <span>(Optimal)</span></p>
+                        <p id="moisture-val">42% <span id="moisture-desc">(Optimal)</span></p>
                     </div>
                     <div class="metric-box">
                         <h4>Yield Prediction</h4>
-                        <p>98% <span>Accuracy</span></p>
+                        <p id="yield-val">98% <span>Accuracy</span></p>
                     </div>
                     <div class="metric-box">
                         <h4>Climate Risk</h4>
-                        <p>Low <span>(No alerts)</span></p>
+                        <p id="risk-val">Low <span id="risk-desc">(No alerts)</span></p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Interactive Supply Chain Timeline -->
         <div class="card" style="margin-top: 25px;">
-            <h3>End-to-End Supply Chain Verification</h3>
+            <h3 id="timeline-title">End-to-End Supply Chain Verification</h3>
             <p style="font-size: 0.9rem; color: #666; margin-bottom: 20px;">Click any phase to view the verified data chain and technical specifications.</p>
             <div class="timeline">
                 <div class="timeline-item" onclick="openModal('trace-modal1')">
                     <h4>Phase 1: Harvest & Farm Ingestion</h4>
-                    <p>Harvested at Highland Farm, Ethiopia. GPS verified. Satellite NDVI confirmed peak maturity.</p>
+                    <p id="phase1-desc">Harvested at Highland Farm. GPS verified. Satellite NDVI confirmed peak maturity.</p>
                 </div>
                 <div class="timeline-item" onclick="openModal('trace-modal2')">
                     <h4>Phase 2: Quality Processing</h4>
-                    <p>Processed at local cooperative. Moisture levels verified at 12%. Zero defect detected.</p>
+                    <p id="phase2-desc">Processed at local cooperative. Moisture levels verified. Zero defect detected.</p>
                 </div>
                 <div class="timeline-item" onclick="openModal('trace-modal3')">
                     <h4>Phase 3: Export & Logistics</h4>
-                    <p>Shipped via Djibouti Port. Temperature and humidity tracked continuously via IoT sensors.</p>
+                    <p id="phase3-desc">Shipped via Port. Temperature and humidity tracked continuously via IoT sensors.</p>
                 </div>
                 <div class="timeline-item" onclick="openModal('trace-modal4')">
                     <h4>Phase 4: Global Marketplace</h4>
-                    <p>Arrived at international distributor. Verified by Qonnect GeoAI smart contract.</p>
+                    <p id="phase4-desc">Arrived at international distributor. Verified by Qonnect GeoAI smart contract.</p>
                 </div>
             </div>
         </div>
@@ -152,21 +144,21 @@
     <div id="trace-modal1" class="modal"><div class="modal-content">
         <span class="close-btn" onclick="closeModal('trace-modal1')">&times;</span>
         <h3>Phase 1: Harvest & Farm Ingestion</h3>
-        <p><strong>Data Ingestion & GeoAI Verification:</strong> Upon harvest, the farm boundary is digitized via GPS mobile mapping. The Qonnect pipeline automatically queries Sentinel-2 Level-2A imagery to calculate the NDVI (Normalized Difference Vegetation Index) at the exact time of harvest. This ensures that the crop was harvested at peak physiological maturity (NDVI > 0.75).</p>
+        <p><strong>Data Ingestion & GeoAI Verification:</strong> Upon harvest, the farm boundary is digitized via GPS mobile mapping. The Qonnect pipeline automatically queries Sentinel-2 Level-2A imagery to calculate the NDVI at the exact time of harvest. This ensures that the crop was harvested at peak physiological maturity specific to its species.</p>
         <p><strong>Immutable Ledger Entry:</strong> A unique Batch ID is generated, and the spatial coordinates, timestamp, and satellite metadata are cryptographically hashed and written to the distributed ledger, ensuring the data cannot be altered retroactively.</p>
     </div></div>
 
     <div id="trace-modal2" class="modal"><div class="modal-content">
         <span class="close-btn" onclick="closeModal('trace-modal2')">&times;</span>
         <h3>Phase 2: Quality Processing</h3>
-        <p><strong>IoT Sensor Integration:</strong> At the cooperative processing center, IoT moisture sensors directly interface with the Qonnect platform. Moisture content is rigorously verified at 12.0%, which is scientifically optimal for preventing mold and ensuring long-term crop stability.</p>
+        <p><strong>IoT Sensor Integration:</strong> At the processing center, IoT moisture and temperature sensors directly interface with the Qonnect platform. Moisture content is rigorously verified against the optimal thresholds for the specific crop to prevent spoilage.</p>
         <p><strong>Defect Detection:</strong> Quality control metrics are logged into the cloud database. The system automatically triggers a verification hash for this processing phase, ensuring that the product moving to export perfectly matches the raw materials harvested in Phase 1.</p>
     </div></div>
 
     <div id="trace-modal3" class="modal"><div class="modal-content">
         <span class="close-btn" onclick="closeModal('trace-modal3')">&times;</span>
         <h3>Phase 3: Export & Logistics</h3>
-        <p><strong>Continuous Telemetry:</strong> The shipment is equipped with IoT sensors utilizing LoRaWAN/GSM networks. Temperature and humidity are tracked continuously across the route to Djibouti Port. Any anomalies (e.g., temperature spikes) trigger real-time SMS alerts to the logistics manager.</p>
+        <p><strong>Continuous Telemetry:</strong> The shipment is equipped with IoT sensors utilizing LoRaWAN/GSM networks. Temperature and humidity are tracked continuously across the transport route. Any anomalies trigger real-time SMS alerts to the logistics manager and the insurer.</p>
         <p><strong>Geofencing & Chain of Custody:</strong> As the shipment crosses predefined geographic zones (geofences), the status is updated dynamically. Each checkpoint creates a new block in the chain of custody, securely linking the physical location to the digital record.</p>
     </div></div>
 
@@ -174,18 +166,65 @@
         <span class="close-btn" onclick="closeModal('trace-modal4')">&times;</span>
         <h3>Phase 4: Global Marketplace</h3>
         <p><strong>Smart Contract Execution:</strong> Upon arrival at the international distributor, the buyer scans a QR code linked to the Batch ID. The Qonnect smart contract verifies the entire chain of data—from the satellite NDVI at harvest to the final IoT temperature log.</p>
-        <p><strong>End-to-End Transparency:</strong> Once all conditions are met (quality, logistics, and sustainability metrics), the smart contract executes, authorizing final payment or transfer of ownership. This eliminates fraud, ensures fair compensation for the farmer, and provides the buyer with 100% auditable provenance.</p>
+        <p><strong>Parametric Insurance Trigger:</strong> If the historical satellite data shows a drought or the IoT sensors detect a severe temperature drop during transport (triggering a multi-peril insurance claim), the smart contract automatically initiates the payout process based on the parametric thresholds set by the insurer.</p>
     </div></div>
 
     <script>
         let map;
         let marker;
 
+        // Simulated Database for different Crop Types
+        const cropDatabase = {
+            "ETH-COFFEE-2026-001": {
+                lat: 9.145, lng: 40.489, zoom: 7,
+                name: "Highland Coffee",
+                mapDesc: "Verified coordinates via GPS and Sentinel-2 Satellite imagery. Highland Region, Ethiopia.",
+                ndvi: "0.78", ndviDesc: "(Excellent)",
+                moisture: "42%", moistureDesc: "(Optimal)",
+                yield: "98%",
+                risk: "Low", riskDesc: "(No alerts)",
+                phase1: "Harvested at Highland Farm, Ethiopia. GPS verified. Satellite NDVI confirmed peak maturity.",
+                phase2: "Processed at local cooperative. Moisture levels verified at 12%. Zero defect detected.",
+                phase3: "Shipped via Djibouti Port. Temperature and humidity tracked continuously via IoT sensors.",
+                phase4: "Arrived at international distributor. Verified by Qonnect GeoAI smart contract."
+            },
+            "ETH-TOMATO-2026-042": {
+                lat: 7.933, lng: 38.716, zoom: 9,
+                name: "Ziway Tomatoes",
+                mapDesc: "Verified coordinates via GPS and Sentinel-2 Satellite imagery. Ziway Region, Ethiopia.",
+                ndvi: "0.85", ndviDesc: "(Peak Vegetation)",
+                moisture: "65%", moistureDesc: "(High)",
+                yield: "92%",
+                risk: "Moderate", riskDesc: "(Heat Stress)",
+                phase1: "Harvested at Ziway Farm. NDVI confirmed peak ripening stage. Heat stress monitoring active.",
+                phase2: "Sorted and packaged at Ziway Agri-Hub. Cold chain initiated at 12°C.",
+                phase3: "Transported via refrigerated truck to Addis Ababa. IoT sensors maintained optimal humidity.",
+                phase4: "Arrived at central market. Parametric insurance active for transit heat anomalies."
+            },
+            "KEN-AVOCADO-2026-089": {
+                lat: -0.152, lng: 37.308, zoom: 8,
+                name: "Mount Kenya Avocados",
+                mapDesc: "Verified coordinates via GPS and Sentinel-2 Satellite imagery. Mount Kenya Region.",
+                ndvi: "0.82", ndviDesc: "(Healthy)",
+                moisture: "55%", moistureDesc: "(Moderate)",
+                yield: "95%",
+                risk: "Low", riskDesc: "(Stable)",
+                phase1: "Harvested at Mount Kenya Orchards. Tree-level yield prediction validated by drone imagery.",
+                phase2: "Washed, graded, and packed at Nairobi facility. Zero pest detection.",
+                phase3: "Air freight from Nairobi to Amsterdam. Temperature maintained at 5°C.",
+                phase4: "Arrived at European distributor. Quality verified. Smart contract finalized."
+            }
+        };
+
         function trackBatch() {
+            const inputVal = document.getElementById('batchId').value.trim().toUpperCase();
             const btn = document.querySelector('.search-box button');
             const loading = document.getElementById('loading');
             const dashboard = document.getElementById('dashboard');
             
+            // Check if batch exists in database
+            const data = cropDatabase[inputVal];
+
             btn.innerText = "Verifying...";
             btn.style.opacity = "0.7";
             loading.style.display = 'block';
@@ -193,27 +232,49 @@
 
             setTimeout(() => {
                 loading.style.display = 'none';
+                
+                if (!data) {
+                    alert("Batch ID not found in simulated database. Please try one of the test IDs shown below the search bar.");
+                    btn.innerText = "Track Batch";
+                    btn.style.opacity = "1";
+                    return;
+                }
+
+                // Update Text and Metrics
+                document.getElementById('map-desc').innerText = data.mapDesc;
+                document.getElementById('ndvi-val').innerHTML = `${data.ndvi} <span id="ndvi-desc">${data.ndviDesc}</span>`;
+                document.getElementById('moisture-val').innerHTML = `${data.moisture} <span id="moisture-desc">${data.moistureDesc}</span>`;
+                document.getElementById('yield-val').innerHTML = `${data.yield} <span>Accuracy</span>`;
+                document.getElementById('risk-val').innerHTML = `${data.risk} <span id="risk-desc">${data.riskDesc}</span>`;
+                
+                document.getElementById('phase1-desc').innerText = data.phase1;
+                document.getElementById('phase2-desc').innerText = data.phase2;
+                document.getElementById('phase3-desc').innerText = data.phase3;
+                document.getElementById('phase4-desc').innerText = data.phase4;
+
                 dashboard.style.display = 'block';
                 btn.innerText = "Track Batch";
                 btn.style.opacity = "1";
 
+                // Update Map
                 if (!map) {
-                    map = L.map('map').setView([9.145, 40.489], 7);
+                    map = L.map('map').setView([data.lat, data.lng], data.zoom);
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '&copy; OpenStreetMap'
                     }).addTo(map);
+                } else {
+                    map.setView([data.lat, data.lng], data.zoom);
                 }
 
                 if (marker) { map.removeLayer(marker); }
-                marker = L.marker([9.145, 40.489]).addTo(map)
-                    .bindPopup('<b>Verified Farm Origin</b><br>Highland Region, Ethiopia')
+                marker = L.marker([data.lat, data.lng]).addTo(map)
+                    .bindPopup(`<b>${data.name}</b><br>Verified Origin`)
                     .openPopup();
                 
                 dashboard.scrollIntoView({ behavior: 'smooth' });
             }, 1500);
         }
 
-        // Modal Logic
         function openModal(id) { document.getElementById(id).style.display = "block"; }
         function closeModal(id) { document.getElementById(id).style.display = "none"; }
         window.onclick = function(event) {
