@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traceability Prototype | Qonnect GeoAI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Leaflet Map CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        :root {
+            --primary-dark: #081c15; --primary-mid: #1b4332; --primary-light: #2d6a4f;
+            --accent-green: #74c69d; --bg-color: #f8fbf9; --text-main: #333333; --text-light: #666666;
+            --card-bg: rgba(255, 255, 255, 0.95); --glass-shadow: 0 8px 32px 0 rgba(8, 28, 21, 0.08);
+        }
+        body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-main); }
+        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
+        
+        /* Navbar */
+        nav { background-color: var(--primary-dark); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-brand { color: white; font-size: 1.4rem; text-decoration: none; letter-spacing: 1px; font-family: 'Space Grotesk', sans-serif; font-weight: 700;}
+        .nav-brand span { color: var(--accent-green); }
+        .nav-links a { color: #d8f3dc; text-decoration: none; margin-left: 25px; font-weight: 600; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent-green); }
+
+        /* Search Section */
+        .search-hero { background: radial-gradient(circle at 50% 50%, rgba(116, 198, 157, 0.1), transparent 50%), var(--primary-dark); padding: 60px 20px; text-align: center; color: white; }
+        .search-hero h1 { font-size: 2.5rem; margin-bottom: 10px; color: var(--accent-green); }
+        .search-box { display: flex; justify-content: center; gap: 10px; max-width: 600px; margin: 30px auto 0; }
+        .search-box input { flex: 1; padding: 15px 20px; border-radius: 50px; border: none; font-size: 1rem; outline: none; }
+        .search-box button { background: var(--accent-green); color: var(--primary-dark); border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; transition: all 0.3s; font-family: 'Space Grotesk', sans-serif; }
+        .search-box button:hover { background: white; transform: scale(1.05); }
+
+        /* Dashboard Container */
+        .dashboard { max-width: 1200px; margin: -30px auto 50px; padding: 0 20px; display: none; }
+        
+        .grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .card { background: var(--card-bg); padding: 30px; border-radius: 20px; box-shadow: var(--glass-shadow); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5); }
+        .card h3 { color: var(--primary-dark); margin-top: 0; border-bottom: 2px solid var(--accent-green); padding-bottom: 10px; display: inline-block; }
+        
+        /* Map */
+        #map { height: 350px; width: 100%; border-radius: 12px; z-index: 1; border: 2px solid var(--primary-light); }
+        
+        /* Metrics */
+        .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .metric-box { background: #f4f9f4; padding: 15px; border-radius: 12px; border-left: 4px solid var(--primary-mid); }
+        .metric-box h4 { margin: 0 0 5px 0; color: var(--text-light); font-size: 0.9rem; font-family: 'Inter', sans-serif; font-weight: 600; text-transform: uppercase;}
+        .metric-box p { margin: 0; font-size: 1.5rem; font-weight: bold; color: var(--primary-dark); font-family: 'Space Grotesk', sans-serif;}
+        .metric-box span { font-size: 0.8rem; color: #888; font-weight: normal; }
+
+        /* Timeline */
+        .timeline { position: relative; margin-top: 20px; padding-left: 30px; }
+        .timeline::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 3px; background: var(--accent-green); border-radius: 2px; }
+        .timeline-item { position: relative; margin-bottom: 25px; }
+        .timeline-item::before { content: ''; position: absolute; left: -36px; top: 5px; width: 15px; height: 15px; border-radius: 50%; background: var(--primary-dark); border: 3px solid var(--accent-green); }
+        .timeline-item h4 { margin: 0 0 5px 0; color: var(--primary-dark); }
+        .timeline-item p { margin: 0; color: var(--text-light); font-size: 0.9rem; }
+
+        .loading-spinner { display: none; text-align: center; color: white; margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-brand">QONNECT<span>GeoAI</span></a>
+        <div class="nav-links">
+            <a href="index.html">Back to Home</a>
+        </div>
+    </nav>
+
+    <div class="search-hero">
+        <h1>Qonnect Traceability Portal</h1>
+        <p>Enter a Batch ID to verify origin, view GeoAI crop health, and track the supply chain.</p>
+        <div class="search-box">
+            <input type="text" id="batchId" placeholder="Enter Batch ID (e.g., ETH-COFFEE-2026-001)" value="ETH-COFFEE-2026-001">
+            <button onclick="trackBatch()">Track Batch</button>
+        </div>
+        <div id="loading" class="loading-spinner">Scanning Satellite Data & Verifying Ledger...</div>
+    </div>
+
+    <div class="dashboard" id="dashboard">
+        <div class="grid-layout">
+            <!-- Left Column: Map -->
+            <div class="card">
+                <h3>Farm Origin & Geolocation</h3>
+                <p style="font-size: 0.9rem; color: #666;">Verified coordinates via GPS and Sentinel-2 Satellite imagery.</p>
+                <div id="map"></div>
+            </div>
+
+            <!-- Right Column: GeoAI Metrics -->
+            <div class="card">
+                <h3>GeoAI Crop Vitality</h3>
+                <p style="font-size: 0.9rem; color: #666;">Automated analysis of crop health and environmental stress factors.</p>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <h4>NDVI Health Index</h4>
+                        <p>0.78 <span>(Excellent)</span></p>
+                    </div>
+                    <div class="metric-box">
+                        <h4>Soil Moisture</h4>
+                        <p>42% <span>(Optimal)</span></p>
+                    </div>
+                    <div class="metric-box">
+                        <h4>Yield Prediction</h4>
+                        <p>98% <span>Accuracy</span></p>
+                    </div>
+                    <div class="metric-box">
+                        <h4>Climate Risk</h4>
+                        <p>Low <span>(No alerts)</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Supply Chain Timeline -->
+        <div class="card" style="margin-top: 25px;">
+            <h3>End-to-End Supply Chain Verification</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>Phase 1: Harvest & Farm Ingestion</h4>
+                    <p>Harvested at Highland Farm, Ethiopia. GPS verified. Satellite NDVI confirmed peak maturity.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Phase 2: Quality Processing</h4>
+                    <p>Processed at local cooperative. Moisture levels verified at 12%. Zero defect detected.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Phase 3: Export & Logistics</h4>
+                    <p>Shipped via Djibouti Port. Temperature and humidity tracked continuously via IoT sensors.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Phase 4: Global Marketplace</h4>
+                    <p>Arrived at international distributor. Verified by Qonnect GeoAI smart contract.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let map;
+        let marker;
+
+        function trackBatch() {
+            const btn = document.querySelector('.search-box button');
+            const loading = document.getElementById('loading');
+            const dashboard = document.getElementById('dashboard');
+            
+            // Show loading state
+            btn.innerText = "Verifying...";
+            btn.style.opacity = "0.7";
+            loading.style.display = 'block';
+            dashboard.style.display = 'none';
+
+            // Simulate API / Database fetch delay
+            setTimeout(() => {
+                loading.style.display = 'none';
+                dashboard.style.display = 'block';
+                btn.innerText = "Track Batch";
+                btn.style.opacity = "1";
+
+                // Initialize Map if not already initialized
+                if (!map) {
+                    map = L.map('map').setView([9.145, 40.489], 7); // Center on Ethiopia
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; OpenStreetMap'
+                    }).addTo(map);
+                }
+
+                // Add marker for farm location
+                if (marker) { map.removeLayer(marker); }
+                marker = L.marker([9.145, 40.489]).addTo(map)
+                    .bindPopup('<b>Verified Farm Origin</b><br>Highland Region, Ethiopia')
+                    .openPopup();
+                
+                // Scroll to dashboard
+                dashboard.scrollIntoView({ behavior: 'smooth' });
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
