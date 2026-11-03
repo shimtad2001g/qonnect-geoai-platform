@@ -6,8 +6,8 @@
     <title>Qonnect GeoAI | Shimeles Tadesse Zelelew</title>
     <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
+        /* Base Styles */
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f9f4; color: #333; }
-        
         nav { background-color: #081c15; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
         .nav-brand { color: white; font-weight: bold; font-size: 1.2rem; text-decoration: none; letter-spacing: 1px; }
         .nav-links a { color: #d8f3dc; text-decoration: none; margin-left: 20px; font-size: 0.9rem; transition: color 0.2s; }
@@ -18,7 +18,6 @@
         .hero p { font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9; }
         
         .protected-content { display: none; }
-        
         .btn { padding: 12px 24px; margin: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block; transition: transform 0.2s; }
         .btn:hover { transform: translateY(-3px); }
         .btn-green { background-color: #74c69d; color: #081c15; }
@@ -38,7 +37,6 @@
         footer a { color: #74c69d; text-decoration: none; margin: 0 10px; font-weight: bold; }
         
         .guest-message { background: #e9c46a; color: #333; padding: 15px; text-align: center; font-weight: bold; border-radius: 8px; margin-bottom: 20px; }
-        
         .form-container { background: white; padding: 20px; border-radius: 8px; max-width: 500px; margin: 0 auto; text-align: left; color: #333; display: none; }
         .form-container label { display: block; margin-top: 10px; font-weight: bold; font-size: 0.9rem; }
         .form-container textarea, .form-container input[type="text"] { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
@@ -46,6 +44,15 @@
         .form-container button:hover { background: #1b4332; }
         
         .profile-pic { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; float: left; margin-right: 20px; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+
+        /* Interactive Pipeline & Modal Styles */
+        .workflow li { cursor: pointer; transition: background 0.2s, transform 0.2s, box-shadow 0.2s; }
+        .workflow li:hover { background: #e9f5ee; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); }
+        .modal-content { background-color: #fefefe; margin: 15% auto; padding: 30px; border: 1px solid #888; width: 80%; max-width: 600px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); position: relative; color: #333; }
+        .close-btn { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close-btn:hover { color: #000; }
     </style>
 </head>
 <body>
@@ -113,15 +120,23 @@
         <section id="pipeline" class="workflow">
             <h3>The Fully Automated Pipeline</h3>
             <ul>
-                <li><strong>Phase 1: Setup</strong> PostGIS & Cloud Infrastructure</li>
-                <li><strong>Phase 2: Data</strong> Sentinel-2 Satellite & Farmer GPS</li>
-                <li><strong>Phase 3: GeoAI</strong> Yield & Health Prediction (98% Accuracy)</li>
-                <li><strong>Phase 4: Cartography</strong> Interactive Farm Heatmaps</li>
-                <li><strong>Phase 5: Impact</strong> SMS/USSD Alerts & Policy Briefs</li>
-                <li><strong>Phase 6: Deployment</strong> 100% Owned & Free Hosted</li>
+                <li onclick="openModal('modal1')"><strong>Phase 1: Setup</strong> PostGIS & Cloud Infrastructure</li>
+                <li onclick="openModal('modal2')"><strong>Phase 2: Data</strong> Sentinel-2 Satellite & Farmer GPS</li>
+                <li onclick="openModal('modal3')"><strong>Phase 3: GeoAI</strong> Yield & Health Prediction (98% Accuracy)</li>
+                <li onclick="openModal('modal4')"><strong>Phase 4: Cartography</strong> Interactive Farm Heatmaps</li>
+                <li onclick="openModal('modal5')"><strong>Phase 5: Impact</strong> SMS/USSD Alerts & Policy Briefs</li>
+                <li onclick="openModal('modal6')"><strong>Phase 6: Deployment</strong> 100% Owned & Free Hosted</li>
             </ul>
         </section>
     </div>
+
+    <!-- Modals for Pipeline -->
+    <div id="modal1" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal1')">&times;</span><h3>Phase 1: Setup</h3><p>Architected a robust PostGIS cloud infrastructure capable of handling high-throughput spatial queries and raster data storage.</p></div></div>
+    <div id="modal2" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal2')">&times;</span><h3>Phase 2: Data</h3><p>Integrated multi-source data streams, automating the ingestion of Sentinel-2 satellite imagery and ground-truthed Farmer GPS coordinates.</p></div></div>
+    <div id="modal3" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal3')">&times;</span><h3>Phase 3: GeoAI</h3><p>Deployed machine learning models (Random Forest/XGBoost) to predict crop yield and health with 98% accuracy using multi-index fusion (NDVI, moisture).</p></div></div>
+    <div id="modal4" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal4')">&times;</span><h3>Phase 4: Cartography</h3><p>Generated dynamic, interactive heatmaps using Leaflet.js, allowing stakeholders to visualize spatial anomalies and crop vitality instantly.</p></div></div>
+    <div id="modal5" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal5')">&times;</span><h3>Phase 5: Impact</h3><p>Operationalized the insights by delivering SMS/USSD alerts to low-tech farmers and synthesizing data into executive policy briefs for government stakeholders.</p></div></div>
+    <div id="modal6" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal6')">&times;</span><h3>Phase 6: Deployment</h3><p>Designed the frontend interface and deployed the entire stack on free-tier cloud services (Netlify, Streamlit), ensuring 100% technological sovereignty.</p></div></div>
 
     <footer>
         <p>&copy; 2026 Shimeles Tadesse Zelelew. All Rights Reserved.</p>
@@ -133,6 +148,16 @@
     </footer>
 
     <script>
+        // Modal Logic
+        function openModal(id) { document.getElementById(id).style.display = "block"; }
+        function closeModal(id) { document.getElementById(id).style.display = "none"; }
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
+        }
+
+        // Netlify Identity & Form Logic
         let hasSubmittedForm = localStorage.getItem('qonnect_form_submitted');
 
         function updateUI(user) {
@@ -175,4 +200,3 @@
     </script>
 </body>
 </html>
-
