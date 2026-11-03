@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Qonnect GeoAI | Premium Geospatial Solutions</title>
-    <!-- Premium Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -22,50 +21,20 @@
             --card-bg: rgba(255, 255, 255, 0.9);
             --glass-shadow: 0 8px 32px 0 rgba(8, 28, 21, 0.08);
         }
-
         * { box-sizing: border-box; }
-
-        body { 
-            font-family: 'Inter', sans-serif; 
-            margin: 0; padding: 0; 
-            background-color: var(--bg-color); 
-            color: var(--text-main);
-            line-height: 1.6;
-        }
-
-        h1, h2, h3, h4 { 
-            font-family: 'Space Grotesk', sans-serif; 
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
+        body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.5px; }
         
-        /* Premium Navbar */
-        nav { 
-            background-color: var(--primary-dark); 
-            padding: 15px 40px; 
-            display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
+        nav { background-color: var(--primary-dark); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
         .nav-brand { color: white; font-size: 1.4rem; text-decoration: none; letter-spacing: 1px; }
         .nav-brand span { color: var(--accent-green); }
         .nav-links a { color: #d8f3dc; text-decoration: none; margin-left: 25px; font-size: 0.95rem; font-weight: 600; transition: color 0.3s ease; }
         .nav-links a:hover { color: var(--accent-green); }
         
-        /* Premium Hero Section with Subtle Pattern */
-        header.hero { 
-            background: radial-gradient(circle at 15% 50%, rgba(116, 198, 157, 0.15), transparent 30%), 
-                        radial-gradient(circle at 85% 30%, rgba(45, 106, 79, 0.2), transparent 30%), 
-                        var(--primary-dark); 
-            color: white; 
-            padding: 7rem 2rem 5rem; 
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
+        header.hero { background: radial-gradient(circle at 15% 50%, rgba(116, 198, 157, 0.15), transparent 30%), radial-gradient(circle at 85% 30%, rgba(45, 106, 79, 0.2), transparent 30%), var(--primary-dark); color: white; padding: 7rem 2rem 5rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .hero h1 { font-size: 3.5rem; margin-bottom: 15px; background: linear-gradient(90deg, #fff, var(--accent-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .hero p { font-size: 1.2rem; margin-bottom: 40px; color: #b7e4c7; font-weight: 300; max-width: 800px; margin-left: auto; margin-right: auto; }
         
-        /* Buttons */
         .protected-content { display: none; }
         .btn { padding: 14px 28px; margin: 10px; border-radius: 50px; text-decoration: none; font-weight: 600; display: inline-block; transition: all 0.3s ease; font-family: 'Space Grotesk', sans-serif; }
         .btn-green { background-color: var(--accent-green); color: var(--primary-dark); border: 2px solid var(--accent-green); }
@@ -73,55 +42,28 @@
         .btn-outline { border: 2px solid var(--accent-green); color: var(--accent-green); background: transparent; }
         .btn-outline:hover { background-color: var(--accent-green); color: var(--primary-dark); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(116, 198, 157, 0.2); }
         
-        /* Content Containers */
         .container { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
-        
-        /* Cards (Glassmorphism style) */
-        .card { 
-            background: var(--card-bg); 
-            padding: 40px; 
-            border-radius: 20px; 
-            box-shadow: var(--glass-shadow); 
-            border: 1px solid rgba(255,255,255,0.5);
-            margin-bottom: 40px; 
-            backdrop-filter: blur(10px);
-        }
+        .card { background: var(--card-bg); padding: 40px; border-radius: 20px; box-shadow: var(--glass-shadow); border: 1px solid rgba(255,255,255,0.5); margin-bottom: 40px; backdrop-filter: blur(10px); }
         .card h2 { color: var(--primary-dark); margin-top: 0; font-size: 2rem; }
         
-        /* Profile Section */
         .profile-pic { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; float: left; margin-right: 30px; margin-bottom: 15px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); border: 4px solid white; }
         .developer-info p { color: var(--text-light); font-size: 1.05rem; }
 
-        /* Core Expertise Section - The Branding "Cosmetics" */
         .expertise-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px; }
-        .expertise-card { 
-            background: white; padding: 25px; border-radius: 16px; 
-            border-left: 4px solid var(--accent-green); 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
-            transition: all 0.3s ease; cursor: default;
-        }
+        .expertise-card { background: white; padding: 25px; border-radius: 16px; border-left: 4px solid var(--accent-green); box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: all 0.3s ease; }
         .expertise-card:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.08); border-left-color: var(--primary-mid); }
         .expertise-card h4 { color: var(--primary-dark); margin: 0 0 10px 0; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
         .expertise-card p { margin: 0; font-size: 0.9rem; color: var(--text-light); }
 
-        /* Interactive Pipeline */
         .workflow ul { list-style-type: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .workflow li { 
-            padding: 20px; background: white; border-radius: 12px; 
-            border: 1px solid rgba(0,0,0,0.05); 
-            cursor: pointer; transition: all 0.3s ease; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-            color: var(--text-light);
-        }
+        .workflow li { padding: 20px; background: white; border-radius: 12px; border: 1px solid rgba(0,0,0,0.05); cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.02); color: var(--text-light); }
         .workflow li strong { color: var(--primary-dark); font-size: 1.05rem; display: block; margin-bottom: 5px; }
         .workflow li:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); border-color: var(--accent-green); }
 
-        /* Footer */
         footer { background-color: var(--primary-dark); color: #d8f3dc; text-align: center; padding: 40px; margin-top: 60px; }
         footer a { color: var(--accent-green); text-decoration: none; margin: 0 15px; font-weight: 600; transition: color 0.3s ease; }
         footer a:hover { color: white; }
         
-        /* Guest/Form */
         .guest-message { background: #e9c46a; color: var(--primary-dark); padding: 15px 30px; text-align: center; font-weight: 600; border-radius: 50px; margin-bottom: 20px; display: inline-block; }
         .form-container { background: white; padding: 30px; border-radius: 16px; max-width: 600px; margin: 0 auto; text-align: left; color: var(--text-main); display: none; box-shadow: var(--glass-shadow); }
         .form-container label { display: block; margin-top: 15px; font-weight: 600; font-size: 0.95rem; color: var(--primary-dark); }
@@ -129,7 +71,6 @@
         .form-container button { margin-top: 20px; background: var(--primary-dark); color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: 600; width: 100%; font-family: 'Space Grotesk', sans-serif; transition: background 0.3s; }
         .form-container button:hover { background: var(--primary-mid); }
         
-        /* Modal Styles */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(8, 28, 21, 0.7); backdrop-filter: blur(5px); }
         .modal-content { background-color: white; margin: 10% auto; padding: 40px; border-radius: 20px; width: 90%; max-width: 700px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
         .close-btn { color: #aaa; position: absolute; top: 20px; right: 30px; font-size: 30px; font-weight: bold; cursor: pointer; transition: color 0.3s; }
@@ -187,7 +128,6 @@
 
     <div class="container">
         
-        <!-- About Section -->
         <section id="about" class="card">
             <h2>About the Developer</h2>
             <div class="developer-info">
@@ -204,40 +144,38 @@
             <div style="clear:both;"></div>
         </section>
 
-        <!-- Core Expertise Section (The Branding) -->
         <section id="expertise" class="card">
             <h2>Core Expertise & Methodologies</h2>
             <p style="color: var(--text-light); margin-bottom: 30px;">Architecting data-driven solutions across the full spectrum of Earth Observation and Environmental Management.</p>
             
             <div class="expertise-grid">
                 <div class="expertise-card">
-                    <h4>🛰️ GeoAI & Earth Observation</h4>
+                    <h4>&#128752; GeoAI & Earth Observation</h4>
                     <p>Automated geospatial solutions, satellite imagery analysis, and self-supervised Earth Observation frameworks.</p>
                 </div>
                 <div class="expertise-card">
-                    <h4>🌍 Climate Resilience & Adaptation</h4>
+                    <h4>&#127757; Climate Resilience & Adaptation</h4>
                     <p>Climate change adaptation strategies, disaster risk reduction, and environmental safeguards (EIA & ESMP).</p>
                 </div>
                 <div class="expertise-card">
-                    <h4>🌾 Agriculture & Crop Insurance</h4>
+                    <h4>&#127806; Agriculture & Crop Insurance</h4>
                     <p>Yield prediction, agricultural intelligence, and multi-peril resilience workflows for smallholder producers.</p>
                 </div>
                 <div class="expertise-card">
-                    <h4>🐍 Python & Spatial Programming</h4>
+                    <h4>&#128013; Python & Spatial Programming</h4>
                     <p>Data science, machine learning pipelines, and custom Python-based spatial coding for complex datasets.</p>
                 </div>
                 <div class="expertise-card">
-                    <h4>🗺️ GIS & Remote Sensing</h4>
+                    <h4>&#128506; GIS & Remote Sensing</h4>
                     <p>Advanced spatial analysis, PostGIS cloud infrastructure, and interactive automated cartography.</p>
                 </div>
                 <div class="expertise-card">
-                    <h4>🌱 Soil Science & Land Management</h4>
+                    <h4>&#127793; Soil Science & Land Management</h4>
                     <p>Soil analysis, land resources management, and geography for sustainable environmental management.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Pipeline Section -->
         <section id="pipeline" class="card workflow">
             <h2>The Fully Automated Pipeline</h2>
             <p style="text-align: center; color: var(--text-light); margin-bottom: 30px;">Click any phase to explore the technical methodology.</p>
@@ -252,7 +190,6 @@
         </section>
     </div>
 
-    <!-- Modals for Pipeline -->
     <div id="modal1" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal1')">&times;</span><h3>Phase 1: Setup</h3><p>Architected a robust PostGIS cloud infrastructure capable of handling high-throughput spatial queries and raster data storage.</p></div></div>
     <div id="modal2" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal2')">&times;</span><h3>Phase 2: Data</h3><p>Integrated multi-source data streams, automating the ingestion of Sentinel-2 satellite imagery and ground-truthed Farmer GPS coordinates.</p></div></div>
     <div id="modal3" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal3')">&times;</span><h3>Phase 3: GeoAI</h3><p>Deployed machine learning models (Random Forest/XGBoost) to predict crop yield and health with 98% accuracy using multi-index fusion (NDVI, moisture).</p></div></div>
@@ -270,7 +207,6 @@
     </footer>
 
     <script>
-        // Modal Logic
         function openModal(id) { document.getElementById(id).style.display = "block"; }
         function closeModal(id) { document.getElementById(id).style.display = "none"; }
         window.onclick = function(event) {
@@ -279,7 +215,6 @@
             }
         }
 
-        // Netlify Identity & Form Logic
         let hasSubmittedForm = localStorage.getItem('qonnect_form_submitted');
 
         function updateUI(user) {
@@ -322,4 +257,3 @@
     </script>
 </body>
 </html>
-
