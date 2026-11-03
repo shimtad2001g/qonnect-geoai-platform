@@ -79,7 +79,7 @@
             <button onclick="trackBatch()">Track Batch</button>
         </div>
         <div class="hint-text">
-            <strong>Try these test IDs:</strong> ETH-COFFEE-2026-001 | ETH-TOMATO-2026-042 | KEN-AVOCADO-2026-089
+            <strong>Try these test IDs:</strong> ETH-COFFEE-2026-001 | ETH-TOMATO-2026-042 | KEN-AVOCADO-2026-089 | ETH-WHEAT-2026-112 | ZAM-MAIZE-2026-055 | GHA-COCOA-2026-201 | KEN-TEA-2026-077 | UGA-BANANA-2026-144|Try these test IDs:</strong> ETH-COFFEE-2026-001 | ETH-TOMATO-2026-042 | KEN-AVOCADO-2026-089 | ETH-WHEAT-2026-112 | ZAM-MAIZE-2026-055 | GHA-COCOA-2026-201 | KEN-TEA-2026-077 | UGA-BANANA-2026-144|Try these test IDs:</strong> ETH-COFFEE-2026-001 | ETH-TOMATO-2026-042 | KEN-AVOCADO-2026-089 | ETH-WHEAT-2026-112 | ZAM-MAIZE-2026-055 | GHA-COCOA-2026-201 | KEN-TEA-2026-077 | UGA-BANANA-2026-144
         </div>
         <div id="loading" class="loading-spinner">Scanning Satellite Data & Verifying Ledger...</div>
     </div>
@@ -175,46 +175,111 @@
 
         // Simulated Database for different Crop Types
         const cropDatabase = {
-            "ETH-COFFEE-2026-001": {
-                lat: 9.145, lng: 40.489, zoom: 7,
-                name: "Highland Coffee",
-                mapDesc: "Verified coordinates via GPS and Sentinel-2 Satellite imagery. Highland Region, Ethiopia.",
-                ndvi: "0.78", ndviDesc: "(Excellent)",
-                moisture: "42%", moistureDesc: "(Optimal)",
-                yield: "98%",
-                risk: "Low", riskDesc: "(No alerts)",
-                phase1: "Harvested at Highland Farm, Ethiopia. GPS verified. Satellite NDVI confirmed peak maturity.",
-                phase2: "Processed at local cooperative. Moisture levels verified at 12%. Zero defect detected.",
-                phase3: "Shipped via Djibouti Port. Temperature and humidity tracked continuously via IoT sensors.",
-                phase4: "Arrived at international distributor. Verified by Qonnect GeoAI smart contract."
-            },
-            "ETH-TOMATO-2026-042": {
-                lat: 7.933, lng: 38.716, zoom: 9,
-                name: "Ziway Tomatoes",
-                mapDesc: "Verified coordinates via GPS and Sentinel-2 Satellite imagery. Ziway Region, Ethiopia.",
-                ndvi: "0.85", ndviDesc: "(Peak Vegetation)",
-                moisture: "65%", moistureDesc: "(High)",
-                yield: "92%",
-                risk: "Moderate", riskDesc: "(Heat Stress)",
-                phase1: "Harvested at Ziway Farm. NDVI confirmed peak ripening stage. Heat stress monitoring active.",
-                phase2: "Sorted and packaged at Ziway Agri-Hub. Cold chain initiated at 12°C.",
-                phase3: "Transported via refrigerated truck to Addis Ababa. IoT sensors maintained optimal humidity.",
-                phase4: "Arrived at central market. Parametric insurance active for transit heat anomalies."
-            },
-            "KEN-AVOCADO-2026-089": {
-                lat: -0.152, lng: 37.308, zoom: 8,
-                name: "Mount Kenya Avocados",
-                mapDesc: "Verified coordinates via GPS and Sentinel-2 Satellite imagery. Mount Kenya Region.",
-                ndvi: "0.82", ndviDesc: "(Healthy)",
-                moisture: "55%", moistureDesc: "(Moderate)",
-                yield: "95%",
-                risk: "Low", riskDesc: "(Stable)",
-                phase1: "Harvested at Mount Kenya Orchards. Tree-level yield prediction validated by drone imagery.",
-                phase2: "Washed, graded, and packed at Nairobi facility. Zero pest detection.",
-                phase3: "Air freight from Nairobi to Amsterdam. Temperature maintained at 5°C.",
-                phase4: "Arrived at European distributor. Quality verified. Smart contract finalized."
-            }
-        };
+    "ETH-COFFEE-2026-001": {
+        lat: 9.145, lng: 40.489, zoom: 7,
+        name: "Highland Coffee",
+        mapDesc: "Verified coordinates via GPS and Sentinel-2 Satellite imagery. Highland Region, Ethiopia.",
+        ndvi: "0.78", ndviDesc: "(Excellent)",
+        moisture: "42%", moistureDesc: "(Optimal)",
+        yield: "98%",
+        risk: "Low", riskDesc: "(No alerts)",
+        phase1: "Harvested at Highland Farm, Ethiopia. GPS verified. Satellite NDVI confirmed peak maturity.",
+        phase2: "Processed at local cooperative. Moisture levels verified at 12%. Zero defect detected.",
+        phase3: "Shipped via Djibouti Port. Temperature and humidity tracked continuously via IoT sensors.",
+        phase4: "Arrived at international distributor. Verified by Qonnect GeoAI smart contract."
+    },
+    "ETH-TOMATO-2026-042": {
+        lat: 7.933, lng: 38.716, zoom: 9,
+        name: "Ziway Tomatoes",
+        mapDesc: "Verified coordinates via GPS and Sentinel-2 Satellite imagery. Ziway Region, Ethiopia.",
+        ndvi: "0.85", ndviDesc: "(Peak Vegetation)",
+        moisture: "65%", moistureDesc: "(High)",
+        yield: "92%",
+        risk: "Moderate", riskDesc: "(Heat Stress)",
+        phase1: "Harvested at Ziway Farm. NDVI confirmed peak ripening stage. Heat stress monitoring active.",
+        phase2: "Sorted and packaged at Ziway Agri-Hub. Cold chain initiated at 12°C.",
+        phase3: "Transported via refrigerated truck to Addis Ababa. IoT sensors maintained optimal humidity.",
+        phase4: "Arrived at central market. Parametric insurance active for transit heat anomalies."
+    },
+    "KEN-AVOCADO-2026-089": {
+        lat: -0.152, lng: 37.308, zoom: 8,
+        name: "Mount Kenya Avocados",
+        mapDesc: "Verified coordinates via GPS and Sentinel-2 Satellite imagery. Mount Kenya Region.",
+        ndvi: "0.82", ndviDesc: "(Healthy)",
+        moisture: "55%", moistureDesc: "(Moderate)",
+        yield: "95%",
+        risk: "Low", riskDesc: "(Stable)",
+        phase1: "Harvested at Mount Kenya Orchards. Tree-level yield prediction validated by drone imagery.",
+        phase2: "Washed, graded, and packed at Nairobi facility. Zero pest detection.",
+        phase3: "Air freight from Nairobi to Amsterdam. Temperature maintained at 5°C.",
+        phase4: "Arrived at European distributor. Quality verified. Smart contract finalized."
+    },
+    "ETH-WHEAT-2026-112": {
+        lat: 7.000, lng: 40.000, zoom: 8,
+        name: "Bale Zone Wheat",
+        mapDesc: "Verified coordinates via GPS and Sentinel-2 Satellite imagery. Bale Zone, Ethiopia.",
+        ndvi: "0.65", ndviDesc: "(Moderate)",
+        moisture: "30%", moistureDesc: "(Low - Drought Risk)",
+        yield: "85%",
+        risk: "High", riskDesc: "(Drought Alert)",
+        phase1: "Harvested at Bale Zone. NDVI confirmed maturity, but soil moisture deficits detected via satellite.",
+        phase2: "Milled at local facility. Parametric drought risk index triggered for insurance review.",
+        phase3: "Transported via road to Addis Ababa. IoT sensors monitoring grain moisture levels.",
+        phase4: "Arrived at central distributor. Payout verification pending smart contract execution."
+    },
+    "ZAM-MAIZE-2026-055": {
+        lat: -15.387, lng: 28.322, zoom: 9,
+        name: "Lusaka Maize",
+        mapDesc: "Verified coordinates via GPS and Sentinel-2 Satellite imagery. Lusaka Province, Zambia.",
+        ndvi: "0.72", ndviDesc: "(Good)",
+        moisture: "50%", moistureDesc: "(Optimal)",
+        yield: "90%",
+        risk: "Low", riskDesc: "(Stable)",
+        phase1: "Harvested at Lusaka Province. Combine harvester telemetry synced with satellite imagery.",
+        phase2: "Dried and stored at central silo. Humidity sensors confirm safe storage levels.",
+        phase3: "Rail transport to port. Continuous GPS tracking and geofencing active.",
+        phase4: "Ready for export. Quality and yield verified against Qonnect baseline."
+    },
+    "GHA-COCOA-2026-201": {
+        lat: 6.747, lng: -1.576, zoom: 9,
+        name: "Ashanti Cocoa",
+        mapDesc: "Verified coordinates via GPS and Sentinel-2 Satellite imagery. Ashanti Region, Ghana.",
+        ndvi: "0.88", ndviDesc: "(Excellent)",
+        moisture: "75%", moistureDesc: "(High)",
+        yield: "96%",
+        risk: "Low", riskDesc: "(No alerts)",
+        phase1: "Harvested at Ashanti Region. Shade-tree canopy density validated via satellite.",
+        phase2: "Fermentation process monitored via IoT temperature probes over 6 days.",
+        phase3: "Shipped from Tema Port. Container conditions tracked for humidity fluctuations.",
+        phase4: "Arrived at European chocolate manufacturer. Blockchain proof of origin verified."
+    },
+    "KEN-TEA-2026-077": {
+        lat: -0.368, lng: 35.283, zoom: 9,
+        name: "Kericho Tea",
+        mapDesc: "Verified coordinates via GPS and Sentinel-2 Satellite imagery. Kericho, Kenya.",
+        ndvi: "0.80", ndviDesc: "(Healthy)",
+        moisture: "60%", moistureDesc: "(Good)",
+        yield: "94%",
+        risk: "Moderate", riskDesc: "(Hail/Erratic Rain)",
+        phase1: "Plucked at Kericho Estate. Satellite monitoring confirms optimal leaf flush timing.",
+        phase2: "Withered and processed at local factory. Moisture removal verified.",
+        phase3: "Transported to Mombasa Port. Geo-fencing tracks route compliance.",
+        phase4: "Arrived at international auction. Quality grade verified via Qonnect smart contract."
+    },
+    "UGA-BANANA-2026-144": {
+        lat: -0.607, lng: 30.654, zoom: 8,
+        name: "Mbarara Bananas",
+        mapDesc: "Verified coordinates via GPS and Sentinel-2 Satellite imagery. Mbarara, Uganda.",
+        ndvi: "0.75", ndviDesc: "(Good)",
+        moisture: "45%", moistureDesc: "(Optimal)",
+        yield: "91%",
+        risk: "Low", riskDesc: "(Stable)",
+        phase1: "Harvested at Mbarara. Satellite checks confirm bunch maturity.",
+        phase2: "Washed and packed. Cold chain established to prevent premature ripening.",
+        phase3: "Transported via road to Kampala. IoT tracking ensures no temperature spikes.",
+        phase4: "Arrived at regional distributor. Verified for retail distribution."
+    }
+};
 
         function trackBatch() {
             const inputVal = document.getElementById('batchId').value.trim().toUpperCase();
@@ -285,3 +350,4 @@
     </script>
 </body>
 </html>
+
