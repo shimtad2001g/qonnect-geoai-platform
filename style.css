@@ -1,0 +1,17 @@
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f9f4; color: #333; }
+header { background-color: #1b4332; color: white; padding: 2rem; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+.logo { font-size: 2.5rem; font-weight: bold; letter-spacing: 2px; }
+.logo span { color: #74c69d; }
+header p { font-size: 1.2rem; margin-top: 10px; opacity: 0.9; }
+.hero { text-align: center; padding: 4rem 2rem; background: linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 100%); }
+.hero h2 { color: #081c15; font-size: 2.5rem; margin-bottom: 10px; }
+.hero p { font-size: 1.2rem; color: #2d6a4f; margin-bottom: 30px; }
+.btn { padding: 15px 30px; margin: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.btn:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.2); }
+.primary { background-color: #2d6a4f; color: white; }
+.secondary { background-color: #74c69d; color: #081c15; }
+.workflow { padding: 3rem; max-width: 800px; margin: 40px auto; background: white; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+.workflow h3 { color: #1b4332; font-size: 1.8rem; text-align: center; border-bottom: 2px solid #74c69d; padding-bottom: 10px; }
+.workflow ul { list-style-type: none; padding: 0; }
+.workflow li { padding: 15px 10px; border-bottom: 1px solid #eee; font-size: 1.1rem; }
+.workflow li strong { color: #2d6a4f; margin-right: 10px; }
