@@ -11,15 +11,9 @@
     
     <style>
         :root {
-            --primary-dark: #081c15;
-            --primary-mid: #1b4332;
-            --primary-light: #2d6a4f;
-            --accent-green: #74c69d;
-            --bg-color: #f8fbf9;
-            --text-main: #333333;
-            --text-light: #666666;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --glass-shadow: 0 8px 32px 0 rgba(8, 28, 21, 0.08);
+            --primary-dark: #081c15; --primary-mid: #1b4332; --primary-light: #2d6a4f;
+            --accent-green: #74c69d; --bg-color: #f8fbf9; --text-main: #333333; --text-light: #666666;
+            --card-bg: rgba(255, 255, 255, 0.9); --glass-shadow: 0 8px 32px 0 rgba(8, 28, 21, 0.08);
         }
         * { box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
@@ -55,11 +49,35 @@
         .expertise-card h4 { color: var(--primary-dark); margin: 0 0 10px 0; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
         .expertise-card p { margin: 0; font-size: 0.9rem; color: var(--text-light); }
 
-        .workflow ul { list-style-type: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .workflow li { padding: 20px; background: white; border-radius: 12px; border: 1px solid rgba(0,0,0,0.05); cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.02); color: var(--text-light); }
-        .workflow li strong { color: var(--primary-dark); font-size: 1.05rem; display: block; margin-bottom: 5px; }
-        .workflow li:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); border-color: var(--accent-green); }
-
+        /* Architecture Ecosystem Styles */
+        .arch-grid { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 20px; align-items: center; margin-top: 30px; }
+        .arch-column { display: flex; flex-direction: column; gap: 20px; }
+        .arch-node, .arch-core { background: white; padding: 20px; border-radius: 16px; cursor: pointer; transition: all 0.3s ease; border: 2px solid transparent; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative; }
+        .arch-node:hover, .arch-core:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.1); }
+        .arch-node h4, .arch-core h4 { margin: 0 0 10px 0; font-size: 1.05rem; color: var(--primary-dark); }
+        .arch-node p, .arch-core p { margin: 0; font-size: 0.85rem; color: var(--text-light); }
+        
+        .tier1 { border-left: 4px solid #2a9d8f; }
+        .tier2 { border-left: 4px solid #264653; }
+        .tier3 { border-left: 4px solid #e9c46a; }
+        .tier4 { border-left: 4px solid #f4a261; }
+        
+        .arch-center { display: flex; justify-content: center; align-items: center; text-align: center; }
+        .arch-core { 
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-mid) 100%); 
+            color: white; border-radius: 50%; width: 220px; height: 220px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;
+            border: 4px solid var(--accent-green);
+            box-shadow: 0 0 30px rgba(116, 198, 157, 0.3);
+            animation: pulseCore 3s infinite alternate;
+        }
+        .arch-core h4 { color: var(--accent-green); margin: 0 0 5px 0; font-size: 1.1rem; }
+        .arch-core p { color: #d8f3dc; font-size: 0.8rem; }
+        
+        @keyframes pulseCore {
+            0% { box-shadow: 0 0 20px rgba(116, 198, 157, 0.2); }
+            100% { box-shadow: 0 0 50px rgba(116, 198, 157, 0.6); }
+        }
+        
         footer { background-color: var(--primary-dark); color: #d8f3dc; text-align: center; padding: 40px; margin-top: 60px; }
         footer a { color: var(--accent-green); text-decoration: none; margin: 0 15px; font-weight: 600; transition: color 0.3s ease; }
         footer a:hover { color: white; }
@@ -76,7 +94,12 @@
         .close-btn { color: #aaa; position: absolute; top: 20px; right: 30px; font-size: 30px; font-weight: bold; cursor: pointer; transition: color 0.3s; }
         .close-btn:hover { color: var(--primary-dark); }
         .modal-content h3 { color: var(--primary-dark); font-size: 1.8rem; margin-top: 0; border-bottom: 2px solid var(--accent-green); padding-bottom: 10px; display: inline-block; }
-        .modal-content p { color: var(--text-light); font-size: 1.1rem; line-height: 1.7; }
+        .modal-content p { color: var(--text-light); font-size: 1.05rem; line-height: 1.7; }
+
+        @media (max-width: 900px) {
+            .arch-grid { grid-template-columns: 1fr; }
+            .arch-core { margin: 20px auto; }
+        }
     </style>
 </head>
 <body>
@@ -86,7 +109,7 @@
         <div class="nav-links">
             <a href="#about">About</a>
             <a href="#expertise">Expertise</a>
-            <a href="#pipeline">Pipeline</a>
+            <a href="#architecture">Architecture</a>
             <a href="https://github.com/shimtad2001g" target="_blank">GitHub</a>
             <a href="https://www.linkedin.com/in/shimeles-tadesse-zelelew-77b07535/" target="_blank">LinkedIn</a>
             <a href="signup.html" style="background-color: var(--accent-green); color: var(--primary-dark); padding: 8px 20px; border-radius: 50px; margin-left: 30px;">Register / Log In</a>
@@ -149,36 +172,34 @@
             <p style="color: var(--text-light); margin-bottom: 30px;">Architecting data-driven solutions across the full spectrum of Earth Observation and Environmental Management.</p>
             
             <div class="expertise-grid">
-                <div class="expertise-card" onclick="openModal('exp-modal1')" style="cursor: pointer;">                    <h4>&#128752; GeoAI & Earth Observation</h4>
+                <div class="expertise-card">
+                    <h4>&#128752; GeoAI & Earth Observation</h4>
                     <p>Automated geospatial solutions, satellite imagery analysis, and self-supervised Earth Observation frameworks.</p>
                 </div>
-                <div class="expertise-card" onclick="openModal('exp-modal2')" style="cursor: pointer;">                    <h4>&#127757; Climate Resilience & Adaptation</h4>
+                <div class="expertise-card">
+                    <h4>&#127757; Climate Resilience & Adaptation</h4>
                     <p>Climate change adaptation strategies, disaster risk reduction, and environmental safeguards (EIA & ESMP).</p>
                 </div>
-                <div class="expertise-card" onclick="openModal('exp-modal3')" style="cursor: pointer;">                    <h4>&#127806; Agriculture & Crop Insurance</h4>
+                <div class="expertise-card">
+                    <h4>&#127806; Agriculture & Crop Insurance</h4>
                     <p>Yield prediction, agricultural intelligence, and multi-peril resilience workflows for smallholder producers.</p>
                 </div>
-                <div class="expertise-card" onclick="openModal('exp-modal4')" style="cursor: pointer;">                    <h4>&#128013; Python & Spatial Programming</h4>
+                <div class="expertise-card">
+                    <h4>&#128013; Python & Spatial Programming</h4>
                     <p>Data science, machine learning pipelines, and custom Python-based spatial coding for complex datasets.</p>
                 </div>
-                <div class="expertise-card" onclick="openModal('exp-modal5')" style="cursor: pointer;">                    <h4>&#128506; GIS & Remote Sensing</h4>
+                <div class="expertise-card">
+                    <h4>&#128506; GIS & Remote Sensing</h4>
                     <p>Advanced spatial analysis, PostGIS cloud infrastructure, and interactive automated cartography.</p>
                 </div>
-                <div class="expertise-card" onclick="openModal('exp-modal6')" style="cursor: pointer;">                    <h4>&#127793; Soil Science & Land Management</h4>
+                <div class="expertise-card">
+                    <h4>&#127793; Soil Science & Land Management</h4>
                     <p>Soil analysis, land resources management, and geography for sustainable environmental management.</p>
                 </div>
             </div>
         </section>
 
-        
-    </div>
-
-    <div id="modal1" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal1')">&times;</span><h3>Phase 1: Setup</h3><p>Architected a robust PostGIS cloud infrastructure capable of handling high-throughput spatial queries and raster data storage.</p></div></div>
-    <div id="modal2" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal2')">&times;</span><h3>Phase 2: Data</h3><p>Integrated multi-source data streams, automating the ingestion of Sentinel-2 satellite imagery and ground-truthed Farmer GPS coordinates.</p></div></div>
-    <div id="modal3" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal3')">&times;</span><h3>Phase 3: GeoAI</h3><p>Deployed machine learning models (Random Forest/XGBoost) to predict crop yield and health with 98% accuracy using multi-index fusion (NDVI, moisture).</p></div></div>
-    <div id="modal4" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal4')">&times;</span><h3>Phase 4: Cartography</h3><p>Generated dynamic, interactive heatmaps using Leaflet.js, allowing stakeholders to visualize spatial anomalies and crop vitality instantly.</p></div></div>
-    <div id="modal5" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal5')">&times;</span><h3>Phase 5: Impact</h3><p>Operationalized the insights by delivering SMS/USSD alerts to low-tech farmers and synthesizing data into executive policy briefs for government stakeholders.</p></div></div>
-    <div id="modal6" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal6')">&times;</span><h3>Phase 6: Deployment</h3><p>Designed the frontend interface and deployed the entire stack on free-tier cloud services (Netlify, Streamlit), ensuring 100% technological sovereignty.</p></div>        <!-- Enterprise Architecture Section -->
+        <!-- Enterprise Architecture Section -->
         <section id="architecture" class="card" style="margin-top: 40px; margin-bottom: 40px;">
             <h2>QONNECT Global Ecosystem Architecture</h2>
             <p style="color: var(--text-light); margin-bottom: 30px;">An end-to-end digital infrastructure bridging Earth Observation, Parametric Insurance, and Carbon Monetization.</p>
@@ -215,6 +236,17 @@
             </div>
         </section>
     </div>
+
+    <!-- Architecture Modals -->
+    <div id="arch-modal1" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal1')">&times;</span><h3>Tier 1: Foundation (The Ground)</h3><p><strong>On-Farm Data Capture & Smallholder Empowerment:</strong> Integrates secure digital identification protocols, leveraging biometric fingerprint capture linked directly to smallholder farmers (such as Yohannes Shimeles). Utilizes high-precision GPS to map farm parcels, intercropped fruit trees, and large-scale irrigated barley fields down to exact boundary polygons. Local IoT sensors track real-time farm inputs and agronomic interventions.</p></div></div>
+
+    <div id="arch-modal2" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal2')">&times;</span><h3>Tier 2: Verification (The Sky)</h3><p><strong>Satellite Telemetry & GeoAI Intelligence:</strong> Continuously ingests high-resolution multi-spectral data from Sentinel-2 (Optical & SAR) for all-weather observation. Machine learning pipelines compute baseline biomass, canopy height, and rigorous tCO2e carbon sequestration models. Automatically analyzes historical land cover to guarantee EUDR zero-deforestation compliance.</p></div></div>
+
+    <div id="arch-modal-core" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal-core')">&times;</span><h3>The Immutable TraceRight Ledger</h3><p><strong>Core Security & Trust Anchor:</strong> Powered by Hyperledger Fabric, this central hub immutably records every transaction. From initial polygon boundary demarcation to final buyer transactions, all data is cryptographically hashed and timestamped. This eliminates data tampering, ensures complete auditability, and establishes absolute trust between local producers and international regulatory bodies.</p></div></div>
+
+    <div id="arch-modal3" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal3')">&times;</span><h3>Tier 3: Parametric Crop Insurance</h3><p><strong>Dynamic GeoAI Risk Engine:</strong> A core innovation integrating weather telemetry and satellite data at the farmer parcel level. It automatically triggers rapid, objective insurance payouts upon the occurrence of verified climatic anomalies (e.g., drought, excessive rainfall), protecting smallholders against crop failure without the need for slow manual claims adjusting.</p></div></div>
+
+    <div id="arch-modal4" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal4')">&times;</span><h3>Tier 4: Global Market & Monetization</h3><p><strong>Digital Passports & Carbon Markets:</strong> Compiles export-ready verification bundles into a Digital Product Passport with secure QR codes for full chain-of-custody tracking. Converts verified carbon sequestration metrics into standardized digital tokens (tCO2e tokens and NFTs) via Verra and Gold Standard frameworks, unlocking premium market access and direct carbon monetization for farmers.</p></div></div>
 
     <footer>
         <p>&copy; 2026 Qonnect Spatial Intelligence | Shimeles Tadesse Zelelew. All Rights Reserved.</p>
@@ -274,59 +306,5 @@
             }).catch(error => alert("Form submission failed."));
         });
     </script>
-    <!-- Expertise Modals -->
-    <div id="exp-modal1" class="modal"><div class="modal-content">
-        <span class="close-btn" onclick="closeModal('exp-modal1')">&times;</span>
-        <h3>GeoAI & Earth Observation</h3>
-        <p><strong>Scientific Approach:</strong> We leverage self-supervised learning architectures (like masked autoencoders) on multi-spectral Sentinel-1/2 time-series data. By fusing optical and SAR (Synthetic Aperture Radar) data, we overcome cloud cover limitations to achieve automated feature extraction, land cover classification, and change detection with high temporal resolution.</p>
-        </div></div>
-
-    <div id="exp-modal2" class="modal"><div class="modal-content">
-        <span class="close-btn" onclick="closeModal('exp-modal2')">&times;</span>
-        <h3>Climate Resilience & Adaptation</h3>
-        <p><strong>Scientific Approach:</strong> Using spatial risk cascading models, we map vulnerability indices across hydrological basins. By integrating Environmental Impact Assessments (EIA) and Environmental and Social Management Plans (ESMP) into GIS workflows, we quantify exposure to climate hazards (floods, droughts) and design data-driven early warning systems for vulnerable infrastructure.</p>
-        </div></div>
-
-    <div id="exp-modal3" class="modal"><div class="modal-content">
-        <span class="close-btn" onclick="closeModal('exp-modal3')">&times;</span>
-        <h3>Agriculture & Crop Insurance</h3>
-        <p><strong>Scientific Approach:</strong> We develop parametric insurance models driven by satellite-derived indices (NDVI, Soil Moisture). By utilizing Random Forest and XGBoost algorithms, we predict crop yield gaps and identify multi-peril risks (pests, drought) at the smallholder level. This enables automated, index-based payouts, reducing moral hazard and administrative costs for agricultural insurers.</p>
-        </div></div>
-
-    <div id="exp-modal4" class="modal"><div class="modal-content">
-        <span class="close-btn" onclick="closeModal('exp-modal4')">&times;</span>
-        <h3>Python & Spatial Programming</h3>
-        <p><strong>Scientific Approach:</strong> We architect scalable geospatial data pipelines using GeoPandas, Rasterio, and Dask for out-of-core computation. By automating the ETL (Extract, Transform, Load) process, we transition from manual GIS workflows to fully reproducible, containerized Python pipelines capable of processing terabytes of spatial data efficiently.</p>
-        </div></div>
-
-    <div id="exp-modal5" class="modal"><div class="modal-content">
-        <span class="close-btn" onclick="closeModal('exp-modal5')">&times;</span>
-        <h3>GIS & Remote Sensing</h3>
-        <p><strong>Scientific Approach:</strong> By leveraging Cloud-Optimized GeoTIFFs (COGs) and SpatioTemporal Asset Catalogs (STAC), we optimize spatial data retrieval. We utilize PostGIS for advanced spatial querying and build interactive, web-based cartography (Leaflet.js/Mapbox) that dynamically visualizes complex spatial relationships and heatmaps for real-time decision support.</p>
-        </div></div>
-
-    <div id="exp-modal6" class="modal"><div class="modal-content">
-        <span class="close-btn" onclick="closeModal('exp-modal6')">&times;</span>
-        <h3>Soil Science & Land Management</h3>
-        <p><strong>Scientific Approach:</strong> Using Digital Soil Mapping (DSM) techniques combined with remote sensing proxies, we estimate soil organic carbon and moisture content over large areas. This data informs Land Degradation Neutrality (LDN) frameworks and supports sustainable land resource management policies by identifying areas prone to erosion and nutrient depletion.</p>
-        </div></div>
-    <!-- Architecture Modals -->
-    <div id="arch-modal1" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal1')">&times;</span><h3>Tier 1: Foundation (The Ground)</h3><p><strong>On-Farm Data Capture & Smallholder Empowerment:</strong> Integrates secure digital identification protocols, leveraging biometric fingerprint capture linked directly to smallholder farmers (such as Yohannes Shimeles). Utilizes high-precision GPS to map farm parcels, intercropped fruit trees, and large-scale irrigated barley fields down to exact boundary polygons. Local IoT sensors track real-time farm inputs and agronomic interventions.</p></div></div>
-
-    <div id="arch-modal2" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal2')">&times;</span><h3>Tier 2: Verification (The Sky)</h3><p><strong>Satellite Telemetry & GeoAI Intelligence:</strong> Continuously ingests high-resolution multi-spectral data from Sentinel-2 (Optical & SAR) for all-weather observation. Machine learning pipelines compute baseline biomass, canopy height, and rigorous tCO2e carbon sequestration models. Automatically analyzes historical land cover to guarantee EUDR zero-deforestation compliance.</p></div></div>
-
-    <div id="arch-modal-core" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal-core')">&times;</span><h3>The Immutable TraceRight Ledger</h3><p><strong>Core Security & Trust Anchor:</strong> Powered by Hyperledger Fabric, this central hub immutably records every transaction. From initial polygon boundary demarcation to final buyer transactions, all data is cryptographically hashed and timestamped. This eliminates data tampering, ensures complete auditability, and establishes absolute trust between local producers and international regulatory bodies.</p></div></div>
-
-    <div id="arch-modal3" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal3')">&times;</span><h3>Tier 3: Parametric Crop Insurance</h3><p><strong>Dynamic GeoAI Risk Engine:</strong> A core innovation integrating weather telemetry and satellite data at the farmer parcel level. It automatically triggers rapid, objective insurance payouts upon the occurrence of verified climatic anomalies (e.g., drought, excessive rainfall), protecting smallholders against crop failure without the need for slow manual claims adjusting.</p></div></div>
-
-    <div id="arch-modal4" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal4')">&times;</span><h3>Tier 4: Global Market & Monetization</h3><p><strong>Digital Passports & Carbon Markets:</strong> Compiles export-ready verification bundles into a Digital Product Passport with secure QR codes for full chain-of-custody tracking. Converts verified carbon sequestration metrics into standardized digital tokens (tCO2e tokens and NFTs) via Verra and Gold Standard frameworks, unlocking premium market access and direct carbon monetization for farmers.</p></div></div>
 </body>
 </html>
-
-
-
-
-
-
-
-
