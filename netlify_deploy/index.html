@@ -170,18 +170,7 @@
             </div>
         </section>
 
-        <section id="pipeline" class="card workflow">
-            <h2>The Fully Automated Pipeline</h2>
-            <p style="text-align: center; color: var(--text-light); margin-bottom: 30px;">Click any phase to explore the technical methodology.</p>
-            <ul>
-                <li onclick="openModal('modal1')"><strong>Phase 1: Setup</strong> PostGIS & Cloud Infrastructure</li>
-                <li onclick="openModal('modal2')"><strong>Phase 2: Data</strong> Sentinel-2 Satellite & Farmer GPS</li>
-                <li onclick="openModal('modal3')"><strong>Phase 3: GeoAI</strong> Yield & Health Prediction (98% Accuracy)</li>
-                <li onclick="openModal('modal4')"><strong>Phase 4: Cartography</strong> Interactive Farm Heatmaps</li>
-                <li onclick="openModal('modal5')"><strong>Phase 5: Impact</strong> SMS/USSD Alerts & Policy Briefs</li>
-                <li onclick="openModal('modal6')"><strong>Phase 6: Deployment</strong> 100% Owned & Free Hosted</li>
-            </ul>
-        </section>
+        
     </div>
 
     <div id="modal1" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal1')">&times;</span><h3>Phase 1: Setup</h3><p>Architected a robust PostGIS cloud infrastructure capable of handling high-throughput spatial queries and raster data storage.</p></div></div>
@@ -189,7 +178,43 @@
     <div id="modal3" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal3')">&times;</span><h3>Phase 3: GeoAI</h3><p>Deployed machine learning models (Random Forest/XGBoost) to predict crop yield and health with 98% accuracy using multi-index fusion (NDVI, moisture).</p></div></div>
     <div id="modal4" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal4')">&times;</span><h3>Phase 4: Cartography</h3><p>Generated dynamic, interactive heatmaps using Leaflet.js, allowing stakeholders to visualize spatial anomalies and crop vitality instantly.</p></div></div>
     <div id="modal5" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal5')">&times;</span><h3>Phase 5: Impact</h3><p>Operationalized the insights by delivering SMS/USSD alerts to low-tech farmers and synthesizing data into executive policy briefs for government stakeholders.</p></div></div>
-    <div id="modal6" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal6')">&times;</span><h3>Phase 6: Deployment</h3><p>Designed the frontend interface and deployed the entire stack on free-tier cloud services (Netlify, Streamlit), ensuring 100% technological sovereignty.</p></div></div>
+    <div id="modal6" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal6')">&times;</span><h3>Phase 6: Deployment</h3><p>Designed the frontend interface and deployed the entire stack on free-tier cloud services (Netlify, Streamlit), ensuring 100% technological sovereignty.</p></div>        <!-- Enterprise Architecture Section -->
+        <section id="architecture" class="card" style="margin-top: 40px; margin-bottom: 40px;">
+            <h2>QONNECT Global Ecosystem Architecture</h2>
+            <p style="color: var(--text-light); margin-bottom: 30px;">An end-to-end digital infrastructure bridging Earth Observation, Parametric Insurance, and Carbon Monetization.</p>
+            
+            <div class="arch-grid">
+                <div class="arch-column">
+                    <div class="arch-node tier1" onclick="openModal('arch-modal1')">
+                        <h4>🌱 Tier 1: Foundation (The Ground)</h4>
+                        <p>On-Farm Data Capture, Biometric ID, & GNSS Plot Mapping</p>
+                    </div>
+                    <div class="arch-node tier2" onclick="openModal('arch-modal2')">
+                        <h4>🛰️ Tier 2: Verification (The Sky)</h4>
+                        <p>Sentinel-2 Analysis, Carbon Stock Models, & EUDR Compliance</p>
+                    </div>
+                </div>
+
+                <div class="arch-center">
+                    <div class="arch-core" onclick="openModal('arch-modal-core')">
+                        <h4>⛓️ The Immutable TraceRight Ledger</h4>
+                        <p>Hyperledger Fabric Security & Trust Anchor</p>
+                    </div>
+                </div>
+
+                <div class="arch-column">
+                    <div class="arch-node tier3" onclick="openModal('arch-modal3')">
+                        <h4>📈 Tier 3: Parametric Module</h4>
+                        <p>Dynamic GeoAI Risk Engine & Automated Payouts</p>
+                    </div>
+                    <div class="arch-node tier4" onclick="openModal('arch-modal4')">
+                        <h4>🌍 Tier 4: Global Market</h4>
+                        <p>Digital Passports, Verra Carbon Credits, & EU TRACES</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
     <footer>
         <p>&copy; 2026 Qonnect Spatial Intelligence | Shimeles Tadesse Zelelew. All Rights Reserved.</p>
@@ -285,8 +310,19 @@
         <h3>Soil Science & Land Management</h3>
         <p><strong>Scientific Approach:</strong> Using Digital Soil Mapping (DSM) techniques combined with remote sensing proxies, we estimate soil organic carbon and moisture content over large areas. This data informs Land Degradation Neutrality (LDN) frameworks and supports sustainable land resource management policies by identifying areas prone to erosion and nutrient depletion.</p>
         </div></div>
+    <!-- Architecture Modals -->
+    <div id="arch-modal1" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal1')">&times;</span><h3>Tier 1: Foundation (The Ground)</h3><p><strong>On-Farm Data Capture & Smallholder Empowerment:</strong> Integrates secure digital identification protocols, leveraging biometric fingerprint capture linked directly to smallholder farmers (such as Yohannes Shimeles). Utilizes high-precision GPS to map farm parcels, intercropped fruit trees, and large-scale irrigated barley fields down to exact boundary polygons. Local IoT sensors track real-time farm inputs and agronomic interventions.</p></div></div>
+
+    <div id="arch-modal2" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal2')">&times;</span><h3>Tier 2: Verification (The Sky)</h3><p><strong>Satellite Telemetry & GeoAI Intelligence:</strong> Continuously ingests high-resolution multi-spectral data from Sentinel-2 (Optical & SAR) for all-weather observation. Machine learning pipelines compute baseline biomass, canopy height, and rigorous tCO2e carbon sequestration models. Automatically analyzes historical land cover to guarantee EUDR zero-deforestation compliance.</p></div></div>
+
+    <div id="arch-modal-core" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal-core')">&times;</span><h3>The Immutable TraceRight Ledger</h3><p><strong>Core Security & Trust Anchor:</strong> Powered by Hyperledger Fabric, this central hub immutably records every transaction. From initial polygon boundary demarcation to final buyer transactions, all data is cryptographically hashed and timestamped. This eliminates data tampering, ensures complete auditability, and establishes absolute trust between local producers and international regulatory bodies.</p></div></div>
+
+    <div id="arch-modal3" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal3')">&times;</span><h3>Tier 3: Parametric Crop Insurance</h3><p><strong>Dynamic GeoAI Risk Engine:</strong> A core innovation integrating weather telemetry and satellite data at the farmer parcel level. It automatically triggers rapid, objective insurance payouts upon the occurrence of verified climatic anomalies (e.g., drought, excessive rainfall), protecting smallholders against crop failure without the need for slow manual claims adjusting.</p></div></div>
+
+    <div id="arch-modal4" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal4')">&times;</span><h3>Tier 4: Global Market & Monetization</h3><p><strong>Digital Passports & Carbon Markets:</strong> Compiles export-ready verification bundles into a Digital Product Passport with secure QR codes for full chain-of-custody tracking. Converts verified carbon sequestration metrics into standardized digital tokens (tCO2e tokens and NFTs) via Verra and Gold Standard frameworks, unlocking premium market access and direct carbon monetization for farmers.</p></div></div>
 </body>
 </html>
+
 
 
 
