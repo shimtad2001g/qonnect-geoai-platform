@@ -68,7 +68,7 @@
         </div>
         <div style="margin-top: 25px; display: flex; justify-content: center; align-items: center; gap: 15px;">
             <label for="demoSelect" style="color: #b7e4c7; font-weight: 600;">Select a Demo Crop:</label>
-            <select id="demoSelect" onchange="updateBatch(this.value)" style="padding: 12px 20px; border-radius: 50px; border: 2px solid var(--accent-green); background: var(--primary-dark); color: white; max-width: 100%;">
+            <select id="demoSelect" onchange="document.getElementById('batchId').value = this.value; trackBatch();" style="padding: 12px 20px; border-radius: 50px; border: 2px solid var(--accent-green); background: var(--primary-dark); color: white; max-width: 100%;">
                 <option value="ETH-COFFEE-2026-001">☕ Coffee (Ethiopia)</option>
                 <option value="ETH-TEFF-2026-101">🌾 Teff (Ada'a)</option>
                 <option value="ETH-WHEAT-2026-112">🌾 Wheat (Bale)</option>
@@ -144,10 +144,12 @@
     </div></div>
 
     <script>
+        // 1. Supabase Init
         const supabaseUrl = 'https://toujtawzftajiuoxblaj.supabase.co';
         const supabaseKey = 'Biruk.Yohannes123399@aws-0-eu-west-1.pooler.supabase.com:5432/postgres'; 
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+        // 2. Auth Checks
         async function checkAuthState() {
             const { data: { session } } = await supabase.auth.getSession();
             if (session) {
@@ -165,6 +167,7 @@
             window.location.reload();
         }
 
+        // 3. Premium Logic
         function check24HourLogic() {
             const firstVisit = localStorage.getItem('qonnect_first_visit');
             const isPremium = localStorage.getItem('qonnect_premium_unlocked');
@@ -184,10 +187,11 @@
             closeModal('payment-modal');
         }
 
+        // 4. Main Database & Map Logic
         let map, marker;
         const cropDatabase = {
             "ETH-COFFEE-2026-001": { lat: 9.145, lng: 40.489, zoom: 7, name: "Highland Coffee", mapDesc: "Highland Region, Ethiopia.", ndvi: "0.78", moisture: "42%", yield: "98%", risk: "Low", phase1: "Farmer ID: ETH-9928. GPS verified.", phase2: "Processed at cooperative. Moisture 12%.", phase3: "Djibouti Port. Temp tracked.", phase4: "Verified by smart contract." },
-            "ETH-TEFF-2026-101": { lat: 8.75, lng: 38.98, zoom: 9, name: "Ada'a Teff", mapDesc: "Ada'a District, Oromia (Highland).", ndvi: "0.62", moisture: "38%", yield: "89%", risk: "Low", phase1: "Harvested at Ada'a. GPS verified.", phase2: "Cleaned and milled. Moisture 11%.", phase3: "Transported to Addis Ababa.", phase4: "Verified for local market." },
+            "ETH-TEFF-2026-101": { lat: 8.75, lng: 38.98, zoom: 9, name: "Ada Teff", mapDesc: "Ada District, Oromia (Highland).", ndvi: "0.62", moisture: "38%", yield: "89%", risk: "Low", phase1: "Harvested at Ada. GPS verified.", phase2: "Cleaned and milled. Moisture 11%.", phase3: "Transported to Addis Ababa.", phase4: "Verified for local market." },
             "ETH-WHEAT-2026-112": { lat: 7.12, lng: 40.21, zoom: 8, name: "Bale Zone Wheat", mapDesc: "Bale Zone, Ethiopia.", ndvi: "0.65", moisture: "30%", yield: "85%", risk: "High", phase1: "Harvested at Bale Zone.", phase2: "Milled locally.", phase3: "Road transport.", phase4: "Payout pending." },
             "ETH-MAIZE-2026-103": { lat: 9.12, lng: 37.05, zoom: 9, name: "Bako Maize", mapDesc: "Bako, Western Oromia.", ndvi: "0.81", moisture: "58%", yield: "94%", risk: "Low", phase1: "Combine harvested.", phase2: "Dried to 13% moisture.", phase3: "Rail transport to Addis.", phase4: "Verified for feed and food." },
             "ETH-BARLEY-2026-104": { lat: 7.95, lng: 39.13, zoom: 9, name: "Arsi Barley", mapDesc: "Arsi Zone, Oromia.", ndvi: "0.68", moisture: "35%", yield: "88%", risk: "Moderate", phase1: "Harvested at Asella.", phase2: "Cleaned and graded.", phase3: "Transported to malt factory.", phase4: "Verified for brewery." },
@@ -216,11 +220,7 @@
             "ETH-TEA-2026-077": { lat: -0.368, lng: 35.283, zoom: 9, name: "Kericho Tea", mapDesc: "Kericho, Kenya.", ndvi: "0.80", moisture: "60%", yield: "94%", risk: "Moderate", phase1: "Plucked at estate.", phase2: "Withered and processed.", phase3: "Mombasa Port.", phase4: "Quality graded." }
         };
 
-        function updateBatch(val) {
-            document.getElementById('batchId').value = val;
-            trackBatch();
-        }
-
+        // 5. Global Functions
         function trackBatch() {
             const inputVal = document.getElementById('batchId').value.trim().toUpperCase();
             const data = cropDatabase[inputVal];
