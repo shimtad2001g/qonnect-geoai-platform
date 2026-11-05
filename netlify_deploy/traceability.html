@@ -123,7 +123,6 @@
         <button class="btn-submit-payment" onclick="submitPayment()">Verify & Unlock</button>
     </div></div>
 
-    <!-- EXACTLY ONE INLINE SCRIPT BELOW -->
     <script>
         const supabaseUrl = 'https://toujtawzftajiuoxblaj.supabase.co';
         const supabaseKey = 'postgresql://postgres.toujtawzftajiuoxblaj:Biruk.Yohannes123399@aws-0-eu-west-1.pooler.supabase.com:5432/postgres'; 
@@ -183,8 +182,6 @@
             if (input) {
                 input.value = val;
                 trackBatch();
-            } else {
-                console.error("Could not find the batchId input element!");
             }
         }
 
@@ -244,4 +241,3 @@
     </script>
 </body>
 </html>
-
