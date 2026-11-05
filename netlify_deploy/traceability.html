@@ -29,8 +29,8 @@
         #map { height: 350px; width: 100%; border-radius: 12px; z-index: 1; border: 2px solid var(--primary-light); }
         .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
         .metric-box { background: #f4f9f4; padding: 15px; border-radius: 12px; border-left: 4px solid var(--primary-mid); }
-        .metric-box h4 { margin: 0 0 5px 0; color: var(--text-light); font-size: 0.9rem; font-family: 'Inter', sans-serif; font-weight: 600; text-transform: uppercase;}
-        .metric-box p { margin: 0; font-size: 1.5rem; font-weight: bold; color: var(--primary-dark); font-family: 'Space Grotesk', sans-serif;}
+        .metric-box h4 { margin: 0 0 5px 0; color: var(--text-light); font-size: 0.9rem; font-weight: 600; text-transform: uppercase;}
+        .metric-box p { margin: 0; font-size: 1.5rem; font-weight: bold; color: var(--primary-dark); }
         .timeline { position: relative; margin-top: 20px; padding-left: 30px; }
         .timeline::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 3px; background: var(--accent-green); border-radius: 2px; }
         .timeline-item { position: relative; margin-bottom: 25px; padding: 15px; border-radius: 12px; cursor: pointer; border: 1px solid transparent; }
@@ -116,12 +116,10 @@
     </div></div>
 
     <script>
-        // 1. Setup Supabase (Single Declaration)
         const supabaseUrl = 'https://toujtawzftajiuoxblaj.supabase.co';
         const supabaseKey = 'postgresql://postgres.toujtawzftajiuoxblaj:Biruk.Yohannes123399@aws-0-eu-west-1.pooler.supabase.com:5432/postgres'; 
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        // 2. Auth Check
         async function checkAuth() {
             const { data: { session } } = await supabase.auth.getSession();
             if (!session) { window.location.href = 'signup.html'; }
@@ -133,7 +131,6 @@
             window.location.href = 'index.html';
         }
 
-        // 3. 24-Hour Logic
         function check24HourLogic() {
             const firstVisit = localStorage.getItem('qonnect_first_visit');
             const isPremium = localStorage.getItem('qonnect_premium_unlocked');
@@ -153,7 +150,6 @@
             closeModal('payment-modal');
         }
 
-        // 4. Dashboard Logic
         let map, marker;
         const cropDatabase = {
             "ETH-COFFEE-2026-001": { lat: 9.145, lng: 40.489, zoom: 7, name: "Highland Coffee", mapDesc: "Highland Region.", ndvi: "0.78", moisture: "42%", yield: "98%", risk: "Low", phase1: "GPS verified.", phase2: "Moisture 12%.", phase3: "Djibouti Port.", phase4: "Smart contract." },
@@ -167,10 +163,10 @@
             
             document.getElementById('dashboard').style.display = 'block';
             document.getElementById('map-desc').innerText = data.mapDesc;
-            document.getElementById('ndvi-val').innerHTML = ${data.ndvi} <span>(Calculated)</span>;
-            document.getElementById('moisture-val').innerHTML = ${data.moisture} <span>(Verified)</span>;
-            document.getElementById('yield-val').innerHTML = ${data.yield} <span>Accuracy</span>;
-            document.getElementById('risk-val').innerHTML = ${data.risk} <span>(Live)</span>;
+            document.getElementById('ndvi-val').innerHTML = data.ndvi + ' <span>(Calculated)</span>';
+            document.getElementById('moisture-val').innerHTML = data.moisture + ' <span>(Verified)</span>';
+            document.getElementById('yield-val').innerHTML = data.yield + ' <span>Accuracy</span>';
+            document.getElementById('risk-val').innerHTML = data.risk + ' <span>(Live)</span>';
             
             document.getElementById('phase1-desc').innerText = data.phase1;
             document.getElementById('phase2-desc').innerText = data.phase2;
@@ -180,7 +176,7 @@
             if (!map) { map = L.map('map').setView([data.lat, data.lng], data.zoom); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map); }
             else { map.setView([data.lat, data.lng], data.zoom); }
             if (marker) { map.removeLayer(marker); }
-            marker = L.marker([data.lat, data.lng]).addTo(map).bindPopup(<b></b>).openPopup();
+            marker = L.marker([data.lat, data.lng]).addTo(map).bindPopup('<b>' + data.name + '</b>').openPopup();
             
             check24HourLogic();
         }
@@ -194,8 +190,8 @@
                     body: JSON.stringify({ lon: 36.8, lat: 7.6, start_date: "2026-07-01", end_date: "2026-09-30" })
                 });
                 const data = await response.json();
-                alert(✅ SUCCESS!\nNDVI: \nHealth: );
-                document.getElementById('ndvi-val').innerHTML = ${data.mean_ndvi} <span>()</span>;
+                alert("✅ SUCCESS!\nNDVI: " + data.mean_ndvi + "\nHealth: " + data.crop_health);
+                document.getElementById('ndvi-val').innerHTML = data.mean_ndvi + ' <span>(' + data.crop_health + ')</span>';
             } catch (err) { alert("Backend waking up. Try again in 50s."); }
             finally { btn.innerText = "🛰️ Live Satellite API"; }
         }
