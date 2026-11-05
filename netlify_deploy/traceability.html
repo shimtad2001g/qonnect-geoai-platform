@@ -53,7 +53,8 @@
         <a href="index.html" class="nav-brand">QONNECT<span>SPATIAL</span></a>
         <div class="nav-links">
             <a href="index.html">Back to Home</a>
-            <a onclick="handleLogout()">Log Out</a>
+            <a id="logout-btn" onclick="handleLogout()" style="display:none;">Log Out</a>
+            <a id="login-btn" href="signup.html">Register / Log In</a>
         </div>
     </nav>
     <div class="search-hero">
@@ -126,17 +127,25 @@
         const supabaseKey = 'postgresql://postgres.toujtawzftajiuoxblaj:Biruk.Yohannes123399@aws-0-eu-west-1.pooler.supabase.com:5432/postgres'; 
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        async function checkAuth() {
+        // 1. Check Auth State (No forced redirect anymore!)
+        async function checkAuthState() {
             const { data: { session } } = await supabase.auth.getSession();
-            if (!session) { window.location.href = 'signup.html'; }
+            if (session) {
+                document.getElementById('logout-btn').style.display = 'inline-block';
+                document.getElementById('login-btn').style.display = 'none';
+            } else {
+                document.getElementById('logout-btn').style.display = 'none';
+                document.getElementById('login-btn').style.display = 'inline-block';
+            }
         }
-        checkAuth();
+        checkAuthState();
 
         async function handleLogout() {
             await supabase.auth.signOut();
-            window.location.href = 'index.html';
+            window.location.reload();
         }
 
+        // 2. 24-Hour Logic
         function check24HourLogic() {
             const firstVisit = localStorage.getItem('qonnect_first_visit');
             const isPremium = localStorage.getItem('qonnect_premium_unlocked');
@@ -156,6 +165,7 @@
             closeModal('payment-modal');
         }
 
+        // 3. Dashboard Logic
         let map, marker;
         const cropDatabase = {
             "ETH-COFFEE-2026-001": { lat: 9.145, lng: 40.489, zoom: 7, name: "Highland Coffee", mapDesc: "Highland Region, Ethiopia.", ndvi: "0.78", moisture: "42%", yield: "98%", risk: "Low", phase1: "Farmer ID: ETH-9928. GPS verified.", phase2: "Processed at cooperative. Moisture 12%.", phase3: "Djibouti Port. Temp tracked.", phase4: "Verified by smart contract." },
@@ -193,7 +203,16 @@
             check24HourLogic();
         }
 
+        // 4. Live API Logic (GATED behind login!)
         async function runLiveAnalysis() {
+            // Check if user is logged in before making the expensive API call
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) {
+                alert("🔒 Registration Required\n\nPlease register or log in to access the Live Satellite API.");
+                window.location.href = 'signup.html';
+                return;
+            }
+
             const btn = event.target;
             btn.innerText = "🛰️ Analyzing...";
             try {
