@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿$filePath = "C:\qonnect-geoai-platform\netlify_deploy\traceability.html"
+
+$html = @'
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -24,10 +27,12 @@
 
         .search-hero { background: radial-gradient(circle at 50% 50%, rgba(116, 198, 157, 0.1), transparent 50%), var(--primary-dark); padding: 60px 20px; text-align: center; color: white; }
         .search-hero h1 { font-size: 2.5rem; margin-bottom: 10px; color: var(--accent-green); }
-        .search-box { display: flex; justify-content: center; gap: 10px; max-width: 600px; margin: 30px auto 0; }
-        .search-box input { flex: 1; padding: 15px 20px; border-radius: 50px; border: none; font-size: 1rem; outline: none; }
-        .search-box button { background: var(--accent-green); color: var(--primary-dark); border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; transition: all 0.3s; font-family: 'Space Grotesk', sans-serif; }
-        .search-box button:hover { background: white; transform: scale(1.05); }
+        .search-box { display: flex; justify-content: center; gap: 10px; max-width: 700px; margin: 30px auto 0; flex-wrap: wrap; }
+        .search-box input { flex: 1; min-width: 200px; padding: 15px 20px; border-radius: 50px; border: none; font-size: 1rem; outline: none; }
+        .btn-action { background: var(--accent-green); color: var(--primary-dark); border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; transition: all 0.3s; font-family: 'Space Grotesk', sans-serif; }
+        .btn-action:hover { background: white; transform: scale(1.05); }
+        .btn-live { background: var(--primary-light); color: white; border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; transition: all 0.3s; font-family: 'Space Grotesk', sans-serif; }
+        .btn-live:hover { background: var(--primary-mid); transform: scale(1.05); }
 
         .dashboard { max-width: 1200px; margin: -30px auto 50px; padding: 0 20px; display: none; }
         .grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
@@ -73,42 +78,13 @@
     <div class="search-hero">
         <h1>Qonnect Insurance & Traceability Portal</h1>
         <p>Enter a Batch ID to verify origin, view GeoAI crop health, and track the supply chain.</p>
-                <div class="search-box">
+        
+        <div class="search-box">
             <input type="text" id="batchId" placeholder="Enter Batch ID" value="ETH-COFFEE-2026-001">
-            <button onclick="trackBatch()">Track Batch</button>
+            <button class="btn-action" onclick="trackBatch()">Track Batch</button>
+            <button class="btn-live" onclick="runLiveAnalysis()">🛰️ Live Satellite API</button>
         </div>
         
-        <!-- Professional Dropdown -->
-        <div style="margin-top: 25px; display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
-            <label for="demoSelect" style="color: #b7e4c7; font-weight: 600; font-size: 0.95rem;">Select a Demo Crop:</label>
-            <select id="demoSelect" onchange="document.getElementById('batchId').value = this.value;" style="padding: 12px 20px; border-radius: 50px; border: 2px solid var(--accent-green); background: var(--primary-dark); color: white; font-family: 'Inter', sans-serif; font-size: 0.95rem; outline: none; cursor: pointer; transition: all 0.3s;">
-                <option value="ETH-COFFEE-2026-001">☕ Coffee (Ethiopia)</option>
-                <option value="ETH-TOMATO-2026-042">🍅 Tomato (Ethiopia)</option>
-                <option value="KEN-AVOCADO-2026-089">🥑 Avocado (Kenya)</option>
-                <option value="ETH-WHEAT-2026-112">🌾 Wheat (Ethiopia)</option>
-                <option value="ZAM-MAIZE-2026-055">🌽 Maize (Zambia)</option>
-                <option value="GHA-COCOA-2026-201">🍫 Cocoa (Ghana)</option>
-                <option value="KEN-TEA-2026-077">🍵 Tea (Kenya)</option>
-                <option value="UGA-BANANA-2026-144">🍌 Banana (Uganda)</option>
-            </select>
-        </div>
-        
-        <!-- Professional Dropdown -->
-        <div style="margin-top: 25px; display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
-            <label for="demoSelect" style="color: #b7e4c7; font-weight: 600; font-size: 0.95rem;">Select a Demo Crop:</label>
-            <select id="demoSelect" onchange="document.getElementById('batchId').value = this.value;" style="padding: 12px 20px; border-radius: 50px; border: 2px solid var(--accent-green); background: var(--primary-dark); color: white; font-family: 'Inter', sans-serif; font-size: 0.95rem; outline: none; cursor: pointer; transition: all 0.3s;">
-                <option value="ETH-COFFEE-2026-001">☕ Coffee (Ethiopia)</option>
-                <option value="ETH-TOMATO-2026-042">🍅 Tomato (Ethiopia)</option>
-                <option value="KEN-AVOCADO-2026-089">🥑 Avocado (Kenya)</option>
-                <option value="ETH-WHEAT-2026-112">🌾 Wheat (Ethiopia)</option>
-                <option value="ZAM-MAIZE-2026-055">🌽 Maize (Zambia)</option>
-                <option value="GHA-COCOA-2026-201">🍫 Cocoa (Ghana)</option>
-                <option value="KEN-TEA-2026-077">🍵 Tea (Kenya)</option>
-                <option value="UGA-BANANA-2026-144">🍌 Banana (Uganda)</option>
-            </select>
-        </div>
-        
-        <!-- Professional Dropdown -->
         <div style="margin-top: 25px; display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
             <label for="demoSelect" style="color: #b7e4c7; font-weight: 600; font-size: 0.95rem;">Select a Demo Crop:</label>
             <select id="demoSelect" onchange="document.getElementById('batchId').value = this.value;" style="padding: 12px 20px; border-radius: 50px; border: 2px solid var(--accent-green); background: var(--primary-dark); color: white; font-family: 'Inter', sans-serif; font-size: 0.95rem; outline: none; cursor: pointer; transition: all 0.3s;">
@@ -208,7 +184,7 @@
 
         function trackBatch() {
             const inputVal = document.getElementById('batchId').value.trim().toUpperCase();
-            const btn = document.querySelector('.search-box button');
+            const btn = document.querySelector('.btn-action');
             const loading = document.getElementById('loading');
             const dashboard = document.getElementById('dashboard');
             
@@ -262,6 +238,50 @@
             }, 1500);
         }
 
+        async function runLiveAnalysis() {
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerText = "🛰️ Analyzing...";
+            btn.disabled = true;
+            btn.style.opacity = "0.7";
+
+            try {
+                const response = await fetch("https://qonnect-backend-dgmw.onrender.com/api/analyze", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        lon: 36.8,
+                        lat: 7.6,
+                        start_date: "2026-07-01",
+                        end_date: "2026-09-30"
+                    })
+                });
+
+                const data = await response.json();
+                
+                document.getElementById('ndvi-val').innerHTML = `${data.mean_ndvi} <span>(${data.crop_health})</span>`;
+                document.getElementById('yield-val').innerHTML = `${Math.round(data.mean_ndvi * 120)}% <span>Est. Yield</span>`;
+                document.getElementById('dashboard').style.display = 'block';
+                
+                if (!map) {
+                    map = L.map('map').setView([7.6, 36.8], 8);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                } else {
+                    map.setView([7.6, 36.8], 8);
+                }
+                if (marker) { map.removeLayer(marker); }
+                marker = L.marker([7.6, 36.8]).addTo(map).bindPopup('<b>Jimma Region</b><br>Live Satellite Analysis').openPopup();
+                
+                alert(`✅ LIVE SATELLITE ANALYSIS SUCCESS!\n\nDate: ${data.date_analyzed}\nCloud Cover: ${data.cloud_cover_metadata}%\nNDVI: ${data.mean_ndvi}\nCrop Health: ${data.crop_health}`);
+            } catch (err) {
+                alert("❌ Error: " + err.message + "\n\n(The free Render tier spins down after 15 min of inactivity. The first request takes ~50s to wake it up. Please wait a minute and try again.)");
+            } finally {
+                btn.innerText = originalText;
+                btn.disabled = false;
+                btn.style.opacity = "1";
+            }
+        }
+
         function openModal(id) { document.getElementById(id).style.display = "block"; }
         function closeModal(id) { document.getElementById(id).style.display = "none"; }
         window.onclick = function(event) {
@@ -272,5 +292,7 @@
     </script>
 </body>
 </html>
+'@
 
-
+Set-Content -Path $filePath -Value $html -Encoding UTF8
+Write-Host "✅ traceability.html successfully rewritten with Live API button!" -ForegroundColor Green
