@@ -67,7 +67,7 @@
         </div>
         <div style="margin-top: 25px; display: flex; justify-content: center; align-items: center; gap: 15px;">
             <label for="demoSelect" style="color: #b7e4c7; font-weight: 600;">Select a Demo Crop:</label>
-            <select id="demoSelect" onchange="document.getElementById('batchId').value = this.value; trackBatch();" style="padding: 12px 20px; border-radius: 50px; border: 2px solid var(--accent-green); background: var(--primary-dark); color: white;">
+            <select id="demoSelect" onchange="updateBatch(this.value)" style="padding: 12px 20px; border-radius: 50px; border: 2px solid var(--accent-green); background: var(--primary-dark); color: white;">
                 <option value="ETH-COFFEE-2026-001">☕ Coffee (Ethiopia)</option>
                 <option value="ETH-TOMATO-2026-042">🍅 Tomato (Ethiopia)</option>
                 <option value="KEN-AVOCADO-2026-089">🥑 Avocado (Kenya)</option>
@@ -127,7 +127,6 @@
         const supabaseKey = 'postgresql://postgres.toujtawzftajiuoxblaj:Biruk.Yohannes123399@aws-0-eu-west-1.pooler.supabase.com:5432/postgres'; 
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        // 1. Check Auth State (No forced redirect anymore!)
         async function checkAuthState() {
             const { data: { session } } = await supabase.auth.getSession();
             if (session) {
@@ -145,7 +144,6 @@
             window.location.reload();
         }
 
-        // 2. 24-Hour Logic
         function check24HourLogic() {
             const firstVisit = localStorage.getItem('qonnect_first_visit');
             const isPremium = localStorage.getItem('qonnect_premium_unlocked');
@@ -165,7 +163,6 @@
             closeModal('payment-modal');
         }
 
-        // 3. Dashboard Logic
         let map, marker;
         const cropDatabase = {
             "ETH-COFFEE-2026-001": { lat: 9.145, lng: 40.489, zoom: 7, name: "Highland Coffee", mapDesc: "Highland Region, Ethiopia.", ndvi: "0.78", moisture: "42%", yield: "98%", risk: "Low", phase1: "Farmer ID: ETH-9928. GPS verified.", phase2: "Processed at cooperative. Moisture 12%.", phase3: "Djibouti Port. Temp tracked.", phase4: "Verified by smart contract." },
@@ -177,6 +174,11 @@
             "KEN-TEA-2026-077": { lat: -0.368, lng: 35.283, zoom: 9, name: "Kericho Tea", mapDesc: "Kericho, Kenya.", ndvi: "0.80", moisture: "60%", yield: "94%", risk: "Moderate", phase1: "Plucked at estate.", phase2: "Withered and processed.", phase3: "Mombasa Port.", phase4: "Quality graded." },
             "UGA-BANANA-2026-144": { lat: -0.607, lng: 30.654, zoom: 8, name: "Mbarara Bananas", mapDesc: "Mbarara, Uganda.", ndvi: "0.75", moisture: "45%", yield: "91%", risk: "Low", phase1: "Bunch maturity checked.", phase2: "Cold chain established.", phase3: "Road to Kampala.", phase4: "Regional distributor." }
         };
+
+        function updateBatch(val) {
+            document.getElementById('batchId').value = val;
+            trackBatch();
+        }
 
         function trackBatch() {
             const inputVal = document.getElementById('batchId').value.trim().toUpperCase();
@@ -195,17 +197,19 @@
             document.getElementById('phase3-desc').innerText = data.phase3;
             document.getElementById('phase4-desc').innerText = data.phase4;
 
-            if (!map) { map = L.map('map').setView([data.lat, data.lng], data.zoom); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map); }
-            else { map.setView([data.lat, data.lng], data.zoom); }
+            if (!map) { 
+                map = L.map('map').setView([data.lat, data.lng], data.zoom); 
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map); 
+            } else { 
+                map.setView([data.lat, data.lng], data.zoom); 
+            }
             if (marker) { map.removeLayer(marker); }
             marker = L.marker([data.lat, data.lng]).addTo(map).bindPopup('<b>' + data.name + '</b>').openPopup();
             
             check24HourLogic();
         }
 
-        // 4. Live API Logic (GATED behind login!)
         async function runLiveAnalysis() {
-            // Check if user is logged in before making the expensive API call
             const { data: { session } } = await supabase.auth.getSession();
             if (!session) {
                 alert("🔒 Registration Required\n\nPlease register or log in to access the Live Satellite API.");
@@ -232,4 +236,3 @@
     </script>
 </body>
 </html>
-
