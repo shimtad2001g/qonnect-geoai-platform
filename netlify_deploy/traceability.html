@@ -9,70 +9,46 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
-        :root {
-            --primary-dark: #081c15; --primary-mid: #1b4332; --primary-light: #2d6a4f;
-            --accent-green: #74c69d; --accent-gold: #e9c46a; --bg-color: #f8fbf9; 
-            --text-main: #333333; --text-light: #666666;
-            --card-bg: rgba(255, 255, 255, 0.95); --glass-shadow: 0 8px 32px 0 rgba(8, 28, 21, 0.08);
-        }
+        :root { --primary-dark: #081c15; --primary-mid: #1b4332; --primary-light: #2d6a4f; --accent-green: #74c69d; --accent-gold: #e9c46a; --bg-color: #f8fbf9; --text-main: #333333; --text-light: #666666; --card-bg: rgba(255, 255, 255, 0.95); --glass-shadow: 0 8px 32px 0 rgba(8, 28, 21, 0.08); }
         body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-main); }
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
-        
         nav { background-color: var(--primary-dark); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
-        .nav-brand { color: white; font-size: 1.4rem; text-decoration: none; letter-spacing: 1px; font-family: 'Space Grotesk', sans-serif; font-weight: 700;}
+        .nav-brand { color: white; font-size: 1.4rem; text-decoration: none; letter-spacing: 1px; }
         .nav-brand span { color: var(--accent-green); }
-        .nav-links a { color: #d8f3dc; text-decoration: none; margin-left: 25px; font-weight: 600; transition: color 0.3s; cursor: pointer;}
-        .nav-links a:hover { color: var(--accent-green); }
-
+        .nav-links a { color: #d8f3dc; text-decoration: none; margin-left: 25px; font-weight: 600; cursor: pointer; }
         .search-hero { background: radial-gradient(circle at 50% 50%, rgba(116, 198, 157, 0.1), transparent 50%), var(--primary-dark); padding: 60px 20px; text-align: center; color: white; }
         .search-hero h1 { font-size: 2.5rem; margin-bottom: 10px; color: var(--accent-green); }
         .search-box { display: flex; justify-content: center; gap: 10px; max-width: 700px; margin: 30px auto 0; flex-wrap: wrap; }
         .search-box input { flex: 1; min-width: 200px; padding: 15px 20px; border-radius: 50px; border: none; font-size: 1rem; outline: none; }
-        .btn-action { background: var(--accent-green); color: var(--primary-dark); border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; transition: all 0.3s; font-family: 'Space Grotesk', sans-serif; }
-        .btn-action:hover { background: white; transform: scale(1.05); }
-        .btn-live { background: var(--primary-light); color: white; border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; transition: all 0.3s; font-family: 'Space Grotesk', sans-serif; }
-        .btn-live:hover { background: var(--primary-mid); transform: scale(1.05); }
-
+        .btn-action { background: var(--accent-green); color: var(--primary-dark); border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; font-family: 'Space Grotesk', sans-serif; }
+        .btn-live { background: var(--primary-light); color: white; border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; font-family: 'Space Grotesk', sans-serif; }
         .dashboard { max-width: 1200px; margin: -30px auto 50px; padding: 0 20px; display: none; }
         .grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
-        .card { background: var(--card-bg); padding: 30px; border-radius: 20px; box-shadow: var(--glass-shadow); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5); }
+        .card { background: var(--card-bg); padding: 30px; border-radius: 20px; box-shadow: var(--glass-shadow); border: 1px solid rgba(255,255,255,0.5); }
         .card h3 { color: var(--primary-dark); margin-top: 0; border-bottom: 2px solid var(--accent-green); padding-bottom: 10px; display: inline-block; }
-        
         #map { height: 350px; width: 100%; border-radius: 12px; z-index: 1; border: 2px solid var(--primary-light); }
-        
         .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
         .metric-box { background: #f4f9f4; padding: 15px; border-radius: 12px; border-left: 4px solid var(--primary-mid); }
         .metric-box h4 { margin: 0 0 5px 0; color: var(--text-light); font-size: 0.9rem; font-family: 'Inter', sans-serif; font-weight: 600; text-transform: uppercase;}
         .metric-box p { margin: 0; font-size: 1.5rem; font-weight: bold; color: var(--primary-dark); font-family: 'Space Grotesk', sans-serif;}
-        .metric-box span { font-size: 0.8rem; color: #888; font-weight: normal; }
-
         .timeline { position: relative; margin-top: 20px; padding-left: 30px; }
         .timeline::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 3px; background: var(--accent-green); border-radius: 2px; }
-        .timeline-item { position: relative; margin-bottom: 25px; padding: 15px; background: transparent; border-radius: 12px; transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; }
-        .timeline-item:hover { background: #f4f9f4; border: 1px solid var(--accent-green); transform: translateX(5px); }
-        .timeline-item::before { content: ''; position: absolute; left: -36px; top: 20px; width: 15px; height: 15px; border-radius: 50%; background: var(--primary-dark); border: 3px solid var(--accent-green); transition: background 0.3s; }
-        .timeline-item:hover::before { background: var(--accent-green); }
-        .timeline-item h4 { margin: 0 0 5px 0; color: var(--primary-dark); }
-        .timeline-item p { margin: 0; color: var(--text-light); font-size: 0.9rem; }
-
-        .premium-lock { display: none; margin-top: 40px; text-align: center; background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-mid) 100%); padding: 40px; border-radius: 20px; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .premium-lock h2 { color: var(--accent-gold); margin-bottom: 15px; }
-        .btn-pay { background: var(--accent-gold); color: var(--primary-dark); border: none; padding: 15px 40px; border-radius: 50px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; font-family: 'Space Grotesk', sans-serif; margin-top: 20px;}
-        .btn-pay:hover { background: white; transform: scale(1.05); }
-
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(8, 28, 21, 0.8); backdrop-filter: blur(5px); }
-        .modal-content { background-color: white; margin: 5% auto; padding: 40px; border-radius: 20px; width: 90%; max-width: 600px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
-        .close-btn { color: #aaa; position: absolute; top: 20px; right: 30px; font-size: 30px; font-weight: bold; cursor: pointer; }
+        .timeline-item { position: relative; margin-bottom: 25px; padding: 15px; border-radius: 12px; cursor: pointer; border: 1px solid transparent; }
+        .timeline-item:hover { background: #f4f9f4; border: 1px solid var(--accent-green); }
+        .timeline-item::before { content: ''; position: absolute; left: -36px; top: 20px; width: 15px; height: 15px; border-radius: 50%; background: var(--primary-dark); border: 3px solid var(--accent-green); }
+        .premium-lock { display: none; margin-top: 40px; text-align: center; background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-mid) 100%); padding: 40px; border-radius: 20px; color: white; }
+        .premium-lock h2 { color: var(--accent-gold); }
+        .btn-pay { background: var(--accent-gold); color: var(--primary-dark); border: none; padding: 15px 40px; border-radius: 50px; font-weight: bold; font-size: 1.1rem; cursor: pointer; margin-top: 20px;}
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(8, 28, 21, 0.8); }
+        .modal-content { background-color: white; margin: 5% auto; padding: 40px; border-radius: 20px; width: 90%; max-width: 600px; position: relative; }
+        .close-btn { color: #aaa; position: absolute; top: 20px; right: 30px; font-size: 30px; cursor: pointer; }
         .pay-options { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
         .pay-card { border: 1px solid #ddd; padding: 20px; border-radius: 12px; text-align: left; }
-        .pay-card h4 { color: var(--primary-dark); margin-top: 0; }
-        .pay-card p { font-size: 0.85rem; color: var(--text-light); margin: 5px 0; }
         .receipt-input { width: 100%; padding: 12px; margin-top: 15px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
         .btn-submit-payment { background: var(--primary-mid); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 15px; }
     </style>
 </head>
 <body>
-
     <nav>
         <a href="index.html" class="nav-brand">QONNECT<span>SPATIAL</span></a>
         <div class="nav-links">
@@ -80,124 +56,72 @@
             <a onclick="handleLogout()">Log Out</a>
         </div>
     </nav>
-
     <div class="search-hero">
         <h1>Qonnect Traceability & Premium Portal</h1>
         <p>Enter a Batch ID to verify origin, view GeoAI crop health, and track the supply chain.</p>
-        
         <div class="search-box">
             <input type="text" id="batchId" placeholder="Enter Batch ID" value="ETH-COFFEE-2026-001">
             <button class="btn-action" onclick="trackBatch()">Track Batch</button>
             <button class="btn-live" onclick="runLiveAnalysis()">🛰️ Live Satellite API</button>
         </div>
-        
-        <div style="margin-top: 25px; display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
-            <label for="demoSelect" style="color: #b7e4c7; font-weight: 600; font-size: 0.95rem;">Select a Demo Crop:</label>
-            <select id="demoSelect" onchange="document.getElementById('batchId').value = this.value;" style="padding: 12px 20px; border-radius: 50px; border: 2px solid var(--accent-green); background: var(--primary-dark); color: white; font-family: 'Inter', sans-serif; font-size: 0.95rem; outline: none; cursor: pointer;">
+        <div style="margin-top: 25px; display: flex; justify-content: center; align-items: center; gap: 15px;">
+            <label for="demoSelect" style="color: #b7e4c7; font-weight: 600;">Select a Demo Crop:</label>
+            <select id="demoSelect" onchange="document.getElementById('batchId').value = this.value;" style="padding: 12px 20px; border-radius: 50px; border: 2px solid var(--accent-green); background: var(--primary-dark); color: white;">
                 <option value="ETH-COFFEE-2026-001">☕ Coffee (Ethiopia)</option>
                 <option value="ETH-TOMATO-2026-042">🍅 Tomato (Ethiopia)</option>
-                <option value="KEN-AVOCADO-2026-089">🥑 Avocado (Kenya)</option>
-                <option value="ETH-WHEAT-2026-112">🌾 Wheat (Ethiopia)</option>
-                <option value="ZAM-MAIZE-2026-055">🌽 Maize (Zambia)</option>
-                <option value="GHA-COCOA-2026-201">🍫 Cocoa (Ghana)</option>
-                <option value="KEN-TEA-2026-077">🍵 Tea (Kenya)</option>
-                <option value="UGA-BANANA-2026-144">🍌 Banana (Uganda)</option>
             </select>
         </div>
     </div>
-
     <div class="dashboard" id="dashboard">
         <div class="grid-layout">
             <div class="card">
                 <h3>Farm Origin & Geolocation</h3>
-                <p style="font-size: 0.9rem; color: #666;" id="map-desc">Verified coordinates.</p>
+                <p id="map-desc">Verified coordinates.</p>
                 <div id="map"></div>
             </div>
-
             <div class="card">
                 <h3>GeoAI Crop Vitality & Risk</h3>
-                <p style="font-size: 0.9rem; color: #666;">Automated satellite analysis.</p>
                 <div class="metrics-grid">
-                    <div class="metric-box">
-                        <h4>NDVI Health Index</h4>
-                        <p id="ndvi-val">0.78 <span>(Excellent)</span></p>
-                    </div>
-                    <div class="metric-box">
-                        <h4>Soil Moisture</h4>
-                        <p id="moisture-val">42% <span>(Optimal)</span></p>
-                    </div>
-                    <div class="metric-box">
-                        <h4>Yield Prediction</h4>
-                        <p id="yield-val">98% <span>Accuracy</span></p>
-                    </div>
-                    <div class="metric-box">
-                        <h4>Climate Risk</h4>
-                        <p id="risk-val">Low <span>(No alerts)</span></p>
-                    </div>
+                    <div class="metric-box"><h4>NDVI Health Index</h4><p id="ndvi-val">0.78 <span>(Excellent)</span></p></div>
+                    <div class="metric-box"><h4>Soil Moisture</h4><p id="moisture-val">42% <span>(Optimal)</span></p></div>
+                    <div class="metric-box"><h4>Yield Prediction</h4><p id="yield-val">98% <span>Accuracy</span></p></div>
+                    <div class="metric-box"><h4>Climate Risk</h4><p id="risk-val">Low <span>(No alerts)</span></p></div>
                 </div>
             </div>
         </div>
-
         <div class="card" style="margin-top: 25px;">
             <h3>End-to-End Supply Chain Verification</h3>
             <div class="timeline">
-                <div class="timeline-item" onclick="openModal('trace-modal1')">
-                    <h4>Phase 1: Harvest & Farm Ingestion</h4>
-                    <p id="phase1-desc">Harvested at Highland Farm. GPS verified.</p>
-                </div>
-                <div class="timeline-item" onclick="openModal('trace-modal2')">
-                    <h4>Phase 2: Quality Processing</h4>
-                    <p id="phase2-desc">Processed at local cooperative. Moisture levels verified.</p>
-                </div>
-                <div class="timeline-item" onclick="openModal('trace-modal3')">
-                    <h4>Phase 3: Export & Logistics</h4>
-                    <p id="phase3-desc">Shipped via Port. Temperature tracked via IoT.</p>
-                </div>
-                <div class="timeline-item" onclick="openModal('trace-modal4')">
-                    <h4>Phase 4: Global Marketplace</h4>
-                    <p id="phase4-desc">Arrived at international distributor.</p>
-                </div>
+                <div class="timeline-item"><h4>Phase 1: Harvest & Farm Ingestion</h4><p id="phase1-desc">GPS verified.</p></div>
+                <div class="timeline-item"><h4>Phase 2: Quality Processing</h4><p id="phase2-desc">Moisture levels verified.</p></div>
+                <div class="timeline-item"><h4>Phase 3: Export & Logistics</h4><p id="phase3-desc">Temperature tracked.</p></div>
+                <div class="timeline-item"><h4>Phase 4: Global Marketplace</h4><p id="phase4-desc">Arrived at distributor.</p></div>
             </div>
         </div>
-
         <div class="premium-lock" id="premium-lock">
             <h2>🔒 Unlock Full Supply Chain Intelligence</h2>
             <p>Get full access to the farm-to-buyer pathway, live IoT sensor data, and verified carbon metrics.</p>
             <button class="btn-pay" onclick="openModal('payment-modal')">Get Premium Access</button>
         </div>
     </div>
-
     <div id="payment-modal" class="modal"><div class="modal-content">
         <span class="close-btn" onclick="closeModal('payment-modal')">&times;</span>
         <h2 style="color: var(--primary-dark); margin-top: 0;">Upgrade to Premium</h2>
-        <p style="color: #666; font-size: 0.9rem;">Choose your payment method. Once transferred, enter your Transaction ID below.</p>
-        
         <div class="pay-options">
-            <div class="pay-card">
-                <h4>🇪🇹 Local (Ethiopia)</h4>
-                <p><strong>Bank:</strong> Commercial Bank of Ethiopia</p>
-                <p><strong>Account Name:</strong> Shimeles Tadesse</p>
-                <p><strong>Account No:</strong> 1000123456789</p>
-                <p><strong>Telebirr:</strong> 0912345678</p>
-            </div>
-            <div class="pay-card">
-                <h4>🌍 International</h4>
-                <p><strong>Bank:</strong> SWIFT (CBE)</p>
-                <p><strong>IBAN/SWIFT:</strong> CBETETAA</p>
-                <p><strong>PayPal:</strong> shimtad2001g@gmail.com</p>
-                <p><strong>Stripe Link:</strong> [Coming Soon]</p>
-            </div>
+            <div class="pay-card"><h4>🇪🇹 Local (Ethiopia)</h4><p><strong>Bank:</strong> CBE</p><p><strong>Account:</strong> 1000123456789</p></div>
+            <div class="pay-card"><h4>🌍 International</h4><p><strong>SWIFT:</strong> CBETETAA</p><p><strong>PayPal:</strong> shimtad2001g@gmail.com</p></div>
         </div>
-
-        <input type="text" id="transactionId" class="receipt-input" placeholder="Enter Bank Transaction ID or Receipt Number">
+        <input type="text" id="transactionId" class="receipt-input" placeholder="Enter Bank Transaction ID">
         <button class="btn-submit-payment" onclick="submitPayment()">Verify & Unlock</button>
     </div></div>
 
     <script>
+        // 1. Setup Supabase (ONLY ONCE)
         const supabaseUrl = 'https://toujtawzftajiuoxblaj.supabase.co';
-        const supabaseKey = '$filePath = "C:\qonnect-geoai-platform\netlify_deploy\traceability.html"';
+        const supabaseKey = 'PASTE_YOUR_PUBLISHABLE_KEY_HERE'; // <-- PASTE KEY HERE
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+        // 2. Auth Check
         async function checkAuth() {
             const { data: { session } } = await supabase.auth.getSession();
             if (!session) { window.location.href = 'signup.html'; }
@@ -209,61 +133,56 @@
             window.location.href = 'index.html';
         }
 
+        // 3. 24-Hour Logic
         function check24HourLogic() {
             const firstVisit = localStorage.getItem('qonnect_first_visit');
             const isPremium = localStorage.getItem('qonnect_premium_unlocked');
-            if (!firstVisit) {
-                localStorage.setItem('qonnect_first_visit', Date.now().toString());
-            } else if (isPremium !== 'true') {
+            if (!firstVisit) { localStorage.setItem('qonnect_first_visit', Date.now().toString()); }
+            else if (isPremium !== 'true') {
                 const diffHours = (Date.now() - parseInt(firstVisit)) / (1000 * 60 * 60);
-                if (diffHours >= 24) {
-                    document.getElementById('premium-lock').style.display = 'block';
-                }
+                if (diffHours >= 24) { document.getElementById('premium-lock').style.display = 'block'; }
             }
         }
 
         function submitPayment() {
             const txId = document.getElementById('transactionId').value;
             if(txId.length < 5) { alert("Please enter a valid Transaction ID."); return; }
-            alert("✅ Payment Verification Submitted!\n\nYour access will be unlocked once our team verifies the transaction (usually within 1 hour).");
+            alert("✅ Payment Verification Submitted!\n\nAccess unlocked for this session.");
             localStorage.setItem('qonnect_premium_unlocked', 'true');
             document.getElementById('premium-lock').style.display = 'none';
             closeModal('payment-modal');
         }
 
-        let map;
-        let marker;
+        // 4. Dashboard Logic
+        let map, marker;
         const cropDatabase = {
-            "ETH-COFFEE-2026-001": { lat: 9.145, lng: 40.489, zoom: 7, name: "Highland Coffee", mapDesc: "Highland Region, Ethiopia.", ndvi: "0.78", moisture: "42%", yield: "98%", risk: "Low", phase1: "Farmer ID: ETH-9928. GPS verified.", phase2: "Processed at cooperative. Moisture 12%.", phase3: "Djibouti Port. Temp tracked.", phase4: "Verified by smart contract." },
-            "ETH-TOMATO-2026-042": { lat: 7.933, lng: 38.716, zoom: 9, name: "Ziway Tomatoes", mapDesc: "Ziway Region, Ethiopia.", ndvi: "0.85", moisture: "65%", yield: "92%", risk: "Moderate", phase1: "Harvested at Ziway Farm.", phase2: "Sorted and packaged.", phase3: "Refrigerated truck.", phase4: "Central market." }
+            "ETH-COFFEE-2026-001": { lat: 9.145, lng: 40.489, zoom: 7, name: "Highland Coffee", mapDesc: "Highland Region.", ndvi: "0.78", moisture: "42%", yield: "98%", risk: "Low", phase1: "GPS verified.", phase2: "Moisture 12%.", phase3: "Djibouti Port.", phase4: "Smart contract." },
+            "ETH-TOMATO-2026-042": { lat: 7.933, lng: 38.716, zoom: 9, name: "Ziway Tomatoes", mapDesc: "Ziway Region.", ndvi: "0.85", moisture: "65%", yield: "92%", risk: "Moderate", phase1: "Harvested.", phase2: "Packaged.", phase3: "Refrigerated.", phase4: "Market." }
         };
 
         function trackBatch() {
             const inputVal = document.getElementById('batchId').value.trim().toUpperCase();
             const data = cropDatabase[inputVal];
             if (!data) { alert("Batch ID not found."); return; }
-
+            
             document.getElementById('dashboard').style.display = 'block';
             document.getElementById('map-desc').innerText = data.mapDesc;
-            document.getElementById('ndvi-val').innerHTML = ${data.ndvi} <span>(Calculated)</span>;
-            document.getElementById('moisture-val').innerHTML = ${data.moisture} <span>(Verified)</span>;
-            document.getElementById('yield-val').innerHTML = ${data.yield} <span>Accuracy</span>;
-            document.getElementById('risk-val').innerHTML = ${data.risk} <span>(Live)</span>;
+            document.getElementById('ndvi-val').innerHTML = `${data.ndvi} <span>(Calculated)</span>`;
+            document.getElementById('moisture-val').innerHTML = `${data.moisture} <span>(Verified)</span>`;
+            document.getElementById('yield-val').innerHTML = `${data.yield} <span>Accuracy</span>`;
+            document.getElementById('risk-val').innerHTML = `${data.risk} <span>(Live)</span>`;
             
             document.getElementById('phase1-desc').innerText = data.phase1;
             document.getElementById('phase2-desc').innerText = data.phase2;
             document.getElementById('phase3-desc').innerText = data.phase3;
             document.getElementById('phase4-desc').innerText = data.phase4;
 
-            if (!map) {
-                map = L.map('map').setView([data.lat, data.lng], data.zoom);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-            } else { map.setView([data.lat, data.lng], data.zoom); }
+            if (!map) { map = L.map('map').setView([data.lat, data.lng], data.zoom); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map); }
+            else { map.setView([data.lat, data.lng], data.zoom); }
             if (marker) { map.removeLayer(marker); }
-            marker = L.marker([data.lat, data.lng]).addTo(map).bindPopup(<b></b>).openPopup();
+            marker = L.marker([data.lat, data.lng]).addTo(map).bindPopup(`<b>${data.name}</b>`).openPopup();
             
             check24HourLogic();
-            document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
         }
 
         async function runLiveAnalysis() {
@@ -271,16 +190,14 @@
             btn.innerText = "🛰️ Analyzing...";
             try {
                 const response = await fetch("https://qonnect-backend-dgmw.onrender.com/api/analyze", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    method: "POST", headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ lon: 36.8, lat: 7.6, start_date: "2026-07-01", end_date: "2026-09-30" })
                 });
                 const data = await response.json();
-                alert(✅ LIVE SATELLITE SUCCESS!\nNDVI: \nHealth: );
-                document.getElementById('ndvi-val').innerHTML = ${data.mean_ndvi} <span>()</span>;
-            } catch (err) {
-                alert("Backend is waking up. Please try again in 50 seconds.");
-            } finally { btn.innerText = "🛰️ Live Satellite API"; }
+                alert(`✅ SUCCESS!\nNDVI: ${data.mean_ndvi}\nHealth: ${data.crop_health}`);
+                document.getElementById('ndvi-val').innerHTML = `${data.mean_ndvi} <span>(${data.crop_health})</span>`;
+            } catch (err) { alert("Backend waking up. Try again in 50s."); }
+            finally { btn.innerText = "🛰️ Live Satellite API"; }
         }
 
         function openModal(id) { document.getElementById(id).style.display = "block"; }
