@@ -143,13 +143,12 @@
         <button class="btn-submit-payment" onclick="submitPayment()">Verify & Unlock</button>
     </div></div>
 
+    <!-- EXACTLY ONE SCRIPT BLOCK BELOW -->
     <script>
-        // 1. Supabase Init
         const supabaseUrl = 'https://toujtawzftajiuoxblaj.supabase.co';
         const supabaseKey = 'Biruk.Yohannes123399@aws-0-eu-west-1.pooler.supabase.com:5432/postgres'; 
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        // 2. Auth Checks
         async function checkAuthState() {
             const { data: { session } } = await supabase.auth.getSession();
             if (session) {
@@ -167,7 +166,6 @@
             window.location.reload();
         }
 
-        // 3. Premium Logic
         function check24HourLogic() {
             const firstVisit = localStorage.getItem('qonnect_first_visit');
             const isPremium = localStorage.getItem('qonnect_premium_unlocked');
@@ -187,7 +185,6 @@
             closeModal('payment-modal');
         }
 
-        // 4. Main Database & Map Logic
         let map, marker;
         const cropDatabase = {
             "ETH-COFFEE-2026-001": { lat: 9.145, lng: 40.489, zoom: 7, name: "Highland Coffee", mapDesc: "Highland Region, Ethiopia.", ndvi: "0.78", moisture: "42%", yield: "98%", risk: "Low", phase1: "Farmer ID: ETH-9928. GPS verified.", phase2: "Processed at cooperative. Moisture 12%.", phase3: "Djibouti Port. Temp tracked.", phase4: "Verified by smart contract." },
@@ -220,7 +217,6 @@
             "ETH-TEA-2026-077": { lat: -0.368, lng: 35.283, zoom: 9, name: "Kericho Tea", mapDesc: "Kericho, Kenya.", ndvi: "0.80", moisture: "60%", yield: "94%", risk: "Moderate", phase1: "Plucked at estate.", phase2: "Withered and processed.", phase3: "Mombasa Port.", phase4: "Quality graded." }
         };
 
-        // 5. Global Functions
         function trackBatch() {
             const inputVal = document.getElementById('batchId').value.trim().toUpperCase();
             const data = cropDatabase[inputVal];
