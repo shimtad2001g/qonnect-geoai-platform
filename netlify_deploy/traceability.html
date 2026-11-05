@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Traceability & Insurance Portal | Qonnect Spatial</title>
+    <link rel="icon" href="data:,"> <!-- Fixes the favicon 404 error -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -122,6 +123,7 @@
         <button class="btn-submit-payment" onclick="submitPayment()">Verify & Unlock</button>
     </div></div>
 
+    <!-- ONLY ONE SINGLE SCRIPT TAG BELOW -->
     <script>
         const supabaseUrl = 'https://toujtawzftajiuoxblaj.supabase.co';
         const supabaseKey = 'postgresql://postgres.toujtawzftajiuoxblaj:Biruk.Yohannes123399@aws-0-eu-west-1.pooler.supabase.com:5432/postgres'; 
