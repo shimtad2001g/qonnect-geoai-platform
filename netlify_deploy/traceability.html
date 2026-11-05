@@ -39,7 +39,6 @@
         .timeline-item:hover { background: #f4f9f4; border: 1px solid var(--accent-green); }
         .timeline-item::before { content: ''; position: absolute; left: -36px; top: 20px; width: 15px; height: 15px; border-radius: 50%; background: var(--primary-dark); border: 3px solid var(--accent-green); }
         
-        /* REAL-TIME ANIMATION */
         .timeline-item { opacity: 0.4; transition: all 0.5s ease-in-out; }
         .timeline-item.active { opacity: 1; background: #e8f5e9; border: 1px solid var(--accent-green); box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15); }
         .timeline-item::before { background: #ccc; border-color: #ccc; transition: all 0.5s ease; }
@@ -212,7 +211,7 @@
         }
 
         let map, marker;
-        let currentCropData = null; // Store the current crop so we can fetch its data on click
+        let currentCropData = null; 
 
         const cropDatabase = {
             "ETH-COFFEE-2026-001": { lat: 9.145, lng: 40.489, zoom: 7, name: "Highland Coffee", mapDesc: "Highland Region, Ethiopia.", ndvi: "0.78", moisture: "42%", yield: "98%", risk: "Low", phase1: "Farmer ID: ETH-9928. GPS verified.", phase2: "Processed at cooperative. Moisture 12%.", phase3: "Djibouti Port. Temp tracked.", phase4: "Verified by smart contract." },
@@ -245,40 +244,31 @@
             "ETH-TEA-2026-077": { lat: -0.368, lng: 35.283, zoom: 9, name: "Kericho Tea", mapDesc: "Kericho, Kenya.", ndvi: "0.80", moisture: "60%", yield: "94%", risk: "Moderate", phase1: "Plucked at estate.", phase2: "Withered and processed.", phase3: "Mombasa Port.", phase4: "Quality graded." }
         };
 
-        // --- NEW: Fetch Data when a Phase is Clicked ---
         async function fetchPhaseData(phaseNumber) {
-            if (!currentCropData) {
-                alert("Please track a batch first.");
-                return;
-            }
+            if (!currentCropData) { alert("Please track a batch first."); return; }
 
-            // Visually highlight the clicked phase
             const items = document.querySelectorAll('.timeline-item');
             items.forEach((item, index) => {
-                if (index === (phaseNumber - 1)) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
+                if (index === (phaseNumber - 1)) { item.classList.add('active'); } 
+                else { item.classList.remove('active'); }
             });
 
-            // Change metrics box to loading state
-            document.getElementById('ndvi-val').innerHTML = `<span style="font-size:1rem; color:#e9c46a;">🛰️ Fetching...</span>`;
+            document.getElementById('ndvi-val').innerHTML = `<span style="font-size:1rem; color:#e9c46a;">🛰️ Connecting...</span>`;
             document.getElementById('moisture-val').innerHTML = `<span style="font-size:1rem; color:#e9c46a;">🛰️ Fetching...</span>`;
             document.getElementById('risk-val').innerHTML = `<span style="font-size:1rem; color:#e9c46a;">🛰️ Fetching...</span>`;
 
-            // Define time periods for each phase (Mock dates based on the crop year)
             const phaseDates = {
-                1: { start: "2026-07-01", end: "2026-09-30" }, // Harvest
-                2: { start: "2026-10-01", end: "2026-10-31" }, // Processing
-                3: { start: "2026-11-01", end: "2026-11-30" }, // Export
-                4: { start: "2026-12-01", end: "2026-12-31" }  // Marketplace
+                1: { start: "2026-07-01", end: "2026-09-30" }, 
+                2: { start: "2026-10-01", end: "2026-10-31" }, 
+                3: { start: "2026-11-01", end: "2026-11-30" }, 
+                4: { start: "2026-12-01", end: "2026-12-31" }  
             };
-
             const dates = phaseDates[phaseNumber];
 
             try {
-                // Call your real backend API!
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 55000);
+
                 const response = await fetch("https://qonnect-backend-dgmw.onrender.com/api/analyze", {
                     method: "POST", 
                     headers: { "Content-Type": "application/json" },
@@ -287,53 +277,51 @@
                         lat: currentCropData.lat, 
                         start_date: dates.start, 
                         end_date: dates.end 
-                    })
+                    }),
+                    signal: controller.signal
                 });
+                clearTimeout(timeoutId);
                 
-                if (!response.ok) throw new Error("API Error");
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 
                 const data = await response.json();
                 
-                // Update metrics with real satellite data
                 document.getElementById('ndvi-val').innerHTML = `${data.mean_ndvi} <span>(Live Phase ${phaseNumber})</span>`;
                 document.getElementById('moisture-val').innerHTML = `Dynamic <span>(Phase ${phaseNumber})</span>`;
                 document.getElementById('yield-val').innerHTML = `${data.crop_health} <span>Health</span>`;
                 document.getElementById('risk-val').innerHTML = `Analyzed <span>(Live)</span>`;
                 
-                // Flash the metrics card green to show it updated
                 const container = document.getElementById('metrics-container');
                 container.style.backgroundColor = "#e8f5e9";
                 setTimeout(() => container.style.backgroundColor = "transparent", 1000);
 
             } catch (err) {
-                console.log("Backend might be sleeping... using cached mock data.", err);
+                console.error("API Fetch Failed:", err);
+                let errorMsg = err.name === 'AbortError' ? 'Timeout (Backend Sleeping)' : 'CORS / Network Error';
+                document.getElementById('ndvi-val').innerHTML = `<span style="font-size:1rem; color:#e74c3c;">❌ ${errorMsg}</span>`;
                 
-                // Fallback if Render is asleep (takes 50s to wake up)
                 setTimeout(() => {
-                    document.getElementById('ndvi-val').innerHTML = `${currentCropData.ndvi} <span>(Cached Phase ${phaseNumber})</span>`;
+                    document.getElementById('ndvi-val').innerHTML = `${currentCropData.ndvi} <span>(Cached)</span>`;
                     document.getElementById('moisture-val').innerHTML = `${currentCropData.moisture} <span>(Cached)</span>`;
-                    document.getElementById('yield-val').innerHTML = `${currentCropData.yield} <span>Accuracy</span>`;
+                    document.getElementById('yield-val').innerHTML = `${currentCropData.yield} <span>(Cached)</span>`;
                     document.getElementById('risk-val').innerHTML = `${currentCropData.risk} <span>(Cached)</span>`;
-                }, 2000);
+                }, 3000);
             }
         }
 
         let timelineInterval;
         function runLiveSupplyChain(data) {
             if (timelineInterval) clearInterval(timelineInterval);
-            
             const phases = [
                 { id: 'phase1-desc', text: data.phase1, elem: document.querySelectorAll('.timeline-item')[0] },
                 { id: 'phase2-desc', text: data.phase2, elem: document.querySelectorAll('.timeline-item')[1] },
                 { id: 'phase3-desc', text: data.phase3, elem: document.querySelectorAll('.timeline-item')[2] },
                 { id: 'phase4-desc', text: data.phase4, elem: document.querySelectorAll('.timeline-item')[3] }
             ];
-
             phases.forEach(p => {
                 p.elem.classList.remove('active');
                 document.getElementById(p.id).innerText = "Waiting for verification...";
             });
-
             let currentPhase = 0;
             timelineInterval = setInterval(() => {
                 if (currentPhase < phases.length) {
@@ -341,9 +329,7 @@
                     phase.elem.classList.add('active'); 
                     document.getElementById(phase.id).innerText = phase.text; 
                     currentPhase++;
-                } else {
-                    clearInterval(timelineInterval); 
-                }
+                } else { clearInterval(timelineInterval); }
             }, 800); 
         }
 
@@ -352,16 +338,13 @@
             const data = cropDatabase[inputVal];
             if (!data) { alert("Batch ID not found."); return; }
             
-            // Save crop data globally so we can use it when a phase is clicked
             currentCropData = data;
-
             document.getElementById('dashboard').style.display = 'block';
             document.getElementById('map-desc').innerText = data.mapDesc;
             document.getElementById('ndvi-val').innerHTML = data.ndvi + ' <span>(Calculated)</span>';
             document.getElementById('moisture-val').innerHTML = data.moisture + ' <span>(Verified)</span>';
             document.getElementById('yield-val').innerHTML = data.yield + ' <span>Accuracy</span>';
             document.getElementById('risk-val').innerHTML = data.risk + ' <span>(Live)</span>';
-            
             runLiveSupplyChain(data);
 
             if (!map) { 
@@ -372,34 +355,19 @@
             }
             if (marker) { map.removeLayer(marker); }
             marker = L.marker([data.lat, data.lng]).addTo(map).bindPopup('<b>' + data.name + '</b>').openPopup();
-            
-            setTimeout(() => {
-                map.invalidateSize();
-            }, 200);
-
+            setTimeout(() => { map.invalidateSize(); }, 200);
             check24HourLogic();
         }
 
         async function runLiveAnalysis() {
-            if (!currentCropData) {
-                alert("Please track a batch first before running a live analysis.");
-                return;
-            }
-
+            if (!currentCropData) { alert("Please track a batch first."); return; }
             const btn = event.target;
             btn.innerText = "🛰️ Analyzing...";
-            
             document.getElementById('ndvi-val').innerHTML = `<span style="font-size:1rem; color:#e9c46a;">🛰️ Scanning...</span>`;
-
             try {
                 const response = await fetch("https://qonnect-backend-dgmw.onrender.com/api/analyze", {
                     method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ 
-                        lon: currentCropData.lng, 
-                        lat: currentCropData.lat, 
-                        start_date: "2026-07-01", 
-                        end_date: "2026-09-30" 
-                    })
+                    body: JSON.stringify({ lon: currentCropData.lng, lat: currentCropData.lat, start_date: "2026-07-01", end_date: "2026-09-30" })
                 });
                 const data = await response.json();
                 alert("✅ SUCCESS!\nNDVI: " + data.mean_ndvi + "\nHealth: " + data.crop_health);
