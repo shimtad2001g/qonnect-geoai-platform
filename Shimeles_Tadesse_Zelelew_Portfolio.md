@@ -1,8 +1,8 @@
-Shimeles Tadesse Zelelew
+﻿Shimeles Tadesse Zelelew
 GeoAI Strategist | Climate Resilience Architect | Certified Remote Sensing Solution Developer
-Ethiopia 📧 shimtad2001g@gmail.com  🔗LinkedIn 💻GitHub🌐Portfolio  
+Ethiopia ðŸ“§ shimtad2001g@gmail.com  ðŸ”—LinkedIn ðŸ’»GitHubðŸŒPortfolio  
 Executive Profile
-Senior Environmental Advisor and Geospatial & AI Specialist dedicated to bridging the gap between highland smallholder producers, global markets, and climate resilience. I architect fully automated, end-to-end geospatial workflows that translate complex Earth Observation (EO) data into strategy-ready intelligence. My work is driven by a commitment to "Technological Sovereignty"—building scalable, locally-owned solutions that empower climate-vulnerable regions to proactively navigate environmental risk, optimize ESG reporting, and drive sustainable governance.
+Senior Environmental Advisor and Geospatial & AI Specialist dedicated to bridging the gap between highland smallholder producers, global markets, and climate resilience. I architect fully automated, end-to-end geospatial workflows that translate complex Earth Observation (EO) data into strategy-ready intelligence. My work is driven by a commitment to "Technological Sovereignty"â€”building scalable, locally-owned solutions that empower climate-vulnerable regions to proactively navigate environmental risk, optimize ESG reporting, and drive sustainable governance.
 Core Competencies & Technical Skills
 o	Geospatial & Earth Observation (EO): PostGIS, QGIS, ArcGIS, Sentinel-1/2, Landsat, CHIRPS, Multi-Index Fusion (NDVI, Rainfall, Soil Moisture).
 o	GeoAI & Machine Learning: Self-Supervised Learning, Predictive Modeling (Yield & Health Prediction), Automated Cartography, Computer Vision.
@@ -23,7 +23,7 @@ Key Projects & Engineering Portfolio
 o	Overview: A fully automated end-to-end geospatial workflow platform designed and built from scratch to bridge the gap between highland smallholder producers and global markets.
 o	Technical Stack: HTML/CSS/JS, Netlify (Hosting, Identity, Forms), Python (Backend Pipelines).
 o	Key Features: Features a secure, gated environment for accessing proprietary datasets. Includes an interactive farm map, policy brief downloads, and a marketplace traceability prototype.
-o	Pipeline: PostGIS & Cloud Infrastructure → Sentinel-2 Satellite & Farmer GPS → GeoAI Yield & Health Prediction (98% Accuracy) → Automated Cartography (Interactive Farm Heatmaps) → SMS/USSD Alerts & Policy Briefs.
+o	Pipeline: PostGIS & Cloud Infrastructure â†’ Sentinel-2 Satellite & Farmer GPS â†’ GeoAI Yield & Health Prediction (98% Accuracy) â†’ Automated Cartography (Interactive Farm Heatmaps) â†’ SMS/USSD Alerts & Policy Briefs.
 2. geoai-nbs-africa (GitHub Repository)
 o	Overview: A self-supervised Earth Observation framework for Nature-Based Solutions (NbS) in Africa.
 o	Impact: Enables scalable carbon and biodiversity monitoring, providing critical data for climate financing and environmental safeguards.
@@ -43,4 +43,5 @@ Thought Leadership & Community Impact
 o	Advocacy: Actively publishes frameworks for scaling GeoAI for strategic environmental resilience and African climate adaptation.
 o	Mentorship: Leading youth-led geospatial initiatives (OpenMapLink Ethiopia) to empower communities with mapping and data skills.
 o	Focus Areas: Climate resilience architecture, environmental safeguards (EIA & ESMP), and data-driven policy briefs for highland agricultural communities.
+
 
