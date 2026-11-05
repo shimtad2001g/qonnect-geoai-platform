@@ -178,8 +178,14 @@
         };
 
         function updateBatch(val) {
-            document.getElementById('batchId').value = val;
-            trackBatch();
+            console.log("Dropdown changed to:", val);
+            const input = document.getElementById('batchId');
+            if (input) {
+                input.value = val;
+                trackBatch();
+            } else {
+                console.error("Could not find the batchId input element!");
+            }
         }
 
         function trackBatch() {
@@ -238,3 +244,4 @@
     </script>
 </body>
 </html>
+
