@@ -20,7 +20,7 @@
 <body>
     <div class="signup-container">
         <h2>Join Qonnect Spatial</h2>
-        <p style="color: #666; font-size: 0.9rem;">Create an account to access the live geospatial platform.</p>
+        <p style="color: #666; font-size: 0.9rem;">Create an account to access the live platform.</p>
         <input type="email" id="email" placeholder="Email" required>
         <input type="password" id="password" placeholder="Password (min 6 chars)" required>
         <button class="btn" onclick="handleSignup()">Create Account</button>
@@ -28,29 +28,16 @@
         <a href="index.html" class="back-link">&larr; Back to Home</a>
     </div>
     <script>
-        // Initialize Supabase with your actual credentials
-        const supabase = window.supabase.createClient(
-            'https://toujtawzftajiuoxblaj.supabase.co',
-            'PASTE_YOUR_PUBLISHABLE_KEY_HERE'
-        );
-
+        const supabase = window.supabase.createClient('https://toujtawzftajiuoxblaj.supabase.co', '$filePath = "C:\qonnect-geoai-platform\netlify_deploy\traceability.html"');
         async function handleSignup() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const msg = document.getElementById('message');
-            
             msg.style.color = "black";
             msg.innerText = "Creating account...";
-
             const { data, error } = await supabase.auth.signUp({ email, password });
-            
-            if (error) {
-                msg.style.color = "red";
-                msg.innerText = "Error: " + error.message;
-            } else {
-                msg.style.color = "green";
-                msg.innerText = "✅ Success! Check your email to confirm your account.";
-            }
+            if (error) { msg.style.color = "red"; msg.innerText = "Error: " + error.message; }
+            else { msg.style.color = "green"; msg.innerText = "✅ Success! Check your email to confirm."; }
         }
     </script>
 </body>
