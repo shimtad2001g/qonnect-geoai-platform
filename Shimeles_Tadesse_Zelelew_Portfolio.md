@@ -45,3 +45,6 @@ o	Mentorship: Leading youth-led geospatial initiatives (OpenMapLink Ethiopia) to
 o	Focus Areas: Climate resilience architecture, environmental safeguards (EIA & ESMP), and data-driven policy briefs for highland agricultural communities.
 
 
+
+*   **Architected a multi-crop GeoAI traceability platform** integrating 28+ diverse Ethiopian crops, live Sentinel-2 satellite data, and parametric insurance logic. Live Demo: https://qonnect-geoai-platform.vercel.app
+

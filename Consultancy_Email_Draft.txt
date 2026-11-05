@@ -1,0 +1,29 @@
+﻿Subject: Strategic GeoAI Advisory: Operationalizing Earth Observation for Climate-Resilient Infrastructure
+
+Dear [Recipient Name],
+
+In an era where organizations are inundated with satellite data, the critical challenge is no longer access—it is translation. The market is saturated with raw imagery, but starved for the strategic oversight required to convert complex environmental stressors into high-impact KPIs for governance, investment planning, and ESG reporting.
+
+My work is dedicated to closing that gap.
+
+I am writing to introduce my technical advisory and consultancy practice, built on a foundation of rigorous research, open-source engineering, and a commitment to Technological Sovereignty for climate-vulnerable regions. I partner with leadership teams to architect end-to-end GeoAI pipelines that deliver strategy-ready intelligence.
+
+THE PROOF: FROM CODE TO CABINET
+My advisory capability is validated by an active engineering portfolio and high-level research appointments.
+- Strategic Research: Associate Researcher at the Space Science and Geospatial Institute, building GeoAI pipelines for environmental tipping points.
+- Open-Source Engineering: Repositories including 'geoai-nbs-africa' and 'spatial-cloud-intelligence-pipeline'.
+- Thought Leadership: Certified Remote Sensing Solution Developer Level-III, publishing frameworks for African climate adaptation.
+
+A PRACTICAL DEMONSTRATION
+I recently architected and deployed a fully automated, cloud-native GeoAI platform that tracks multi-crop traceability (28+ diverse Ethiopian crops) using live Sentinel-2 satellite data, parametric insurance logic, and PostGIS spatial databases.
+You are invited to explore the live demonstration here: https://qonnect-geoai-platform.vercel.app
+
+If your team is looking to operationalize geospatial intelligence, I would welcome a preliminary consultation to explore alignment.
+
+Warm regards,
+
+Shimeles Tadesse Zelelew
+Chief GeoAI Strategist | Climate Resilience Architect
+Email: shimtad2001g@gmail.com
+LinkedIn: https://www.linkedin.com/in/shimeles-tadesse-zelelew-77b07535/
+GitHub: https://github.com/shimtad2001g
