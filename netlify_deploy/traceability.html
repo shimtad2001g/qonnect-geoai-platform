@@ -116,9 +116,9 @@
     </div></div>
 
     <script>
-        // 1. Setup Supabase (ONLY ONCE)
+        // 1. Setup Supabase (Single Declaration)
         const supabaseUrl = 'https://toujtawzftajiuoxblaj.supabase.co';
-        const supabaseKey = 'postgresql://postgres.toujtawzftajiuoxblaj:Biruk.Yohannes123399@aws-0-eu-west-1.pooler.supabase.com:5432/postgres'; // <-- PASTE KEY HERE
+        const supabaseKey = 'postgresql://postgres.toujtawzftajiuoxblaj:Biruk.Yohannes123399@aws-0-eu-west-1.pooler.supabase.com:5432/postgres'; 
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
         // 2. Auth Check
@@ -167,10 +167,10 @@
             
             document.getElementById('dashboard').style.display = 'block';
             document.getElementById('map-desc').innerText = data.mapDesc;
-            document.getElementById('ndvi-val').innerHTML = `${data.ndvi} <span>(Calculated)</span>`;
-            document.getElementById('moisture-val').innerHTML = `${data.moisture} <span>(Verified)</span>`;
-            document.getElementById('yield-val').innerHTML = `${data.yield} <span>Accuracy</span>`;
-            document.getElementById('risk-val').innerHTML = `${data.risk} <span>(Live)</span>`;
+            document.getElementById('ndvi-val').innerHTML = ${data.ndvi} <span>(Calculated)</span>;
+            document.getElementById('moisture-val').innerHTML = ${data.moisture} <span>(Verified)</span>;
+            document.getElementById('yield-val').innerHTML = ${data.yield} <span>Accuracy</span>;
+            document.getElementById('risk-val').innerHTML = ${data.risk} <span>(Live)</span>;
             
             document.getElementById('phase1-desc').innerText = data.phase1;
             document.getElementById('phase2-desc').innerText = data.phase2;
@@ -180,7 +180,7 @@
             if (!map) { map = L.map('map').setView([data.lat, data.lng], data.zoom); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map); }
             else { map.setView([data.lat, data.lng], data.zoom); }
             if (marker) { map.removeLayer(marker); }
-            marker = L.marker([data.lat, data.lng]).addTo(map).bindPopup(`<b>${data.name}</b>`).openPopup();
+            marker = L.marker([data.lat, data.lng]).addTo(map).bindPopup(<b></b>).openPopup();
             
             check24HourLogic();
         }
@@ -194,8 +194,8 @@
                     body: JSON.stringify({ lon: 36.8, lat: 7.6, start_date: "2026-07-01", end_date: "2026-09-30" })
                 });
                 const data = await response.json();
-                alert(`✅ SUCCESS!\nNDVI: ${data.mean_ndvi}\nHealth: ${data.crop_health}`);
-                document.getElementById('ndvi-val').innerHTML = `${data.mean_ndvi} <span>(${data.crop_health})</span>`;
+                alert(✅ SUCCESS!\nNDVI: \nHealth: );
+                document.getElementById('ndvi-val').innerHTML = ${data.mean_ndvi} <span>()</span>;
             } catch (err) { alert("Backend waking up. Try again in 50s."); }
             finally { btn.innerText = "🛰️ Live Satellite API"; }
         }
