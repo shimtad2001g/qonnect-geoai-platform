@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traceability & Insurance Portal | Qonnect GeoAI</title>
+    <title>Traceability & Insurance Portal | Qonnect Spatial</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -55,7 +55,6 @@
         .timeline-item h4 { margin: 0 0 5px 0; color: var(--primary-dark); }
         .timeline-item p { margin: 0; color: var(--text-light); font-size: 0.9rem; }
 
-        /* Payment Modal Styles */
         .premium-lock { display: none; margin-top: 40px; text-align: center; background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-mid) 100%); padding: 40px; border-radius: 20px; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         .premium-lock h2 { color: var(--accent-gold); margin-bottom: 15px; }
         .btn-pay { background: var(--accent-gold); color: var(--primary-dark); border: none; padding: 15px 40px; border-radius: 50px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; font-family: 'Space Grotesk', sans-serif; margin-top: 20px;}
@@ -161,7 +160,6 @@
             </div>
         </div>
 
-        <!-- 24-Hour Premium Lock -->
         <div class="premium-lock" id="premium-lock">
             <h2>🔒 Unlock Full Supply Chain Intelligence</h2>
             <p>Get full access to the farm-to-buyer pathway, live IoT sensor data, and verified carbon metrics.</p>
@@ -169,7 +167,6 @@
         </div>
     </div>
 
-    <!-- Payment Modal -->
     <div id="payment-modal" class="modal"><div class="modal-content">
         <span class="close-btn" onclick="closeModal('payment-modal')">&times;</span>
         <h2 style="color: var(--primary-dark); margin-top: 0;">Upgrade to Premium</h2>
@@ -197,16 +194,13 @@
     </div></div>
 
     <script>
-        // --- 1. SUPABASE AUTH & SECURITY GATE ---
         const supabaseUrl = 'https://toujtawzftajiuoxblaj.supabase.co';
-        const supabaseKey = 'postgresql://postgres.toujtawzftajiuoxblaj:Biruk.Yohannes123399@aws-0-eu-west-1.pooler.supabase.com:5432/postgres'; 
+        const supabaseKey = '$filePath = "C:\qonnect-geoai-platform\netlify_deploy\traceability.html"';
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
         async function checkAuth() {
             const { data: { session } } = await supabase.auth.getSession();
-            if (!session) {
-                window.location.href = 'signup.html'; // Redirect if not logged in
-            }
+            if (!session) { window.location.href = 'signup.html'; }
         }
         checkAuth();
 
@@ -215,11 +209,9 @@
             window.location.href = 'index.html';
         }
 
-        // --- 2. 24-HOUR PREMIUM LOGIC ---
         function check24HourLogic() {
             const firstVisit = localStorage.getItem('qonnect_first_visit');
             const isPremium = localStorage.getItem('qonnect_premium_unlocked');
-            
             if (!firstVisit) {
                 localStorage.setItem('qonnect_first_visit', Date.now().toString());
             } else if (isPremium !== 'true') {
@@ -232,24 +224,18 @@
 
         function submitPayment() {
             const txId = document.getElementById('transactionId').value;
-            if(txId.length < 5) {
-                alert("Please enter a valid Transaction ID.");
-                return;
-            }
-            // In a real app, this sends the TX ID to your backend/Supabase for manual verification.
+            if(txId.length < 5) { alert("Please enter a valid Transaction ID."); return; }
             alert("✅ Payment Verification Submitted!\n\nYour access will be unlocked once our team verifies the transaction (usually within 1 hour).");
             localStorage.setItem('qonnect_premium_unlocked', 'true');
             document.getElementById('premium-lock').style.display = 'none';
             closeModal('payment-modal');
         }
 
-        // --- 3. DASHBOARD LOGIC (Same as before) ---
         let map;
         let marker;
         const cropDatabase = {
             "ETH-COFFEE-2026-001": { lat: 9.145, lng: 40.489, zoom: 7, name: "Highland Coffee", mapDesc: "Highland Region, Ethiopia.", ndvi: "0.78", moisture: "42%", yield: "98%", risk: "Low", phase1: "Farmer ID: ETH-9928. GPS verified.", phase2: "Processed at cooperative. Moisture 12%.", phase3: "Djibouti Port. Temp tracked.", phase4: "Verified by smart contract." },
-            "ETH-TOMATO-2026-042": { lat: 7.933, lng: 38.716, zoom: 9, name: "Ziway Tomatoes", mapDesc: "Ziway Region, Ethiopia.", ndvi: "0.85", moisture: "65%", yield: "92%", risk: "Moderate", phase1: "Harvested at Ziway Farm.", phase2: "Sorted and packaged.", phase3: "Refrigerated truck.", phase4: "Central market." },
-            // ... (Add the rest of your crops here, I shortened it for the example) ...
+            "ETH-TOMATO-2026-042": { lat: 7.933, lng: 38.716, zoom: 9, name: "Ziway Tomatoes", mapDesc: "Ziway Region, Ethiopia.", ndvi: "0.85", moisture: "65%", yield: "92%", risk: "Moderate", phase1: "Harvested at Ziway Farm.", phase2: "Sorted and packaged.", phase3: "Refrigerated truck.", phase4: "Central market." }
         };
 
         function trackBatch() {
@@ -259,10 +245,10 @@
 
             document.getElementById('dashboard').style.display = 'block';
             document.getElementById('map-desc').innerText = data.mapDesc;
-            document.getElementById('ndvi-val').innerHTML = `${data.ndvi} <span>(Calculated)</span>`;
-            document.getElementById('moisture-val').innerHTML = `${data.moisture} <span>(Verified)</span>`;
-            document.getElementById('yield-val').innerHTML = `${data.yield} <span>Accuracy</span>`;
-            document.getElementById('risk-val').innerHTML = `${data.risk} <span>(Live)</span>`;
+            document.getElementById('ndvi-val').innerHTML = ${data.ndvi} <span>(Calculated)</span>;
+            document.getElementById('moisture-val').innerHTML = ${data.moisture} <span>(Verified)</span>;
+            document.getElementById('yield-val').innerHTML = ${data.yield} <span>Accuracy</span>;
+            document.getElementById('risk-val').innerHTML = ${data.risk} <span>(Live)</span>;
             
             document.getElementById('phase1-desc').innerText = data.phase1;
             document.getElementById('phase2-desc').innerText = data.phase2;
@@ -274,9 +260,9 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
             } else { map.setView([data.lat, data.lng], data.zoom); }
             if (marker) { map.removeLayer(marker); }
-            marker = L.marker([data.lat, data.lng]).addTo(map).bindPopup(`<b>${data.name}</b>`).openPopup();
+            marker = L.marker([data.lat, data.lng]).addTo(map).bindPopup(<b></b>).openPopup();
             
-            check24HourLogic(); // Check if 24h has passed to show paywall
+            check24HourLogic();
             document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
         }
 
@@ -290,8 +276,8 @@
                     body: JSON.stringify({ lon: 36.8, lat: 7.6, start_date: "2026-07-01", end_date: "2026-09-30" })
                 });
                 const data = await response.json();
-                alert(`✅ LIVE SATELLITE SUCCESS!\nNDVI: ${data.mean_ndvi}\nHealth: ${data.crop_health}`);
-                document.getElementById('ndvi-val').innerHTML = `${data.mean_ndvi} <span>(${data.crop_health})</span>`;
+                alert(✅ LIVE SATELLITE SUCCESS!\nNDVI: \nHealth: );
+                document.getElementById('ndvi-val').innerHTML = ${data.mean_ndvi} <span>()</span>;
             } catch (err) {
                 alert("Backend is waking up. Please try again in 50 seconds.");
             } finally { btn.innerText = "🛰️ Live Satellite API"; }
