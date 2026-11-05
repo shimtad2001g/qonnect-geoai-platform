@@ -67,7 +67,7 @@
         </div>
         <div style="margin-top: 25px; display: flex; justify-content: center; align-items: center; gap: 15px;">
             <label for="demoSelect" style="color: #b7e4c7; font-weight: 600;">Select a Demo Crop:</label>
-            <select id="demoSelect" onchange="document.getElementById('batchId').value = this.value;" style="padding: 12px 20px; border-radius: 50px; border: 2px solid var(--accent-green); background: var(--primary-dark); color: white;">
+            <select id="demoSelect" onchange="document.getElementById('batchId').value = this.value; trackBatch();" style="padding: 12px 20px; border-radius: 50px; border: 2px solid var(--accent-green); background: var(--primary-dark); color: white;">
                 <option value="ETH-COFFEE-2026-001">☕ Coffee (Ethiopia)</option>
                 <option value="ETH-TOMATO-2026-042">🍅 Tomato (Ethiopia)</option>
                 <option value="KEN-AVOCADO-2026-089">🥑 Avocado (Kenya)</option>
@@ -232,3 +232,4 @@
     </script>
 </body>
 </html>
+
