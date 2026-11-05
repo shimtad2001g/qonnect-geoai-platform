@@ -147,10 +147,10 @@
     <script>
         const supabaseUrl = 'https://toujtawzftajiuoxblaj.supabase.co';
         const supabaseKey = 'Biruk.Yohannes123399@aws-0-eu-west-1.pooler.supabase.com:5432/postgres'; 
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
         async function checkAuthState() {
-            const { data: { session } } = await supabase.auth.getSession();
+            const { data: { session } } = await supabaseClient.auth.getSession();
             if (session) {
                 document.getElementById('logout-btn').style.display = 'inline-block';
                 document.getElementById('login-btn').style.display = 'none';
@@ -162,7 +162,7 @@
         checkAuthState();
 
         async function handleLogout() {
-            await supabase.auth.signOut();
+            await supabaseClient.auth.signOut();
             window.location.reload();
         }
 
@@ -247,7 +247,7 @@
         }
 
         async function runLiveAnalysis() {
-            const { data: { session } } = await supabase.auth.getSession();
+            const { data: { session } } = await supabaseClient.auth.getSession();
             if (!session) {
                 alert("🔒 Registration Required\n\nPlease register or log in to access the Live Satellite API.");
                 window.location.href = 'signup.html';
@@ -273,3 +273,4 @@
     </script>
 </body>
 </html>
+
