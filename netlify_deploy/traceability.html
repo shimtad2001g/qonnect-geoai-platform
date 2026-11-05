@@ -245,6 +245,21 @@
         };
 
         async function fetchPhaseData(phaseNumber) {
+            // --- PREMIUM GATEKEEPER ---
+            const firstVisit = localStorage.getItem('qonnect_first_visit');
+            const isPremium = localStorage.getItem('qonnect_premium_unlocked');
+            
+            if (firstVisit) {
+                const diffHours = (Date.now() - parseInt(firstVisit)) / (1000 * 60 * 60);
+                if (diffHours >= 24 && isPremium !== 'true') {
+                    alert("🔒 24-Hour Free Trial Expired.\n\nPlease upgrade to Premium to fetch live satellite data for the supply chain.");
+                    document.getElementById('premium-lock').style.display = 'block';
+                    document.getElementById('premium-lock').scrollIntoView({ behavior: 'smooth' });
+                    return; // Stops the API call
+                }
+            }
+            // ---------------------------
+
             if (!currentCropData) { alert("Please track a batch first."); return; }
 
             const items = document.querySelectorAll('.timeline-item');
@@ -360,6 +375,17 @@
         }
 
         async function runLiveAnalysis() {
+            // Add gatekeeper here too just in case they try to bypass
+            const firstVisit = localStorage.getItem('qonnect_first_visit');
+            const isPremium = localStorage.getItem('qonnect_premium_unlocked');
+            if (firstVisit) {
+                const diffHours = (Date.now() - parseInt(firstVisit)) / (1000 * 60 * 60);
+                if (diffHours >= 24 && isPremium !== 'true') {
+                    alert("🔒 24-Hour Free Trial Expired.\n\nPlease upgrade to Premium to use the Live Satellite API.");
+                    return;
+                }
+            }
+
             if (!currentCropData) { alert("Please track a batch first."); return; }
             const btn = event.target;
             btn.innerText = "🛰️ Analyzing...";
