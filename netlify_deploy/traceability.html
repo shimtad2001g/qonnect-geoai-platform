@@ -69,6 +69,12 @@
             <select id="demoSelect" onchange="document.getElementById('batchId').value = this.value;" style="padding: 12px 20px; border-radius: 50px; border: 2px solid var(--accent-green); background: var(--primary-dark); color: white;">
                 <option value="ETH-COFFEE-2026-001">☕ Coffee (Ethiopia)</option>
                 <option value="ETH-TOMATO-2026-042">🍅 Tomato (Ethiopia)</option>
+                <option value="KEN-AVOCADO-2026-089">🥑 Avocado (Kenya)</option>
+                <option value="ETH-WHEAT-2026-112">🌾 Wheat (Ethiopia)</option>
+                <option value="ZAM-MAIZE-2026-055">🌽 Maize (Zambia)</option>
+                <option value="GHA-COCOA-2026-201">🍫 Cocoa (Ghana)</option>
+                <option value="KEN-TEA-2026-077">🍵 Tea (Kenya)</option>
+                <option value="UGA-BANANA-2026-144">🍌 Banana (Uganda)</option>
             </select>
         </div>
     </div>
@@ -152,8 +158,14 @@
 
         let map, marker;
         const cropDatabase = {
-            "ETH-COFFEE-2026-001": { lat: 9.145, lng: 40.489, zoom: 7, name: "Highland Coffee", mapDesc: "Highland Region.", ndvi: "0.78", moisture: "42%", yield: "98%", risk: "Low", phase1: "GPS verified.", phase2: "Moisture 12%.", phase3: "Djibouti Port.", phase4: "Smart contract." },
-            "ETH-TOMATO-2026-042": { lat: 7.933, lng: 38.716, zoom: 9, name: "Ziway Tomatoes", mapDesc: "Ziway Region.", ndvi: "0.85", moisture: "65%", yield: "92%", risk: "Moderate", phase1: "Harvested.", phase2: "Packaged.", phase3: "Refrigerated.", phase4: "Market." }
+            "ETH-COFFEE-2026-001": { lat: 9.145, lng: 40.489, zoom: 7, name: "Highland Coffee", mapDesc: "Highland Region, Ethiopia.", ndvi: "0.78", moisture: "42%", yield: "98%", risk: "Low", phase1: "Farmer ID: ETH-9928. GPS verified.", phase2: "Processed at cooperative. Moisture 12%.", phase3: "Djibouti Port. Temp tracked.", phase4: "Verified by smart contract." },
+            "ETH-TOMATO-2026-042": { lat: 7.933, lng: 38.716, zoom: 9, name: "Ziway Tomatoes", mapDesc: "Ziway Region, Ethiopia.", ndvi: "0.85", moisture: "65%", yield: "92%", risk: "Moderate", phase1: "Harvested at Ziway Farm.", phase2: "Sorted and packaged.", phase3: "Refrigerated truck.", phase4: "Central market." },
+            "KEN-AVOCADO-2026-089": { lat: -0.152, lng: 37.308, zoom: 8, name: "Mount Kenya Avocados", mapDesc: "Mount Kenya Region.", ndvi: "0.82", moisture: "55%", yield: "95%", risk: "Low", phase1: "Harvested at orchards.", phase2: "Washed and packed.", phase3: "Air freight.", phase4: "European distributor." },
+            "ETH-WHEAT-2026-112": { lat: 7.000, lng: 40.000, zoom: 8, name: "Bale Zone Wheat", mapDesc: "Bale Zone, Ethiopia.", ndvi: "0.65", moisture: "30%", yield: "85%", risk: "High", phase1: "Harvested at Bale Zone.", phase2: "Milled locally.", phase3: "Road transport.", phase4: "Payout pending." },
+            "ZAM-MAIZE-2026-055": { lat: -15.387, lng: 28.322, zoom: 9, name: "Lusaka Maize", mapDesc: "Lusaka Province, Zambia.", ndvi: "0.72", moisture: "50%", yield: "90%", risk: "Low", phase1: "Combine harvested.", phase2: "Stored in silo.", phase3: "Rail transport.", phase4: "Export ready." },
+            "GHA-COCOA-2026-201": { lat: 6.747, lng: -1.576, zoom: 9, name: "Ashanti Cocoa", mapDesc: "Ashanti Region, Ghana.", ndvi: "0.88", moisture: "75%", yield: "96%", risk: "Low", phase1: "Shade-tree validated.", phase2: "Fermented 6 days.", phase3: "Tema Port.", phase4: "Blockchain verified." },
+            "KEN-TEA-2026-077": { lat: -0.368, lng: 35.283, zoom: 9, name: "Kericho Tea", mapDesc: "Kericho, Kenya.", ndvi: "0.80", moisture: "60%", yield: "94%", risk: "Moderate", phase1: "Plucked at estate.", phase2: "Withered and processed.", phase3: "Mombasa Port.", phase4: "Quality graded." },
+            "UGA-BANANA-2026-144": { lat: -0.607, lng: 30.654, zoom: 8, name: "Mbarara Bananas", mapDesc: "Mbarara, Uganda.", ndvi: "0.75", moisture: "45%", yield: "91%", risk: "Low", phase1: "Bunch maturity checked.", phase2: "Cold chain established.", phase3: "Road to Kampala.", phase4: "Regional distributor." }
         };
 
         function trackBatch() {
