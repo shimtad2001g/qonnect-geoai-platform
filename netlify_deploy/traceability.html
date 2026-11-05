@@ -37,6 +37,18 @@
         .timeline-item { position: relative; margin-bottom: 25px; padding: 15px; border-radius: 12px; cursor: pointer; border: 1px solid transparent; }
         .timeline-item:hover { background: #f4f9f4; border: 1px solid var(--accent-green); }
         .timeline-item::before { content: ''; position: absolute; left: -36px; top: 20px; width: 15px; height: 15px; border-radius: 50%; background: var(--primary-dark); border: 3px solid var(--accent-green); }
+        
+        /* NEW CSS FOR REAL-TIME ANIMATION */
+        .timeline-item { opacity: 0.3; transition: all 0.5s ease-in-out; }
+        .timeline-item.active { 
+            opacity: 1; 
+            background: #e8f5e9; 
+            border: 1px solid var(--accent-green); 
+            box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15); 
+        }
+        .timeline-item::before { background: #ccc; border-color: #ccc; transition: all 0.5s ease; }
+        .timeline-item.active::before { background: var(--primary-dark); border-color: var(--accent-green); }
+
         .premium-lock { display: none; margin-top: 40px; text-align: center; background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-mid) 100%); padding: 40px; border-radius: 20px; color: white; }
         .premium-lock h2 { color: var(--accent-gold); }
         .btn-pay { background: var(--accent-gold); color: var(--primary-dark); border: none; padding: 15px 40px; border-radius: 50px; font-weight: bold; font-size: 1.1rem; cursor: pointer; margin-top: 20px;}
@@ -120,10 +132,10 @@
         <div class="card" style="margin-top: 25px;">
             <h3>End-to-End Supply Chain Verification</h3>
             <div class="timeline">
-                <div class="timeline-item"><h4>Phase 1: Harvest & Farm Ingestion</h4><p id="phase1-desc">GPS verified.</p></div>
-                <div class="timeline-item"><h4>Phase 2: Quality Processing</h4><p id="phase2-desc">Moisture levels verified.</p></div>
-                <div class="timeline-item"><h4>Phase 3: Export & Logistics</h4><p id="phase3-desc">Temperature tracked.</p></div>
-                <div class="timeline-item"><h4>Phase 4: Global Marketplace</h4><p id="phase4-desc">Arrived at distributor.</p></div>
+                <div class="timeline-item"><h4>Phase 1: Harvest & Farm Ingestion</h4><p id="phase1-desc">Waiting for verification...</p></div>
+                <div class="timeline-item"><h4>Phase 2: Quality Processing</h4><p id="phase2-desc">Waiting for verification...</p></div>
+                <div class="timeline-item"><h4>Phase 3: Export & Logistics</h4><p id="phase3-desc">Waiting for verification...</p></div>
+                <div class="timeline-item"><h4>Phase 4: Global Marketplace</h4><p id="phase4-desc">Waiting for verification...</p></div>
             </div>
         </div>
         <div class="premium-lock" id="premium-lock">
@@ -143,7 +155,6 @@
         <button class="btn-submit-payment" onclick="submitPayment()">Verify & Unlock</button>
     </div></div>
 
-    <!-- EXACTLY ONE SCRIPT BLOCK BELOW -->
     <script>
         const supabaseUrl = 'https://toujtawzftajiuoxblaj.supabase.co';
         const supabaseKey = 'Biruk.Yohannes123399@aws-0-eu-west-1.pooler.supabase.com:5432/postgres'; 
@@ -217,6 +228,38 @@
             "ETH-TEA-2026-077": { lat: -0.368, lng: 35.283, zoom: 9, name: "Kericho Tea", mapDesc: "Kericho, Kenya.", ndvi: "0.80", moisture: "60%", yield: "94%", risk: "Moderate", phase1: "Plucked at estate.", phase2: "Withered and processed.", phase3: "Mombasa Port.", phase4: "Quality graded." }
         };
 
+        // NEW FUNCTION FOR REAL-TIME SUPPLY CHAIN ANIMATION
+        let timelineInterval;
+        function runLiveSupplyChain(data) {
+            if (timelineInterval) clearInterval(timelineInterval);
+            
+            const phases = [
+                { id: 'phase1-desc', text: data.phase1, elem: document.querySelectorAll('.timeline-item')[0] },
+                { id: 'phase2-desc', text: data.phase2, elem: document.querySelectorAll('.timeline-item')[1] },
+                { id: 'phase3-desc', text: data.phase3, elem: document.querySelectorAll('.timeline-item')[2] },
+                { id: 'phase4-desc', text: data.phase4, elem: document.querySelectorAll('.timeline-item')[3] }
+            ];
+
+            // 1. Reset all phases to a "pending" state
+            phases.forEach(p => {
+                p.elem.classList.remove('active');
+                document.getElementById(p.id).innerText = "Waiting for verification...";
+            });
+
+            // 2. Sequentially activate them to simulate real-time processing
+            let currentPhase = 0;
+            timelineInterval = setInterval(() => {
+                if (currentPhase < phases.length) {
+                    const phase = phases[currentPhase];
+                    phase.elem.classList.add('active'); // Highlights the box
+                    document.getElementById(phase.id).innerText = phase.text; // Loads the data
+                    currentPhase++;
+                } else {
+                    clearInterval(timelineInterval); // Stop when finished
+                }
+            }, 800); // 800ms delay between each phase
+        }
+
         function trackBatch() {
             const inputVal = document.getElementById('batchId').value.trim().toUpperCase();
             const data = cropDatabase[inputVal];
@@ -229,10 +272,8 @@
             document.getElementById('yield-val').innerHTML = data.yield + ' <span>Accuracy</span>';
             document.getElementById('risk-val').innerHTML = data.risk + ' <span>(Live)</span>';
             
-            document.getElementById('phase1-desc').innerText = data.phase1;
-            document.getElementById('phase2-desc').innerText = data.phase2;
-            document.getElementById('phase3-desc').innerText = data.phase3;
-            document.getElementById('phase4-desc').innerText = data.phase4;
+            // Trigger the animated timeline
+            runLiveSupplyChain(data);
 
             if (!map) { 
                 map = L.map('map').setView([data.lat, data.lng], data.zoom); 
@@ -242,17 +283,13 @@
             }
             if (marker) { map.removeLayer(marker); }
             marker = L.marker([data.lat, data.lng]).addTo(map).bindPopup('<b>' + data.name + '</b>').openPopup();
-                       if (marker) { map.removeLayer(marker); }
-            marker = L.marker([data.lat, data.lng]).addTo(map).bindPopup('<b>' + data.name + '</b>').openPopup();
             
-            // ADD THIS BLOCK HERE:
+            // THE MAP FIX IS HERE:
             setTimeout(() => {
                 map.invalidateSize();
             }, 200);
 
-            check24HourLogic(); 
-            
-	check24HourLogic();
+            check24HourLogic();
         }
 
         async function runLiveAnalysis() {
@@ -282,4 +319,3 @@
     </script>
 </body>
 </html>
-
