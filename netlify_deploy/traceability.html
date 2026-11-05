@@ -68,15 +68,35 @@
         </div>
         <div style="margin-top: 25px; display: flex; justify-content: center; align-items: center; gap: 15px;">
             <label for="demoSelect" style="color: #b7e4c7; font-weight: 600;">Select a Demo Crop:</label>
-            <select id="demoSelect" onchange="updateBatch(this.value)" style="padding: 12px 20px; border-radius: 50px; border: 2px solid var(--accent-green); background: var(--primary-dark); color: white;">
+            <select id="demoSelect" onchange="updateBatch(this.value)" style="padding: 12px 20px; border-radius: 50px; border: 2px solid var(--accent-green); background: var(--primary-dark); color: white; max-width: 100%;">
                 <option value="ETH-COFFEE-2026-001">☕ Coffee (Ethiopia)</option>
-                <option value="ETH-TOMATO-2026-042">🍅 Tomato (Ethiopia)</option>
+                <option value="ETH-TEFF-2026-101">🌾 Teff (Ada'a)</option>
+                <option value="ETH-WHEAT-2026-112">🌾 Wheat (Bale)</option>
+                <option value="ETH-MAIZE-2026-103">🌽 Maize (Bako)</option>
+                <option value="ETH-BARLEY-2026-104">🌾 Barley (Arsi)</option>
+                <option value="ETH-SORGHUM-2026-105">🌾 Sorghum (Hararghe)</option>
+                <option value="ETH-MILLET-2026-106">🌾 Millet (Mekele)</option>
+                <option value="ETH-CHICKPEA-2026-107">🫛 Chickpea (Gondar)</option>
+                <option value="ETH-LENTIL-2026-108">🫛 Lentil (Gojjam)</option>
+                <option value="ETH-HARICOT-2026-109">🫘 Haricot Bean (Awash)</option>
+                <option value="ETH-SESAME-2026-110">🌱 Sesame (Humera)</option>
+                <option value="ETH-NOUG-2026-111">🌱 Noug (Debre Markos)</option>
                 <option value="KEN-AVOCADO-2026-089">🥑 Avocado (Kenya)</option>
-                <option value="ETH-WHEAT-2026-112">🌾 Wheat (Ethiopia)</option>
-                <option value="ZAM-MAIZE-2026-055">🌽 Maize (Zambia)</option>
-                <option value="GHA-COCOA-2026-201">🍫 Cocoa (Ghana)</option>
-                <option value="KEN-TEA-2026-077">🍵 Tea (Kenya)</option>
-                <option value="UGA-BANANA-2026-144">🍌 Banana (Uganda)</option>
+                <option value="ETH-TOMATO-2026-042">🍅 Tomato (Ziway)</option>
+                <option value="ETH-ONION-2026-113">🧅 Onion (Meki)</option>
+                <option value="ETH-POTATO-2026-114">🥔 Potato (Holeta)</option>
+                <option value="ETH-CABBAGE-2026-115">🥬 Cabbage (Akaki)</option>
+                <option value="ETH-PEPPER-2026-116">🌶️ Pepper (Mareko)</option>
+                <option value="ETH-CARROT-2026-117">🥕 Carrot (Sululta)</option>
+                <option value="ETH-BANANA-2026-144">🍌 Banana (Mbarara)</option>
+                <option value="ETH-MANGO-2026-118">🥭 Mango (Arba Minch)</option>
+                <option value="ETH-PAPAYA-2026-119">🍈 Papaya (Yirgalem)</option>
+                <option value="ETH-ORANGE-2026-120">🍊 Orange (Dire Dawa)</option>
+                <option value="ETH-APPLE-2026-121">🍎 Apple (Chencha)</option>
+                <option value="ETH-SUGARCANE-2026-122">🎋 Sugarcane (Wonji)</option>
+                <option value="ETH-COTTON-2026-123">☁️ Cotton (Gambella)</option>
+                <option value="ETH-CHAT-2026-124">🌿 Khat (Harar)</option>
+                <option value="ETH-TEA-2026-077">🍵 Tea (Kericho)</option>
             </select>
         </div>
     </div>
@@ -126,10 +146,10 @@
     <script>
         const supabaseUrl = 'https://toujtawzftajiuoxblaj.supabase.co';
         const supabaseKey = 'Biruk.Yohannes123399@aws-0-eu-west-1.pooler.supabase.com:5432/postgres'; 
-        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
         async function checkAuthState() {
-            const { data: { session } } = await supabaseClient.auth.getSession();
+            const { data: { session } } = await supabase.auth.getSession();
             if (session) {
                 document.getElementById('logout-btn').style.display = 'inline-block';
                 document.getElementById('login-btn').style.display = 'none';
@@ -141,7 +161,7 @@
         checkAuthState();
 
         async function handleLogout() {
-            await supabaseClient.auth.signOut();
+            await supabase.auth.signOut();
             window.location.reload();
         }
 
@@ -167,22 +187,38 @@
         let map, marker;
         const cropDatabase = {
             "ETH-COFFEE-2026-001": { lat: 9.145, lng: 40.489, zoom: 7, name: "Highland Coffee", mapDesc: "Highland Region, Ethiopia.", ndvi: "0.78", moisture: "42%", yield: "98%", risk: "Low", phase1: "Farmer ID: ETH-9928. GPS verified.", phase2: "Processed at cooperative. Moisture 12%.", phase3: "Djibouti Port. Temp tracked.", phase4: "Verified by smart contract." },
-            "ETH-TOMATO-2026-042": { lat: 7.933, lng: 38.716, zoom: 9, name: "Ziway Tomatoes", mapDesc: "Ziway Region, Ethiopia.", ndvi: "0.85", moisture: "65%", yield: "92%", risk: "Moderate", phase1: "Harvested at Ziway Farm.", phase2: "Sorted and packaged.", phase3: "Refrigerated truck.", phase4: "Central market." },
+            "ETH-TEFF-2026-101": { lat: 8.75, lng: 38.98, zoom: 9, name: "Ada'a Teff", mapDesc: "Ada'a District, Oromia (Highland).", ndvi: "0.62", moisture: "38%", yield: "89%", risk: "Low", phase1: "Harvested at Ada'a. GPS verified.", phase2: "Cleaned and milled. Moisture 11%.", phase3: "Transported to Addis Ababa.", phase4: "Verified for local market." },
+            "ETH-WHEAT-2026-112": { lat: 7.12, lng: 40.21, zoom: 8, name: "Bale Zone Wheat", mapDesc: "Bale Zone, Ethiopia.", ndvi: "0.65", moisture: "30%", yield: "85%", risk: "High", phase1: "Harvested at Bale Zone.", phase2: "Milled locally.", phase3: "Road transport.", phase4: "Payout pending." },
+            "ETH-MAIZE-2026-103": { lat: 9.12, lng: 37.05, zoom: 9, name: "Bako Maize", mapDesc: "Bako, Western Oromia.", ndvi: "0.81", moisture: "58%", yield: "94%", risk: "Low", phase1: "Combine harvested.", phase2: "Dried to 13% moisture.", phase3: "Rail transport to Addis.", phase4: "Verified for feed and food." },
+            "ETH-BARLEY-2026-104": { lat: 7.95, lng: 39.13, zoom: 9, name: "Arsi Barley", mapDesc: "Arsi Zone, Oromia.", ndvi: "0.68", moisture: "35%", yield: "88%", risk: "Moderate", phase1: "Harvested at Asella.", phase2: "Cleaned and graded.", phase3: "Transported to malt factory.", phase4: "Verified for brewery." },
+            "ETH-SORGHUM-2026-105": { lat: 9.31, lng: 42.12, zoom: 9, name: "Hararghe Sorghum", mapDesc: "East Hararghe, Oromia.", ndvi: "0.59", moisture: "28%", yield: "82%", risk: "High", phase1: "Drought-resilient harvest.", phase2: "Threshed locally.", phase3: "Road transport.", phase4: "Verified for local consumption." },
+            "ETH-MILLET-2026-106": { lat: 13.49, lng: 39.47, zoom: 9, name: "Mekele Millet", mapDesc: "Tigray Region.", ndvi: "0.55", moisture: "22%", yield: "78%", risk: "High", phase1: "Harvested in dry lowlands.", phase2: "Cleaned manually.", phase3: "Local transport.", phase4: "Verified for relief supply." },
+            "ETH-CHICKPEA-2026-107": { lat: 12.60, lng: 37.46, zoom: 9, name: "Gondar Chickpea", mapDesc: "Gondar, Amhara.", ndvi: "0.71", moisture: "40%", yield: "90%", risk: "Low", phase1: "Harvested at Gondar.", phase2: "Sorted for export.", phase3: "Road to Djibouti.", phase4: "Verified for Middle East market." },
+            "ETH-LENTIL-2026-108": { lat: 10.33, lng: 37.73, zoom: 9, name: "Gojjam Lentil", mapDesc: "Gojjam, Amhara.", ndvi: "0.73", moisture: "43%", yield: "91%", risk: "Low", phase1: "Harvested at Debre Markos.", phase2: "Cleaned and bagged.", phase3: "Transported to Addis.", phase4: "Verified for local market." },
+            "ETH-HARICOT-2026-109": { lat: 8.98, lng: 40.16, zoom: 9, name: "Awash Haricot Bean", mapDesc: "Awash Valley.", ndvi: "0.76", moisture: "48%", yield: "92%", risk: "Low", phase1: "Irrigated harvest.", phase2: "Sorted for quality.", phase3: "Road transport.", phase4: "Verified for regional export." },
+            "ETH-SESAME-2026-110": { lat: 14.30, lng: 36.61, zoom: 8, name: "Humera Sesame", mapDesc: "Humera, Tigray.", ndvi: "0.69", moisture: "32%", yield: "87%", risk: "Moderate", phase1: "Harvested at Humera.", phase2: "Cleaned for export.", phase3: "Transported to Port Sudan.", phase4: "Verified for global market." },
+            "ETH-NOUG-2026-111": { lat: 10.33, lng: 37.73, zoom: 9, name: "Gojjam Noug", mapDesc: "Gojjam, Amhara.", ndvi: "0.67", moisture: "36%", yield: "84%", risk: "Low", phase1: "Harvested for oil extraction.", phase2: "Cold-pressed locally.", phase3: "Transported to Addis.", phase4: "Verified for local oil market." },
             "KEN-AVOCADO-2026-089": { lat: -0.152, lng: 37.308, zoom: 8, name: "Mount Kenya Avocados", mapDesc: "Mount Kenya Region.", ndvi: "0.82", moisture: "55%", yield: "95%", risk: "Low", phase1: "Harvested at orchards.", phase2: "Washed and packed.", phase3: "Air freight.", phase4: "European distributor." },
-            "ETH-WHEAT-2026-112": { lat: 7.000, lng: 40.000, zoom: 8, name: "Bale Zone Wheat", mapDesc: "Bale Zone, Ethiopia.", ndvi: "0.65", moisture: "30%", yield: "85%", risk: "High", phase1: "Harvested at Bale Zone.", phase2: "Milled locally.", phase3: "Road transport.", phase4: "Payout pending." },
-            "ZAM-MAIZE-2026-055": { lat: -15.387, lng: 28.322, zoom: 9, name: "Lusaka Maize", mapDesc: "Lusaka Province, Zambia.", ndvi: "0.72", moisture: "50%", yield: "90%", risk: "Low", phase1: "Combine harvested.", phase2: "Stored in silo.", phase3: "Rail transport.", phase4: "Export ready." },
-            "GHA-COCOA-2026-201": { lat: 6.747, lng: -1.576, zoom: 9, name: "Ashanti Cocoa", mapDesc: "Ashanti Region, Ghana.", ndvi: "0.88", moisture: "75%", yield: "96%", risk: "Low", phase1: "Shade-tree validated.", phase2: "Fermented 6 days.", phase3: "Tema Port.", phase4: "Blockchain verified." },
-            "KEN-TEA-2026-077": { lat: -0.368, lng: 35.283, zoom: 9, name: "Kericho Tea", mapDesc: "Kericho, Kenya.", ndvi: "0.80", moisture: "60%", yield: "94%", risk: "Moderate", phase1: "Plucked at estate.", phase2: "Withered and processed.", phase3: "Mombasa Port.", phase4: "Quality graded." },
-            "UGA-BANANA-2026-144": { lat: -0.607, lng: 30.654, zoom: 8, name: "Mbarara Bananas", mapDesc: "Mbarara, Uganda.", ndvi: "0.75", moisture: "45%", yield: "91%", risk: "Low", phase1: "Bunch maturity checked.", phase2: "Cold chain established.", phase3: "Road to Kampala.", phase4: "Regional distributor." }
+            "ETH-TOMATO-2026-042": { lat: 7.933, lng: 38.716, zoom: 9, name: "Ziway Tomatoes", mapDesc: "Ziway Region, Ethiopia.", ndvi: "0.85", moisture: "65%", yield: "92%", risk: "Moderate", phase1: "Harvested at Ziway Farm.", phase2: "Sorted and packaged.", phase3: "Refrigerated truck.", phase4: "Central market." },
+            "ETH-ONION-2026-113": { lat: 8.15, lng: 38.81, zoom: 9, name: "Meki Onion", mapDesc: "Meki, Oromia.", ndvi: "0.74", moisture: "52%", yield: "89%", risk: "Low", phase1: "Harvested at Meki.", phase2: "Cured and bagged.", phase3: "Transported to Addis.", phase4: "Verified for retail." },
+            "ETH-POTATO-2026-114": { lat: 9.05, lng: 38.50, zoom: 9, name: "Holeta Potato", mapDesc: "Holeta, Oromia.", ndvi: "0.79", moisture: "60%", yield: "93%", risk: "Moderate", phase1: "Harvested at Holeta.", phase2: "Graded and stored.", phase3: "Road transport.", phase4: "Verified for local market." },
+            "ETH-CABBAGE-2026-115": { lat: 8.88, lng: 38.78, zoom: 9, name: "Akaki Cabbage", mapDesc: "Akaki, Addis Ababa.", ndvi: "0.83", moisture: "62%", yield: "95%", risk: "Low", phase1: "Harvested at Akaki.", phase2: "Packed fresh.", phase3: "Short transport.", phase4: "Verified for city market." },
+            "ETH-PEPPER-2026-116": { lat: 7.95, lng: 38.45, zoom: 9, name: "Mareko Pepper", mapDesc: "Mareko, SNNPR.", ndvi: "0.72", moisture: "45%", yield: "86%", risk: "Low", phase1: "Harvested at Mareko.", phase2: "Sun-dried.", phase3: "Transported to Addis.", phase4: "Verified for spice market." },
+            "ETH-CARROT-2026-117": { lat: 9.15, lng: 38.75, zoom: 9, name: "Sululta Carrot", mapDesc: "Sululta, Oromia.", ndvi: "0.81", moisture: "58%", yield: "91%", risk: "Low", phase1: "Harvested at Sululta.", phase2: "Washed and packed.", phase3: "Refrigerated transport.", phase4: "Verified for retail." },
+            "ETH-BANANA-2026-144": { lat: -0.607, lng: 30.654, zoom: 8, name: "Mbarara Bananas", mapDesc: "Mbarara, Uganda.", ndvi: "0.75", moisture: "45%", yield: "91%", risk: "Low", phase1: "Bunch maturity checked.", phase2: "Cold chain established.", phase3: "Road to Kampala.", phase4: "Regional distributor." },
+            "ETH-MANGO-2026-118": { lat: 6.03, lng: 37.55, zoom: 9, name: "Arba Minch Mango", mapDesc: "Arba Minch, SNNPR.", ndvi: "0.86", moisture: "60%", yield: "94%", risk: "Low", phase1: "Tree-ripened harvest.", phase2: "Packed for export.", phase3: "Air freight.", phase4: "Verified for EU market." },
+            "ETH-PAPAYA-2026-119": { lat: 6.75, lng: 38.41, zoom: 9, name: "Yirgalem Papaya", mapDesc: "Yirgalem, Sidama.", ndvi: "0.84", moisture: "62%", yield: "92%", risk: "Low", phase1: "Harvested at Yirgalem.", phase2: "Sorted and packed.", phase3: "Refrigerated truck.", phase4: "Verified for local market." },
+            "ETH-ORANGE-2026-120": { lat: 9.59, lng: 41.86, zoom: 9, name: "Dire Dawa Orange", mapDesc: "Dire Dawa.", ndvi: "0.80", moisture: "50%", yield: "88%", risk: "Moderate", phase1: "Harvested at Dire Dawa.", phase2: "Washed and sorted.", phase3: "Road transport.", phase4: "Verified for local market." },
+            "ETH-APPLE-2026-121": { lat: 6.25, lng: 37.56, zoom: 9, name: "Chencha Apple", mapDesc: "Chencha, SNNPR.", ndvi: "0.77", moisture: "55%", yield: "85%", risk: "Moderate", phase1: "High-altitude harvest.", phase2: "Cold storage.", phase3: "Transported to Addis.", phase4: "Verified for premium market." },
+            "ETH-SUGARCANE-2026-122": { lat: 8.45, lng: 39.20, zoom: 9, name: "Wonji Sugarcane", mapDesc: "Wonji, Oromia.", ndvi: "0.88", moisture: "70%", yield: "97%", risk: "Low", phase1: "Mechanized harvest.", phase2: "Crushed at factory.", phase3: "Rail transport.", phase4: "Verified for sugar production." },
+            "ETH-COTTON-2026-123": { lat: 8.25, lng: 34.58, zoom: 8, name: "Gambella Cotton", mapDesc: "Gambella Region.", ndvi: "0.78", moisture: "65%", yield: "90%", risk: "Low", phase1: "Harvested at Gambella.", phase2: "Ginned locally.", phase3: "Transported to textile mill.", phase4: "Verified for textile industry." },
+            "ETH-CHAT-2026-124": { lat: 9.31, lng: 42.12, zoom: 9, name: "Harar Khat", mapDesc: "Harar Region.", ndvi: "0.82", moisture: "48%", yield: "95%", risk: "Low", phase1: "Morning plucking.", phase2: "Packed in fresh leaves.", phase3: "Fast road transport.", phase4: "Verified for regional market." },
+            "ETH-TEA-2026-077": { lat: -0.368, lng: 35.283, zoom: 9, name: "Kericho Tea", mapDesc: "Kericho, Kenya.", ndvi: "0.80", moisture: "60%", yield: "94%", risk: "Moderate", phase1: "Plucked at estate.", phase2: "Withered and processed.", phase3: "Mombasa Port.", phase4: "Quality graded." }
         };
 
         function updateBatch(val) {
-            console.log("Dropdown changed to:", val);
-            const input = document.getElementById('batchId');
-            if (input) {
-                input.value = val;
-                trackBatch();
-            }
+            document.getElementById('batchId').value = val;
+            trackBatch();
         }
 
         function trackBatch() {
@@ -215,7 +251,7 @@
         }
 
         async function runLiveAnalysis() {
-            const { data: { session } } = await supabaseClient.auth.getSession();
+            const { data: { session } } = await supabase.auth.getSession();
             if (!session) {
                 alert("🔒 Registration Required\n\nPlease register or log in to access the Live Satellite API.");
                 window.location.href = 'signup.html';
@@ -241,5 +277,3 @@
     </script>
 </body>
 </html>
-
-
