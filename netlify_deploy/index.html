@@ -127,7 +127,7 @@
 
     <nav>
         <a href="#" class="nav-brand">
-            <img src="https://qonnect-geoai-platform.vercel.app/logo.png?v=3" alt="Qonnect Logo"> alt="Qonnect Logo">
+            <img src="https://qonnect-geoai-platform.vercel.app/logo.png?v=3" alt="Qonnect Logo" style="height: 38px; width: 38px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); animation: float 3s ease-in-out infinite;">
             QONNECT<span>SPATIAL</span>
         </a>
         <div class="nav-links">
@@ -283,7 +283,10 @@
 
         // --- SUPABASE UI LOGIC ---
         const supabaseUrl = 'https://toujtawzftajiuoxblaj.supabase.co';
-        const supabaseKey = 'sb_publishable_z1eFD2B1k2a7WmC2kP-xA_sI8E9...'; // Make sure this is your actual key!
+        
+        // ⚠️ REPLACE THIS LINE WITH YOUR ACTUAL KEY FROM SUPABASE!
+        const supabaseKey = 'sb_publishable_zieFD2B1k2aT7wmCzkP-xA_sI8E9Vcd'; 
+        
         const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
         let hasSubmittedForm = localStorage.getItem('qonnect_form_submitted');
