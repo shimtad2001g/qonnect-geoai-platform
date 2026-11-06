@@ -1,0 +1,17 @@
+{
+  "name": "Qonnect GeoAI",
+  "short_name": "Qonnect",
+  "start_url": "/traceability.html?v=15",
+  "display": "standalone",
+  "background_color": "#081c15",
+  "theme_color": "#081c15",
+  "description": "Qonnect GeoAI Traceability & Premium Portal",
+  "icons": [
+    {
+      "src": "https://qonnect-geoai-platform.vercel.app/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
