@@ -4,16 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Qonnect Spatial Intelligence | GeoAI & Climate Resilience</title>
-    
-    <!-- Browser Favicon -->
     <link rel="icon" type="image/png" href="https://qonnect-geoai-platform.vercel.app/icon-512.png">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <!-- Leaflet & MovingMarker Plugin -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet.movingmarker@1.0.0/dist/Leaflet.MovingMarker.css" />
@@ -29,31 +24,19 @@
         body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.5px; }
         
-        /* --- ANIMATIONS --- */
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
         @keyframes pulseGlow { 0% { box-shadow: 0 0 15px rgba(116, 198, 157, 0.2); } 50% { box-shadow: 0 0 30px rgba(116, 198, 157, 0.6); } 100% { box-shadow: 0 0 15px rgba(116, 198, 157, 0.2); } }
         @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         @keyframes floatEmoji { 0% { transform: translateY(0) rotate(0deg); opacity: 0.15; } 50% { transform: translateY(-30px) rotate(15deg); opacity: 0.3; } 100% { transform: translateY(0) rotate(0deg); opacity: 0.15; } }
 
-        /* --- NAVBAR --- */
         nav { background-color: var(--primary-dark); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-        
         .nav-brand { display: flex; align-items: center; gap: 12px; color: white; font-size: 1.4rem; text-decoration: none; letter-spacing: 1px; }
         .nav-brand span { color: var(--accent-green); }
-        
-        .nav-brand img { 
-            height: 55px; 
-            width: 55px; 
-            object-fit: contain; 
-            border-radius: 8px; 
-            animation: float 3s ease-in-out infinite; 
-        }
-        
+        .nav-brand img { height: 55px; width: 55px; object-fit: contain; border-radius: 8px; animation: float 3s ease-in-out infinite; }
         .nav-links { display: flex; align-items: center; }
         .nav-links a { color: #d8f3dc; text-decoration: none; margin-left: 25px; font-size: 0.95rem; font-weight: 600; transition: color 0.3s ease; }
         .nav-links a:hover { color: var(--accent-green); }
         
-        /* --- HERO SECTION --- */
         header.hero { background: radial-gradient(circle at 15% 50%, rgba(116, 198, 157, 0.15), transparent 30%), radial-gradient(circle at 85% 30%, rgba(45, 106, 79, 0.2), transparent 30%), var(--primary-dark); color: white; padding: 6rem 2rem 4rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; overflow: hidden; }
         #hero-map { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.15; z-index: 0; pointer-events: none; }
         
@@ -66,7 +49,6 @@
         .hero h1 { font-size: 3.5rem; margin-bottom: 15px; background: linear-gradient(90deg, #fff, var(--accent-green)); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradientShift 4s linear infinite alternate, float 4s ease-in-out infinite; position: relative; z-index: 1; }
         .hero p { font-size: 1.2rem; margin-bottom: 30px; color: #b7e4c7; font-weight: 300; max-width: 800px; margin-left: auto; margin-right: auto; position: relative; z-index: 1; }
         
-        /* --- BUTTONS --- */
         .btn { padding: 14px 28px; margin: 10px; border-radius: 50px; text-decoration: none; font-weight: 600; display: inline-block; transition: all 0.3s ease; font-family: 'Space Grotesk', sans-serif; position: relative; z-index: 1; }
         .btn-green { background-color: var(--accent-green); color: var(--primary-dark); border: 2px solid var(--accent-green); }
         .btn-green:hover { background-color: transparent; color: var(--accent-green); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(116, 198, 157, 0.2); }
@@ -75,7 +57,6 @@
         .btn-android { background-color: #081c15; color: #74c69d; border: 2px solid #74c69d; display: inline-flex; align-items: center; gap: 10px; animation: pulseGlow 3s infinite; }
         .btn-android:hover { background-color: #74c69d; color: #081c15; transform: translateY(-3px); }
 
-        /* --- CONTENT CARDS --- */
         .container { max-width: 1200px; margin: 50px auto; padding: 0 20px; position: relative; z-index: 1; }
         .card { background: var(--card-bg); padding: 40px; border-radius: 20px; box-shadow: var(--glass-shadow); border: 1px solid rgba(255,255,255,0.5); margin-bottom: 40px; backdrop-filter: blur(10px); transition: transform 0.3s ease; }
         .card:hover { transform: translateY(-5px); }
@@ -90,7 +71,6 @@
         .expertise-card h4 { color: var(--primary-dark); margin: 0 0 10px 0; font-size: 1.1rem; }
         .expertise-card p { margin: 0; font-size: 0.9rem; color: var(--text-light); }
 
-        /* --- ARCHITECTURE --- */
         .arch-grid { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 20px; align-items: center; margin-top: 30px; }
         .arch-column { display: flex; flex-direction: column; gap: 20px; }
         .arch-node, .arch-core { background: white; padding: 20px; border-radius: 16px; cursor: pointer; transition: all 0.3s ease; border: 2px solid transparent; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative; }
@@ -103,18 +83,10 @@
         .arch-core h4 { color: var(--accent-green); margin: 0 0 5px 0; font-size: 1.1rem; }
         .arch-core p { color: #d8f3dc; font-size: 0.8rem; }
 
-        /* --- FOOTER & MODALS --- */
         footer { background-color: var(--primary-dark); color: #d8f3dc; text-align: center; padding: 40px; margin-top: 60px; }
         footer a { color: var(--accent-green); text-decoration: none; margin: 0 15px; font-weight: 600; transition: color 0.3s ease; }
         footer a:hover { color: white; }
         
-        .guest-message { background: #e9c46a; color: var(--primary-dark); padding: 15px 30px; text-align: center; font-weight: 600; border-radius: 50px; margin-bottom: 20px; display: inline-block; position: relative; z-index: 1; }
-        .form-container { background: white; padding: 30px; border-radius: 16px; max-width: 600px; margin: 0 auto; text-align: left; color: var(--text-main); display: none; box-shadow: var(--glass-shadow); position: relative; z-index: 1; }
-        .form-container label { display: block; margin-top: 15px; font-weight: 600; font-size: 0.95rem; color: var(--primary-dark); }
-        .form-container textarea { width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; box-sizing: border-box; }
-        .form-container button { margin-top: 20px; background: var(--primary-dark); color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: 600; width: 100%; font-family: 'Space Grotesk', sans-serif; transition: background 0.3s; }
-        .form-container button:hover { background: var(--primary-mid); }
-
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(8, 28, 21, 0.7); backdrop-filter: blur(5px); }
         .modal-content { background-color: white; margin: 10% auto; padding: 40px; border-radius: 20px; width: 90%; max-width: 700px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
         .close-btn { color: #aaa; position: absolute; top: 20px; right: 30px; font-size: 30px; font-weight: bold; cursor: pointer; transition: color 0.3s; }
@@ -122,7 +94,6 @@
         .modal-content h3 { color: var(--primary-dark); font-size: 1.8rem; margin-top: 0; border-bottom: 2px solid var(--accent-green); padding-bottom: 10px; display: inline-block; }
         .modal-content p { color: var(--text-light); font-size: 1.05rem; line-height: 1.7; }
 
-        .paused * { animation-play-state: paused !important; }
         @media (max-width: 900px) { .arch-grid { grid-template-columns: 1fr; } .arch-core { margin: 20px auto; } }
     </style>
 </head>
@@ -152,40 +123,17 @@
 
         <h1>Qonnect Spatial Intelligence</h1>
         <p>Fully Automated End-to-End Geospatial Workflow: From Earth Observation to Policy Impact</p>
-        
-        <div class="guest-message" id="guest-msg">
-            &#128274; Please log in or register to access the Marketplace, Map, and PDF Downloads.
-        </div>
 
-        <div class="form-container" id="form-container">
-            <h3 style="margin-top:0; color:var(--primary-dark);">Access Request</h3>
-            <p style="font-size: 0.9rem; color: #666;">Please tell us how you plan to use these resources.</p>
-            <form id="use-case-form" name="use-case-form" method="POST" data-netlify="true">
-                <input type="hidden" name="form-name" value="use-case-form" />
-                <label>Why do you want to access this content?</label>
-                <textarea name="reason" required rows="3"></textarea>
-                <label>How will you use the downloaded assets/maps?</label>
-                <textarea name="usage" required rows="3"></textarea>
-                <label style="margin-top: 15px; display: flex; align-items: center; gap: 10px;">
-                    <input type="checkbox" name="policy" required style="width: 18px; height: 18px;"> I accept the Terms of Use.
-                </label>
-                <button type="submit">Submit & Unlock Content</button>
-            </form>
-        </div>
-
-        <div class="protected-content" id="protected-buttons" style="display:none;">
-            <a href="farm_map.html" class="btn btn-green">&#128506; View Live Farm Map</a>
-            <a href="Qonnect_Policy_Brief.pdf" download class="btn btn-outline">&#128196; Download Policy Brief</a>
-            <br><br>
-            <a href="https://qonnect-ethiopian-agricultural-marketplace-tracea.ai.studio/" class="btn btn-green">&#128722; Explore Marketplace</a>
-            <a href="traceability.html" class="btn btn-outline">&#128269; Launch Traceability Prototype</a>
-        </div>
-
-        <div style="margin-top: 20px;">
+        <div style="margin-top: 40px;">
             <a href="https://github.com/shimtad2001g/qonnect-geoai-platform/releases/download/v1.0/Qonnect.apk" class="btn btn-android">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                 Download Android App (.apk)
             </a>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <a href="traceability.html" class="btn btn-green">&#128269; Launch Traceability Prototype</a>
+            <a href="farm_map.html" class="btn btn-outline">&#128506; View Live Farm Map</a>
         </div>
     </header>
 
@@ -259,7 +207,6 @@
         function closeModal(id) { document.getElementById(id).style.display = "none"; }
         window.onclick = function(event) { if (event.target.classList.contains('modal')) { event.target.style.display = "none"; } }
 
-        // --- MAP ANIMATION LOGIC ---
         document.addEventListener("DOMContentLoaded", function() {
             const map = L.map('hero-map', { zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false }).setView([8.75, 38.98], 8);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
@@ -272,45 +219,7 @@
             const satelliteIcon = L.divIcon({ className: 'satellite-icon', html: '<div style="background-color:#74c69d; width:12px; height:12px; border-radius:50%; box-shadow: 0 0 15px #74c69d;"></div>', iconSize: [12, 12] });
             movingMarker.setIcon(satelliteIcon);
             movingMarker.start();
-
-            // Pause Animation on Login Click
-            document.getElementById('login-btn').addEventListener('click', function() {
-                document.body.classList.add('paused');
-                movingMarker.pause();
-            });
         });
-
-        // --- SUPABASE UI LOGIC ---
-        const supabaseUrl = 'https://toujtawzftajiuoxblaj.supabase.co';
-        
-        // ⚠️ REPLACE THIS LINE WITH YOUR ACTUAL KEY FROM SUPABASE!
-        const supabaseKey = 'sb_publishable_zieFD2B1k2aT7wmCzkP-xA_sI8E9Vcd'; 
-        
-        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        let hasSubmittedForm = localStorage.getItem('qonnect_form_submitted');
-        async function checkAuthState() {
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            const guestMsg = document.getElementById('guest-msg');
-            const formContainer = document.getElementById('form-container');
-            const protectedButtons = document.getElementById('protected-buttons');
-
-            if (!session) {
-                guestMsg.style.display = 'inline-block';
-                formContainer.style.display = 'none';
-                protectedButtons.style.display = 'none';
-            } else {
-                guestMsg.style.display = 'none';
-                if (hasSubmittedForm) {
-                    formContainer.style.display = 'none';
-                    protectedButtons.style.display = 'block';
-                } else {
-                    formContainer.style.display = 'block';
-                    protectedButtons.style.display = 'none';
-                }
-            }
-        }
-        checkAuthState();
     </script>
 </body>
 </html>
