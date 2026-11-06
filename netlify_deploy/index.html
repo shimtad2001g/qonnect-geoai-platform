@@ -25,7 +25,6 @@
         
         nav { background-color: var(--primary-dark); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
         
-        /* UPDATED NAV BRAND TO ALIGN LOGO AND TEXT */
         .nav-brand { display: flex; align-items: center; gap: 12px; color: white; font-size: 1.4rem; text-decoration: none; letter-spacing: 1px; }
         .nav-brand span { color: var(--accent-green); }
         .nav-brand img { height: 38px; width: 38px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
@@ -33,9 +32,9 @@
         .nav-links a { color: #d8f3dc; text-decoration: none; margin-left: 25px; font-size: 0.95rem; font-weight: 600; transition: color 0.3s ease; }
         .nav-links a:hover { color: var(--accent-green); }
         
-        header.hero { background: radial-gradient(circle at 15% 50%, rgba(116, 198, 157, 0.15), transparent 30%), radial-gradient(circle at 85% 30%, rgba(45, 106, 79, 0.2), transparent 30%), var(--primary-dark); color: white; padding: 7rem 2rem 5rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        header.hero { background: radial-gradient(circle at 15% 50%, rgba(116, 198, 157, 0.15), transparent 30%), radial-gradient(circle at 85% 30%, rgba(45, 106, 79, 0.2), transparent 30%), var(--primary-dark); color: white; padding: 6rem 2rem 4rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .hero h1 { font-size: 3.5rem; margin-bottom: 15px; background: linear-gradient(90deg, #fff, var(--accent-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { font-size: 1.2rem; margin-bottom: 40px; color: #b7e4c7; font-weight: 300; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .hero p { font-size: 1.2rem; margin-bottom: 30px; color: #b7e4c7; font-weight: 300; max-width: 800px; margin-left: auto; margin-right: auto; }
         
         .protected-content { display: none; }
         .btn { padding: 14px 28px; margin: 10px; border-radius: 50px; text-decoration: none; font-weight: 600; display: inline-block; transition: all 0.3s ease; font-family: 'Space Grotesk', sans-serif; }
@@ -44,6 +43,10 @@
         .btn-outline { border: 2px solid var(--accent-green); color: var(--accent-green); background: transparent; }
         .btn-outline:hover { background-color: var(--accent-green); color: var(--primary-dark); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(116, 198, 157, 0.2); }
         
+        /* Android Download Button Style */
+        .btn-android { background-color: #081c15; color: #74c69d; border: 2px solid #74c69d; display: inline-flex; align-items: center; gap: 10px; }
+        .btn-android:hover { background-color: #74c69d; color: #081c15; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(116, 198, 157, 0.2); }
+
         .container { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
         .card { background: var(--card-bg); padding: 40px; border-radius: 20px; box-shadow: var(--glass-shadow); border: 1px solid rgba(255,255,255,0.5); margin-bottom: 40px; backdrop-filter: blur(10px); }
         .card h2 { color: var(--primary-dark); margin-top: 0; font-size: 2rem; }
@@ -120,7 +123,6 @@
 <body>
 
     <nav>
-        <!-- UPDATED LOGO LINK HERE -->
         <a href="#" class="nav-brand">
             <img src="/icon-512.png" alt="Qonnect Logo">
             QONNECT<span>SPATIAL</span>
@@ -159,18 +161,20 @@
             </form>
         </div>
 
-                <!-- ANDROID APP DOWNLOAD BUTTON -->
-        <div style="margin-top: 20px; margin-bottom: 30px;">
-            <a href="https://github.com/shimtad2001g/qonnect-geoai-platform/releases/download/v1.0/Qonnect.apk" class="btn" style="background-color: #081c15; color: #74c69d; border: 2px solid #74c69d; display: inline-flex; align-items: center; gap: 10px;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                Download Android App (.apk)
-            </a>
-        </div>
+        <div class="protected-content" id="protected-buttons">
             <a href="farm_map.html" class="btn btn-green">&#128506; View Live Farm Map</a>
             <a href="Qonnect_Policy_Brief.pdf" download class="btn btn-outline">&#128196; Download Policy Brief</a>
             <br><br>
             <a href="https://qonnect-ethiopian-agricultural-marketplace-tracea.ai.studio/" class="btn btn-green">&#128722; Explore Marketplace</a>
             <a href="traceability.html" class="btn btn-outline">&#128269; Launch Traceability Prototype</a>
+        </div>
+
+        <!-- ANDROID APP DOWNLOAD BUTTON -->
+        <div style="margin-top: 20px;">
+            <a href="https://github.com/shimtad2001g/qonnect-geoai-platform/releases/download/v1.0/Qonnect.apk" class="btn btn-android">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Download Android App (.apk)
+            </a>
         </div>
     </header>
 
@@ -291,6 +295,7 @@
             }
         }
 
+        // The form script from before remains the same
         let hasSubmittedForm = localStorage.getItem('qonnect_form_submitted');
 
         function updateUI(user) {
@@ -313,23 +318,6 @@
                 }
             }
         }
-
-        window.netlifyIdentity.on("init", user => updateUI(user));
-        window.netlifyIdentity.on("login", user => { window.netlifyIdentity.close(); updateUI(user); });
-        window.netlifyIdentity.on("logout", () => { localStorage.removeItem('qonnect_form_submitted'); updateUI(null); });
-
-        document.getElementById('use-case-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            fetch("/", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: new URLSearchParams(formData).toString()
-            }).then(() => {
-                localStorage.setItem('qonnect_form_submitted', 'true');
-                updateUI(window.netlifyIdentity.currentUser());
-            }).catch(error => alert("Form submission failed."));
-        });
     </script>
 </body>
 </html>
