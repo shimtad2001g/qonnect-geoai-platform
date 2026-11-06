@@ -3,41 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | Qonnect GeoAI</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>Join Qonnect Spatial</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Supabase CDN (Included EXACTLY ONCE) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8fbf9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .signup-container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 8px 32px rgba(8,28,21,0.08); text-align: center; max-width: 400px; width: 100%; }
-        h2 { color: #1b4332; font-family: 'Space Grotesk', sans-serif; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        .btn { background-color: #2d6a4f; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; font-family: 'Space Grotesk', sans-serif; transition: background 0.3s; }
-        .btn:hover { background-color: #1b4332; }
-        .back-link { display: block; margin-top: 20px; color: #74c69d; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
-        #message { margin-top: 15px; font-weight: bold; font-size: 0.9rem; }
+        .card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 8px 32px rgba(8, 28, 21, 0.08); width: 100%; max-width: 400px; text-align: center; }
+        h2 { font-family: 'Space Grotesk', sans-serif; color: #081c15; margin-top: 0; }
+        p { color: #666; font-size: 0.9rem; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        button { width: 100%; padding: 14px; background: #2d6a4f; color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: background 0.3s; }
+        button:hover { background: #1b4332; }
+        .link { margin-top: 20px; display: block; color: #74c69d; text-decoration: none; font-weight: 600; }
+        .link:hover { color: #2d6a4f; }
     </style>
 </head>
 <body>
-    <div class="signup-container">
+
+    <div class="card">
         <h2>Join Qonnect Spatial</h2>
-        <p style="color: #666; font-size: 0.9rem;">Create an account to access the live platform.</p>
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="password" id="password" placeholder="Password (min 6 chars)" required>
-        <button class="btn" onclick="handleSignup()">Create Account</button>
-        <div id="message"></div>
-        <a href="index.html" class="back-link">&larr; Back to Home</a>
+        <p>Create an account to access the live platform.</p>
+        
+        <input type="email" id="email" placeholder="Email Address" required>
+        <input type="password" id="password" placeholder="Password" required>
+        
+        <!-- The onclick calls the function exactly as it should be -->
+        <button onclick="handleSignup()">Create Account</button>
+        
+        <a href="index.html" class="link">← Back to Home</a>
     </div>
+
     <script>
-        const supabase = window.supabase.createClient('https://toujtawzftajiuoxblaj.supabase.co', '$filePath = "C:\qonnect-geoai-platform\netlify_deploy\traceability.html"');
+        // Initialize Supabase ONCE
+        const supabaseUrl = 'https://toujtawzftajiuoxblaj.supabase.co';
+        const supabaseKey = 'Biruk.Yohannes123399@aws-0-eu-west-1.pooler.supabase.com:5432/postgres'; 
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Define the signup function
         async function handleSignup() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const msg = document.getElementById('message');
-            msg.style.color = "black";
-            msg.innerText = "Creating account...";
-            const { data, error } = await supabase.auth.signUp({ email, password });
-            if (error) { msg.style.color = "red"; msg.innerText = "Error: " + error.message; }
-            else { msg.style.color = "green"; msg.innerText = "✅ Success! Check your email to confirm."; }
+
+            if (!email || !password) {
+                alert("Please enter both an email and a password.");
+                return;
+            }
+
+            // Show a loading state on the button (optional but helpful)
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerText = "Creating Account...";
+            btn.disabled = true;
+
+            try {
+                const { data, error } = await supabaseClient.auth.signUp({
+                    email: email,
+                    password: password,
+                });
+
+                if (error) {
+                    alert("Signup Failed: " + error.message);
+                } else {
+                    alert("✅ Account created successfully! You can now log in.");
+                    window.location.href = 'traceability.html'; // Redirect to the portal
+                }
+            } catch (err) {
+                alert("A network error occurred. Please try again.");
+                console.error(err);
+            } finally {
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
         }
     </script>
 </body>
