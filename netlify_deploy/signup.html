@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join Qonnect Spatial</title>
+    <title>Join or Log In | Qonnect Spatial</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     
-    <!-- Supabase CDN (Included EXACTLY ONCE) -->
+    <!-- Supabase CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -19,56 +19,96 @@
         button:hover { background: #1b4332; }
         .link { margin-top: 20px; display: block; color: #74c69d; text-decoration: none; font-weight: 600; }
         .link:hover { color: #2d6a4f; }
+        .toggle-link { color: #2d6a4f; font-weight: bold; cursor: pointer; text-decoration: underline; }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <h2>Join Qonnect Spatial</h2>
-        <p>Create an account to access the live platform.</p>
+        <h2 id="form-title">Join Qonnect Spatial</h2>
+        <p id="form-subtitle">Create an account to access the live platform.</p>
         
         <input type="email" id="email" placeholder="Email Address" required>
         <input type="password" id="password" placeholder="Password" required>
         
-        <!-- The onclick calls the function exactly as it should be -->
-        <button onclick="handleSignup()">Create Account</button>
+        <button id="submit-btn" onclick="handleAuth()">Create Account</button>
         
+        <p style="margin-top: 20px; font-size: 0.9rem;">
+            <span id="toggle-text">Already have an account?</span> 
+            <span class="toggle-link" onclick="toggleMode()" id="toggle-btn">Log In</span>
+        </p>
+
         <a href="index.html" class="link">← Back to Home</a>
     </div>
 
     <script>
-        // Initialize Supabase ONCE
+        // Initialize Supabase
         const supabaseUrl = 'https://toujtawzftajiuoxblaj.supabase.co';
-        const supabaseKey = 'sb_publishable_zieFD2B1k2aT7wmCzkP-xA_sI8E9Vcd'; 
+        const supabaseKey = 'sb_publishable_z1eFD2B1k2a7WmC2kP-xA_sI8E9...'; // YOUR KEY HERE
         const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        // Define the signup function
-        async function handleSignup() {
+        let isLoginMode = false;
+
+        // Toggle between Sign Up and Log In
+        function toggleMode() {
+            isLoginMode = !isLoginMode;
+            if (isLoginMode) {
+                document.getElementById('form-title').innerText = "Welcome Back";
+                document.getElementById('form-subtitle').innerText = "Log in to access your account.";
+                document.getElementById('submit-btn').innerText = "Log In";
+                document.getElementById('toggle-text').innerText = "Don't have an account?";
+                document.getElementById('toggle-btn').innerText = "Create Account";
+            } else {
+                document.getElementById('form-title').innerText = "Join Qonnect Spatial";
+                document.getElementById('form-subtitle').innerText = "Create an account to access the live platform.";
+                document.getElementById('submit-btn').innerText = "Create Account";
+                document.getElementById('toggle-text').innerText = "Already have an account?";
+                document.getElementById('toggle-btn').innerText = "Log In";
+            }
+        }
+
+        // Handle form submission (Signup or Login)
+        async function handleAuth() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const btn = document.getElementById('submit-btn');
 
             if (!email || !password) {
                 alert("Please enter both an email and a password.");
                 return;
             }
 
-            // Show a loading state on the button (optional but helpful)
-            const btn = event.target;
             const originalText = btn.innerText;
-            btn.innerText = "Creating Account...";
+            btn.innerText = "Processing...";
             btn.disabled = true;
 
             try {
-                const { data, error } = await supabaseClient.auth.signUp({
-                    email: email,
-                    password: password,
-                });
+                if (isLoginMode) {
+                    // LOGIN LOGIC
+                    const { data, error } = await supabaseClient.auth.signInWithPassword({
+                        email: email,
+                        password: password,
+                    });
 
-                if (error) {
-                    alert("Signup Failed: " + error.message);
+                    if (error) {
+                        alert("Login Failed: " + error.message);
+                    } else {
+                        alert("✅ Logged in successfully! Redirecting...");
+                        window.location.href = 'traceability.html'; // Redirect to the portal
+                    }
                 } else {
-                    alert("✅ Account created successfully! You can now log in.");
-                    window.location.href = 'traceability.html'; // Redirect to the portal
+                    // SIGNUP LOGIC
+                    const { data, error } = await supabaseClient.auth.signUp({
+                        email: email,
+                        password: password,
+                    });
+
+                    if (error) {
+                        alert("Signup Failed: " + error.message);
+                    } else {
+                        alert("✅ Account created!\n\nPlease check your email to confirm your account before logging in.");
+                        toggleMode(); // Switch to login mode automatically
+                    }
                 }
             } catch (err) {
                 alert("A network error occurred. Please try again.");
