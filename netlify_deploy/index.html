@@ -6,13 +6,19 @@
     <title>Qonnect Spatial Intelligence | GeoAI & Climate Resilience</title>
     
     <!-- Browser Favicon -->
-    <link rel="icon" type="image/png" href="/icon-512.png?v=2">
+    <link rel="icon" type="image/png" href="/logo.png?v=2">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
+    <!-- Leaflet & MovingMarker Plugin -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.movingmarker@1.0.0/dist/Leaflet.MovingMarker.css" />
+    <script src="https://unpkg.com/leaflet.movingmarker@1.0.0/dist/Leaflet.MovingMarker.js"></script>
+
     <style>
         :root {
             --primary-dark: #081c15; --primary-mid: #1b4332; --primary-light: #2d6a4f;
@@ -20,35 +26,49 @@
             --card-bg: rgba(255, 255, 255, 0.9); --glass-shadow: 0 8px 32px 0 rgba(8, 28, 21, 0.08);
         }
         * { box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.5px; }
         
-        nav { background-color: var(--primary-dark); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-        
+        /* --- ANIMATIONS --- */
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 15px rgba(116, 198, 157, 0.2); } 50% { box-shadow: 0 0 30px rgba(116, 198, 157, 0.6); } 100% { box-shadow: 0 0 15px rgba(116, 198, 157, 0.2); } }
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes floatEmoji { 0% { transform: translateY(0) rotate(0deg); opacity: 0.15; } 50% { transform: translateY(-30px) rotate(15deg); opacity: 0.3; } 100% { transform: translateY(0) rotate(0deg); opacity: 0.15; } }
+
         .nav-brand { display: flex; align-items: center; gap: 12px; color: white; font-size: 1.4rem; text-decoration: none; letter-spacing: 1px; }
         .nav-brand span { color: var(--accent-green); }
-        .nav-brand img { height: 38px; width: 38px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        .nav-brand img { height: 38px; width: 38px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); animation: float 3s ease-in-out infinite; }
         
+        nav { background-color: var(--primary-dark); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
         .nav-links a { color: #d8f3dc; text-decoration: none; margin-left: 25px; font-size: 0.95rem; font-weight: 600; transition: color 0.3s ease; }
         .nav-links a:hover { color: var(--accent-green); }
         
-        header.hero { background: radial-gradient(circle at 15% 50%, rgba(116, 198, 157, 0.15), transparent 30%), radial-gradient(circle at 85% 30%, rgba(45, 106, 79, 0.2), transparent 30%), var(--primary-dark); color: white; padding: 6rem 2rem 4rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 15px; background: linear-gradient(90deg, #fff, var(--accent-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { font-size: 1.2rem; margin-bottom: 30px; color: #b7e4c7; font-weight: 300; max-width: 800px; margin-left: auto; margin-right: auto; }
+        header.hero { background: radial-gradient(circle at 15% 50%, rgba(116, 198, 157, 0.15), transparent 30%), radial-gradient(circle at 85% 30%, rgba(45, 106, 79, 0.2), transparent 30%), var(--primary-dark); color: white; padding: 6rem 2rem 4rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; overflow: hidden; }
         
-        .protected-content { display: none; }
-        .btn { padding: 14px 28px; margin: 10px; border-radius: 50px; text-decoration: none; font-weight: 600; display: inline-block; transition: all 0.3s ease; font-family: 'Space Grotesk', sans-serif; }
+        /* Background Map Animation Container */
+        #hero-map { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.15; z-index: 0; pointer-events: none; }
+        
+        /* Floating Emojis */
+        .float-emoji { position: absolute; font-size: 3rem; opacity: 0.15; z-index: 0; animation: floatEmoji 6s infinite ease-in-out; }
+        .e1 { top: 20%; left: 10%; animation-delay: 0s; }
+        .e2 { top: 60%; right: 15%; animation-delay: 2s; }
+        .e3 { bottom: 10%; left: 20%; animation-delay: 4s; }
+        .e4 { top: 30%; right: 25%; animation-delay: 1s; }
+
+        .hero h1 { font-size: 3.5rem; margin-bottom: 15px; background: linear-gradient(90deg, #fff, var(--accent-green)); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradientShift 4s linear infinite alternate, float 4s ease-in-out infinite; position: relative; z-index: 1; }
+        .hero p { font-size: 1.2rem; margin-bottom: 30px; color: #b7e4c7; font-weight: 300; max-width: 800px; margin-left: auto; margin-right: auto; position: relative; z-index: 1; }
+        
+        .btn { padding: 14px 28px; margin: 10px; border-radius: 50px; text-decoration: none; font-weight: 600; display: inline-block; transition: all 0.3s ease; font-family: 'Space Grotesk', sans-serif; position: relative; z-index: 1; }
         .btn-green { background-color: var(--accent-green); color: var(--primary-dark); border: 2px solid var(--accent-green); }
         .btn-green:hover { background-color: transparent; color: var(--accent-green); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(116, 198, 157, 0.2); }
         .btn-outline { border: 2px solid var(--accent-green); color: var(--accent-green); background: transparent; }
         .btn-outline:hover { background-color: var(--accent-green); color: var(--primary-dark); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(116, 198, 157, 0.2); }
-        
-        /* Android Download Button Style */
-        .btn-android { background-color: #081c15; color: #74c69d; border: 2px solid #74c69d; display: inline-flex; align-items: center; gap: 10px; }
-        .btn-android:hover { background-color: #74c69d; color: #081c15; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(116, 198, 157, 0.2); }
+        .btn-android { background-color: #081c15; color: #74c69d; border: 2px solid #74c69d; display: inline-flex; align-items: center; gap: 10px; animation: pulseGlow 3s infinite; }
+        .btn-android:hover { background-color: #74c69d; color: #081c15; transform: translateY(-3px); }
 
-        .container { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
-        .card { background: var(--card-bg); padding: 40px; border-radius: 20px; box-shadow: var(--glass-shadow); border: 1px solid rgba(255,255,255,0.5); margin-bottom: 40px; backdrop-filter: blur(10px); }
+        .container { max-width: 1200px; margin: 50px auto; padding: 0 20px; position: relative; z-index: 1; }
+        .card { background: var(--card-bg); padding: 40px; border-radius: 20px; box-shadow: var(--glass-shadow); border: 1px solid rgba(255,255,255,0.5); margin-bottom: 40px; backdrop-filter: blur(10px); transition: transform 0.3s ease; }
+        .card:hover { transform: translateY(-5px); }
         .card h2 { color: var(--primary-dark); margin-top: 0; font-size: 2rem; }
         
         .profile-pic { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; float: left; margin-right: 30px; margin-bottom: 15px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); border: 4px solid white; }
@@ -57,49 +77,32 @@
         .expertise-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px; }
         .expertise-card { background: white; padding: 25px; border-radius: 16px; border-left: 4px solid var(--accent-green); box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: all 0.3s ease; }
         .expertise-card:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.08); border-left-color: var(--primary-mid); }
-        .expertise-card h4 { color: var(--primary-dark); margin: 0 0 10px 0; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+        .expertise-card h4 { color: var(--primary-dark); margin: 0 0 10px 0; font-size: 1.1rem; }
         .expertise-card p { margin: 0; font-size: 0.9rem; color: var(--text-light); }
 
-        /* Architecture Ecosystem Styles */
         .arch-grid { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 20px; align-items: center; margin-top: 30px; }
         .arch-column { display: flex; flex-direction: column; gap: 20px; }
         .arch-node, .arch-core { background: white; padding: 20px; border-radius: 16px; cursor: pointer; transition: all 0.3s ease; border: 2px solid transparent; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative; }
         .arch-node:hover, .arch-core:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.1); }
         .arch-node h4, .arch-core h4 { margin: 0 0 10px 0; font-size: 1.05rem; color: var(--primary-dark); }
         .arch-node p, .arch-core p { margin: 0; font-size: 0.85rem; color: var(--text-light); }
-        
-        .tier1 { border-left: 4px solid #2a9d8f; }
-        .tier2 { border-left: 4px solid #264653; }
-        .tier3 { border-left: 4px solid #e9c46a; }
-        .tier4 { border-left: 4px solid #f4a261; }
-        
+        .tier1 { border-left: 4px solid #2a9d8f; } .tier2 { border-left: 4px solid #264653; } .tier3 { border-left: 4px solid #e9c46a; } .tier4 { border-left: 4px solid #f4a261; }
         .arch-center { display: flex; justify-content: center; align-items: center; text-align: center; }
-        .arch-core { 
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-mid) 100%); 
-            color: white; border-radius: 50%; width: 220px; height: 220px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;
-            border: 4px solid var(--accent-green);
-            box-shadow: 0 0 30px rgba(116, 198, 157, 0.3);
-            animation: pulseCore 3s infinite alternate;
-        }
+        .arch-core { background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-mid) 100%); color: white; border-radius: 50%; width: 220px; height: 220px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; border: 4px solid var(--accent-green); box-shadow: 0 0 30px rgba(116, 198, 157, 0.3); animation: pulseGlow 3s infinite; }
         .arch-core h4 { color: var(--accent-green); margin: 0 0 5px 0; font-size: 1.1rem; }
         .arch-core p { color: #d8f3dc; font-size: 0.8rem; }
-        
-        @keyframes pulseCore {
-            0% { box-shadow: 0 0 20px rgba(116, 198, 157, 0.2); }
-            100% { box-shadow: 0 0 50px rgba(116, 198, 157, 0.6); }
-        }
-        
+
         footer { background-color: var(--primary-dark); color: #d8f3dc; text-align: center; padding: 40px; margin-top: 60px; }
         footer a { color: var(--accent-green); text-decoration: none; margin: 0 15px; font-weight: 600; transition: color 0.3s ease; }
         footer a:hover { color: white; }
         
-        .guest-message { background: #e9c46a; color: var(--primary-dark); padding: 15px 30px; text-align: center; font-weight: 600; border-radius: 50px; margin-bottom: 20px; display: inline-block; }
-        .form-container { background: white; padding: 30px; border-radius: 16px; max-width: 600px; margin: 0 auto; text-align: left; color: var(--text-main); display: none; box-shadow: var(--glass-shadow); }
+        .guest-message { background: #e9c46a; color: var(--primary-dark); padding: 15px 30px; text-align: center; font-weight: 600; border-radius: 50px; margin-bottom: 20px; display: inline-block; position: relative; z-index: 1; }
+        .form-container { background: white; padding: 30px; border-radius: 16px; max-width: 600px; margin: 0 auto; text-align: left; color: var(--text-main); display: none; box-shadow: var(--glass-shadow); position: relative; z-index: 1; }
         .form-container label { display: block; margin-top: 15px; font-weight: 600; font-size: 0.95rem; color: var(--primary-dark); }
         .form-container textarea { width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Inter', sans-serif; box-sizing: border-box; }
         .form-container button { margin-top: 20px; background: var(--primary-dark); color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: 600; width: 100%; font-family: 'Space Grotesk', sans-serif; transition: background 0.3s; }
         .form-container button:hover { background: var(--primary-mid); }
-        
+
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(8, 28, 21, 0.7); backdrop-filter: blur(5px); }
         .modal-content { background-color: white; margin: 10% auto; padding: 40px; border-radius: 20px; width: 90%; max-width: 700px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
         .close-btn { color: #aaa; position: absolute; top: 20px; right: 30px; font-size: 30px; font-weight: bold; cursor: pointer; transition: color 0.3s; }
@@ -107,25 +110,24 @@
         .modal-content h3 { color: var(--primary-dark); font-size: 1.8rem; margin-top: 0; border-bottom: 2px solid var(--accent-green); padding-bottom: 10px; display: inline-block; }
         .modal-content p { color: var(--text-light); font-size: 1.05rem; line-height: 1.7; }
 
-        @media (max-width: 900px) {
-            .arch-grid { grid-template-columns: 1fr; }
-            .arch-core { margin: 20px auto; }
-        }
+        /* PAUSED STATE */
+        .paused * { animation-play-state: paused !important; }
+
+        @media (max-width: 900px) { .arch-grid { grid-template-columns: 1fr; } .arch-core { margin: 20px auto; } }
     </style>
     <!-- Open Graph / Social Media Meta Tags -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://qonnect-geoai-platform.vercel.app/" />
     <meta property="og:title" content="Qonnect Spatial Intelligence | GeoAI & Climate Resilience" />
     <meta property="og:description" content="A fully automated, cloud-native GeoAI platform demonstrating multi-crop traceability and live Sentinel-2 satellite data ingestion." />
-    <meta property="og:image" content="https://qonnect-geoai-platform.vercel.app/icon-512.png" />
+    <meta property="og:image" content="https://qonnect-geoai-platform.vercel.app/logo.png" />
     <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
 
     <nav>
-        <!-- ABSOLUTE URL USED HERE -->
         <a href="#" class="nav-brand">
-            <img src="https://qonnect-geoai-platform.vercel.app/icon-512.png?v=2" alt="Qonnect Logo">
+            <img src="/logo.png?v=2" alt="Qonnect Logo">
             QONNECT<span>SPATIAL</span>
         </a>
         <div class="nav-links">
@@ -134,11 +136,20 @@
             <a href="#architecture">Architecture</a>
             <a href="https://github.com/shimtad2001g" target="_blank">GitHub</a>
             <a href="https://www.linkedin.com/in/shimeles-tadesse-zelelew-77b07535/" target="_blank">LinkedIn</a>
-            <a href="signup.html" style="background-color: var(--accent-green); color: var(--primary-dark); padding: 8px 20px; border-radius: 50px; margin-left: 30px;">Register / Log In</a>
+            <a href="signup.html" id="login-btn" style="background-color: var(--accent-green); color: var(--primary-dark); padding: 8px 20px; border-radius: 50px; margin-left: 30px;">Register / Log In</a>
         </div>
     </nav>
 
     <header class="hero">
+        <!-- Animated Background Map -->
+        <div id="hero-map"></div>
+        
+        <!-- Floating Emojis -->
+        <div class="float-emoji e1">🌾</div>
+        <div class="float-emoji e2">🛰️</div>
+        <div class="float-emoji e3">☕</div>
+        <div class="float-emoji e4">🥑</div>
+
         <h1>Qonnect Spatial Intelligence</h1>
         <p>Fully Automated End-to-End Geospatial Workflow: From Earth Observation to Policy Impact</p>
         
@@ -162,7 +173,7 @@
             </form>
         </div>
 
-        <div class="protected-content" id="protected-buttons">
+        <div class="protected-content" id="protected-buttons" style="display:none;">
             <a href="farm_map.html" class="btn btn-green">&#128506; View Live Farm Map</a>
             <a href="Qonnect_Policy_Brief.pdf" download class="btn btn-outline">&#128196; Download Policy Brief</a>
             <br><br>
@@ -180,7 +191,6 @@
     </header>
 
     <div class="container">
-        
         <section id="about" class="card">
             <h2>About the Developer</h2>
             <div class="developer-info">
@@ -200,83 +210,41 @@
         <section id="expertise" class="card">
             <h2>Core Expertise & Methodologies</h2>
             <p style="color: var(--text-light); margin-bottom: 30px;">Architecting data-driven solutions across the full spectrum of Earth Observation and Environmental Management.</p>
-            
             <div class="expertise-grid">
-                <div class="expertise-card">
-                    <h4>&#128752; GeoAI & Earth Observation</h4>
-                    <p>Automated geospatial solutions, satellite imagery analysis, and self-supervised Earth Observation frameworks.</p>
-                </div>
-                <div class="expertise-card">
-                    <h4>&#127757; Climate Resilience & Adaptation</h4>
-                    <p>Climate change adaptation strategies, disaster risk reduction, and environmental safeguards (EIA & ESMP).</p>
-                </div>
-                <div class="expertise-card">
-                    <h4>&#127806; Agriculture & Crop Insurance</h4>
-                    <p>Yield prediction, agricultural intelligence, and multi-peril resilience workflows for smallholder producers.</p>
-                </div>
-                <div class="expertise-card">
-                    <h4>&#128013; Python & Spatial Programming</h4>
-                    <p>Data science, machine learning pipelines, and custom Python-based spatial coding for complex datasets.</p>
-                </div>
-                <div class="expertise-card">
-                    <h4>&#128506; GIS & Remote Sensing</h4>
-                    <p>Advanced spatial analysis, PostGIS cloud infrastructure, and interactive automated cartography.</p>
-                </div>
-                <div class="expertise-card">
-                    <h4>&#127793; Soil Science & Land Management</h4>
-                    <p>Soil analysis, land resources management, and geography for sustainable environmental management.</p>
-                </div>
+                <div class="expertise-card"><h4>&#128752; GeoAI & Earth Observation</h4><p>Automated geospatial solutions, satellite imagery analysis, and self-supervised Earth Observation frameworks.</p></div>
+                <div class="expertise-card"><h4>&#127757; Climate Resilience & Adaptation</h4><p>Climate change adaptation strategies, disaster risk reduction, and environmental safeguards (EIA & ESMP).</p></div>
+                <div class="expertise-card"><h4>&#127806; Agriculture & Crop Insurance</h4><p>Yield prediction, agricultural intelligence, and multi-peril resilience workflows for smallholder producers.</p></div>
+                <div class="expertise-card"><h4>&#128013; Python & Spatial Programming</h4><p>Data science, machine learning pipelines, and custom Python-based spatial coding for complex datasets.</p></div>
+                <div class="expertise-card"><h4>&#128506; GIS & Remote Sensing</h4><p>Advanced spatial analysis, PostGIS cloud infrastructure, and interactive automated cartography.</p></div>
+                <div class="expertise-card"><h4>&#127793; Soil Science & Land Management</h4><p>Soil analysis, land resources management, and geography for sustainable environmental management.</p></div>
             </div>
         </section>
 
-        <!-- Enterprise Architecture Section -->
         <section id="architecture" class="card" style="margin-top: 40px; margin-bottom: 40px;">
             <h2>QONNECT Global Ecosystem Architecture</h2>
             <p style="color: var(--text-light); margin-bottom: 30px;">An end-to-end digital infrastructure bridging Earth Observation, Parametric Insurance, and Carbon Monetization.</p>
-            
             <div class="arch-grid">
                 <div class="arch-column">
-                    <div class="arch-node tier1" onclick="openModal('arch-modal1')">
-                        <h4>🌱 Tier 1: Foundation (The Ground)</h4>
-                        <p>On-Farm Data Capture, Biometric ID, & GNSS Plot Mapping</p>
-                    </div>
-                    <div class="arch-node tier2" onclick="openModal('arch-modal2')">
-                        <h4>🛰️ Tier 2: Verification (The Sky)</h4>
-                        <p>Sentinel-2 Analysis, Carbon Stock Models, & EUDR Compliance</p>
-                    </div>
+                    <div class="arch-node tier1" onclick="openModal('arch-modal1')"><h4>🌱 Tier 1: Foundation (The Ground)</h4><p>On-Farm Data Capture, Biometric ID, & GNSS Plot Mapping</p></div>
+                    <div class="arch-node tier2" onclick="openModal('arch-modal2')"><h4>🛰️ Tier 2: Verification (The Sky)</h4><p>Sentinel-2 Analysis, Carbon Stock Models, & EUDR Compliance</p></div>
                 </div>
-
                 <div class="arch-center">
-                    <div class="arch-core" onclick="openModal('arch-modal-core')">
-                        <h4>⛓️ The Immutable TraceRight Ledger</h4>
-                        <p>Hyperledger Fabric Security & Trust Anchor</p>
-                    </div>
+                    <div class="arch-core" onclick="openModal('arch-modal-core')"><h4>⛓️ The Immutable TraceRight Ledger</h4><p>Hyperledger Fabric Security & Trust Anchor</p></div>
                 </div>
-
                 <div class="arch-column">
-                    <div class="arch-node tier3" onclick="openModal('arch-modal3')">
-                        <h4>📈 Tier 3: Parametric Module</h4>
-                        <p>Dynamic GeoAI Risk Engine & Automated Payouts</p>
-                    </div>
-                    <div class="arch-node tier4" onclick="openModal('arch-modal4')">
-                        <h4>🌍 Tier 4: Global Market</h4>
-                        <p>Digital Passports, Verra Carbon Credits, & EU TRACES</p>
-                    </div>
+                    <div class="arch-node tier3" onclick="openModal('arch-modal3')"><h4>📈 Tier 3: Parametric Module</h4><p>Dynamic GeoAI Risk Engine & Automated Payouts</p></div>
+                    <div class="arch-node tier4" onclick="openModal('arch-modal4')"><h4>🌍 Tier 4: Global Market</h4><p>Digital Passports, Verra Carbon Credits, & EU TRACES</p></div>
                 </div>
             </div>
         </section>
     </div>
 
     <!-- Architecture Modals -->
-    <div id="arch-modal1" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal1')">&times;</span><h3>Tier 1: Foundation (The Ground)</h3><p><strong>On-Farm Data Capture & Smallholder Empowerment:</strong> Integrates secure digital identification protocols, leveraging biometric fingerprint capture linked directly to smallholder farmers (such as Yohannes Shimeles). Utilizes high-precision GPS to map farm parcels, intercropped fruit trees, and large-scale irrigated barley fields down to exact boundary polygons. Local IoT sensors track real-time farm inputs and agronomic interventions.</p></div></div>
-
-    <div id="arch-modal2" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal2')">&times;</span><h3>Tier 2: Verification (The Sky)</h3><p><strong>Satellite Telemetry & GeoAI Intelligence:</strong> Continuously ingests high-resolution multi-spectral data from Sentinel-2 (Optical & SAR) for all-weather observation. Machine learning pipelines compute baseline biomass, canopy height, and rigorous tCO2e carbon sequestration models. Automatically analyzes historical land cover to guarantee EUDR zero-deforestation compliance.</p></div></div>
-
-    <div id="arch-modal-core" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal-core')">&times;</span><h3>The Immutable TraceRight Ledger</h3><p><strong>Core Security & Trust Anchor:</strong> Powered by Hyperledger Fabric, this central hub immutably records every transaction. From initial polygon boundary demarcation to final buyer transactions, all data is cryptographically hashed and timestamped. This eliminates data tampering, ensures complete auditability, and establishes absolute trust between local producers and international regulatory bodies.</p></div></div>
-
-    <div id="arch-modal3" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal3')">&times;</span><h3>Tier 3: Parametric Crop Insurance</h3><p><strong>Dynamic GeoAI Risk Engine:</strong> A core innovation integrating weather telemetry and satellite data at the farmer parcel level. It automatically triggers rapid, objective insurance payouts upon the occurrence of verified climatic anomalies (e.g., drought, excessive rainfall), protecting smallholders against crop failure without the need for slow manual claims adjusting.</p></div></div>
-
-    <div id="arch-modal4" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal4')">&times;</span><h3>Tier 4: Global Market & Monetization</h3><p><strong>Digital Passports & Carbon Markets:</strong> Compiles export-ready verification bundles into a Digital Product Passport with secure QR codes for full chain-of-custody tracking. Converts verified carbon sequestration metrics into standardized digital tokens (tCO2e tokens and NFTs) via Verra and Gold Standard frameworks, unlocking premium market access and direct carbon monetization for farmers.</p></div></div>
+    <div id="arch-modal1" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal1')">&times;</span><h3>Tier 1: Foundation (The Ground)</h3><p><strong>On-Farm Data Capture & Smallholder Empowerment:</strong> Integrates secure digital identification protocols, leveraging biometric fingerprint capture linked directly to smallholder farmers. Utilizes high-precision GPS to map farm parcels and large-scale irrigated fields down to exact boundary polygons.</p></div></div>
+    <div id="arch-modal2" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal2')">&times;</span><h3>Tier 2: Verification (The Sky)</h3><p><strong>Satellite Telemetry & GeoAI Intelligence:</strong> Continuously ingests high-resolution multi-spectral data from Sentinel-2 (Optical & SAR) for all-weather observation. Machine learning pipelines compute baseline biomass and rigorous tCO2e carbon sequestration models.</p></div></div>
+    <div id="arch-modal-core" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal-core')">&times;</span><h3>The Immutable TraceRight Ledger</h3><p><strong>Core Security & Trust Anchor:</strong> Powered by Hyperledger Fabric, this central hub immutably records every transaction. From initial polygon boundary demarcation to final buyer transactions, all data is cryptographically hashed and timestamped.</p></div></div>
+    <div id="arch-modal3" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal3')">&times;</span><h3>Tier 3: Parametric Crop Insurance</h3><p><strong>Dynamic GeoAI Risk Engine:</strong> A core innovation integrating weather telemetry and satellite data at the farmer parcel level. It automatically triggers rapid, objective insurance payouts upon the occurrence of verified climatic anomalies.</p></div></div>
+    <div id="arch-modal4" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('arch-modal4')">&times;</span><h3>Tier 4: Global Market & Monetization</h3><p><strong>Digital Passports & Carbon Markets:</strong> Compiles export-ready verification bundles into a Digital Product Passport with secure QR codes for full chain-of-custody tracking. Converts verified carbon sequestration metrics into standardized digital tokens (tCO2e tokens and NFTs).</p></div></div>
 
     <footer>
         <p>&copy; 2026 Qonnect Spatial Intelligence | Shimeles Tadesse Zelelew. All Rights Reserved.</p>
@@ -290,20 +258,42 @@
     <script>
         function openModal(id) { document.getElementById(id).style.display = "block"; }
         function closeModal(id) { document.getElementById(id).style.display = "none"; }
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = "none";
-            }
-        }
+        window.onclick = function(event) { if (event.target.classList.contains('modal')) { event.target.style.display = "none"; } }
+
+        // --- MAP ANIMATION LOGIC ---
+        document.addEventListener("DOMContentLoaded", function() {
+            const map = L.map('hero-map', { zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false }).setView([8.75, 38.98], 8);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+
+            const routePoints = [ [8.75, 38.98], [8.80, 38.90], [8.95, 38.80], [9.03, 38.74] ];
+            L.polyline(routePoints, { color: '#74c69d', weight: 3, dashArray: '5, 10' }).addTo(map);
+
+            const movingMarker = L.Marker.movingMarker(routePoints, [3000, 3000, 3000], { autostart: true, loop: true, rotate: true }).addTo(map);
+            
+            const satelliteIcon = L.divIcon({ className: 'satellite-icon', html: '<div style="background-color:#74c69d; width:12px; height:12px; border-radius:50%; box-shadow: 0 0 15px #74c69d;"></div>', iconSize: [12, 12] });
+            movingMarker.setIcon(satelliteIcon);
+            movingMarker.start();
+
+            // Pause Animation on Login Click
+            document.getElementById('login-btn').addEventListener('click', function() {
+                document.body.classList.add('paused');
+                movingMarker.pause();
+            });
+        });
+
+        // --- SUPABASE UI LOGIC ---
+        const supabaseUrl = 'https://toujtawzftajiuoxblaj.supabase.co';
+        const supabaseKey = 'sb_publishable_z1eFD2B1k2a7WmC2kP-xA_sI8E9...'; // Make sure this is your actual key!
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
         let hasSubmittedForm = localStorage.getItem('qonnect_form_submitted');
-
-        function updateUI(user) {
+        async function checkAuthState() {
+            const { data: { session } } = await supabaseClient.auth.getSession();
             const guestMsg = document.getElementById('guest-msg');
             const formContainer = document.getElementById('form-container');
             const protectedButtons = document.getElementById('protected-buttons');
 
-            if (!user) {
+            if (!session) {
                 guestMsg.style.display = 'inline-block';
                 formContainer.style.display = 'none';
                 protectedButtons.style.display = 'none';
@@ -318,6 +308,7 @@
                 }
             }
         }
+        checkAuthState();
     </script>
 </body>
 </html>
