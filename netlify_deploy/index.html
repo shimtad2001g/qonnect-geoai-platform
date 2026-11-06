@@ -40,7 +40,15 @@
         
         .nav-brand { display: flex; align-items: center; gap: 12px; color: white; font-size: 1.4rem; text-decoration: none; letter-spacing: 1px; }
         .nav-brand span { color: var(--accent-green); }
-        .nav-brand img { height: 38px; width: 38px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); animation: float 3s ease-in-out infinite; }
+        
+        /* Cleanly styled image tag */
+        .nav-brand img { 
+            height: 55px; 
+            width: 55px; 
+            object-fit: contain; 
+            border-radius: 8px; 
+            animation: float 3s ease-in-out infinite; 
+        }
         
         .nav-links { display: flex; align-items: center; }
         .nav-links a { color: #d8f3dc; text-decoration: none; margin-left: 25px; font-size: 0.95rem; font-weight: 600; transition: color 0.3s ease; }
@@ -122,8 +130,8 @@
 <body>
 
     <nav>
-                <a href="#" class="nav-brand">
-            <img src="https://qonnect-geoai-platform.vercel.app/logo.png?v=4" alt="Qonnect Logo" style="height: 55px; width: 55px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); animation: float 3s ease-in-out infinite;">
+        <a href="#" class="nav-brand">
+            <img src="https://qonnect-geoai-platform.vercel.app/logo.png" alt="Qonnect Logo">
             QONNECT<span>SPATIAL</span>
         </a>
         <div class="nav-links">
